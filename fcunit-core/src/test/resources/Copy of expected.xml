@@ -1,0 +1,99 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!--
+
+        Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+
+        This file is part of FCUnit
+
+        FCUnit is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        FCUnit is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<ns0:ESBMsg
+	xmlns:ns0="http://www.tibco.com/PSG/PierreFabre/ESB/AIA_MS_PF/COMMANDES/001"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.tibco.com/PSG/PierreFabre/ESB/AIA_MS_PF/COMMANDES/001 ../../../Schemas/Pivot_COMMANDES_001.xsd">
+	<ns0:FlowData>
+		<ns0:Pivot>
+			<ns1:commande xmlns:ns1="http://www.fastconnect.fr/PF/schemas/pivot.xsd">
+				<ns1:entete>
+					<ns1:idCommandeFO>000001-000000002-000000003</ns1:idCommandeFO>
+					<ns1:idCommandeBO>empty1</ns1:idCommandeBO>
+					<ns1:idCommandeClient>empty</ns1:idCommandeClient>
+					<ns1:codeReseau>4</ns1:codeReseau>
+					<ns1:codeClientCommande>empty</ns1:codeClientCommande>
+					<ns1:codeAdresseCommande>empty</ns1:codeAdresseCommande>
+					<ns1:codeClientLivraison>empty</ns1:codeClientLivraison>
+					<ns1:codeAdresseLivraison>empty</ns1:codeAdresseLivraison>
+					<ns1:codeClientFacture>empty</ns1:codeClientFacture>
+					<ns1:codeAdresseFacture>empty</ns1:codeAdresseFacture>
+					<ns1:codeClientPaiement>empty</ns1:codeClientPaiement>
+					<ns1:codeAdressePaiement>empty</ns1:codeAdressePaiement>
+					<ns1:dateCommande>empty</ns1:dateCommande>
+					<ns1:dateLivraisonAuPlusTot>empty</ns1:dateLivraisonAuPlusTot>
+					<ns1:codeClasseCommande>empty</ns1:codeClasseCommande>
+					<ns1:codeModeleCommande>5</ns1:codeModeleCommande>
+					<ns1:libModeleCommande>empty</ns1:libModeleCommande>
+					<ns1:codePrioriteCommande>empty</ns1:codePrioriteCommande>
+					<ns1:codeModePaiement>empty</ns1:codeModePaiement>
+					<ns1:codeDelaiPaiement>empty</ns1:codeDelaiPaiement>
+					<ns1:codeAgentTitulaire>empty</ns1:codeAgentTitulaire>
+					<ns1:codeAgentSaisie>empty</ns1:codeAgentSaisie>
+					<ns1:commentaireCommande>empty</ns1:commentaireCommande>
+					<ns1:commentaireLivraison>empty</ns1:commentaireLivraison>
+					<ns1:commentaireFacture>empty</ns1:commentaireFacture>
+					<ns1:codeDevise>empty</ns1:codeDevise>
+					<ns1:codeMotifCommande>empty</ns1:codeMotifCommande>
+					<ns1:flagRepriseTransporteur>empty</ns1:flagRepriseTransporteur>
+					<ns1:dateInventaireClient>empty</ns1:dateInventaireClient>
+					<ns1:flagLivraisonImperative>empty</ns1:flagLivraisonImperative>
+					<ns1:libTypeVisite>empty</ns1:libTypeVisite>
+					<ns1:codeMotifBlocage>empty</ns1:codeMotifBlocage>
+					<ns1:codeTypeCommande>empty</ns1:codeTypeCommande>
+				</ns1:entete>
+				<ns1:ligne>
+					<ns1:idLigneCommande>1</ns1:idLigneCommande>
+					<ns1:codeArticlePF>empty</ns1:codeArticlePF>
+					<ns1:codeArticleGTIN>empty</ns1:codeArticleGTIN>
+					<ns1:codeArticleCIP />
+					<ns1:codeModeVente>2</ns1:codeModeVente>
+					<ns1:quantiteCommande>43</ns1:quantiteCommande>
+					<ns1:quantiteAlloue />
+					<ns1:quantiteLivree />
+					<ns1:quantiteReliquat />
+					<ns1:prixTarif>5.5</ns1:prixTarif>
+					<ns1:tauxRemiseGlobal>5</ns1:tauxRemiseGlobal>
+					<ns1:tauxAutreService>15</ns1:tauxAutreService>
+					<ns1:prixFacture>8</ns1:prixFacture>
+					<ns1:codeStatutLigneCommande />
+				</ns1:ligne>
+				<ns1:ligne>
+					<ns1:idLigneCommande>2</ns1:idLigneCommande>
+					<ns1:codeArticlePF>empty</ns1:codeArticlePF>
+					<ns1:codeArticleGTIN>empty</ns1:codeArticleGTIN>
+					<ns1:codeArticleCIP />
+					<ns1:codeModeVente>8</ns1:codeModeVente>
+					<ns1:quantiteCommande>43</ns1:quantiteCommande>
+					<ns1:quantiteAlloue />
+					<ns1:quantiteLivree />
+					<ns1:quantiteReliquat />
+					<ns1:prixTarif>5.5</ns1:prixTarif>
+					<ns1:tauxRemiseGlobal>5</ns1:tauxRemiseGlobal>
+					<ns1:tauxAutreService>15</ns1:tauxAutreService>
+					<ns1:prixFacture>8</ns1:prixFacture>
+					<ns1:codeStatutLigneCommande />
+				</ns1:ligne>
+			</ns1:commande>
+		</ns0:Pivot>
+	</ns0:FlowData>
+</ns0:ESBMsg>

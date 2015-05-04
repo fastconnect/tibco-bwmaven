@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- This schema describes entries in ".aliaslib" files in TIBCO BW projects -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002"
+     targetNamespace="http://www.tibco.com/xmlns/repo/types/2002"
+	 elementFormDefault="unqualified"
+	 attributeFormDefault="unqualified">
+
+    <xs:element name="repository" xmlns="http://www.tibco.com/xmlns/repo/types/2002">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FILE_ALIASES_LIST" type="xs:string"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+    </xs:element>
+
+</xs:schema>

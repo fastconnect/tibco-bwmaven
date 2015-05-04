@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.tibco.bw.schemas</groupId>
+	<artifactId>process-model</artifactId>
+	<version>5.9</version>
+	
+	<name>JAXB implementation of TIBCO BusinessWorks Process Model schema</name>
+	<description>The targetNamespace of this schema is "http://xmlns.tibco.com/bw/process/2003"</description>
+	
+	<dependencies>
+		<!-- We use MOXy to have proper namespace prefixes handling -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.moxy</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+	</dependencies>
+	
+	<!-- Deployment of artefacts is done on the FastConnect third-party repository. -->
+	<distributionManagement>
+		<repository>
+			<id>repo.third-party.fastconnect.org</id>
+			<url>https://fastconnect.org/maven/content/repositories/third-party/</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<compilerVersion>1.6</compilerVersion>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

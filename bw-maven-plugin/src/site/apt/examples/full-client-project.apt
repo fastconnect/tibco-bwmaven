@@ -1,0 +1,80 @@
+
+Full client project
+
+	This example is aimed at describing all the features of this plugin in a
+	"real-life" full client project example.
+	
+	This real-life project will be built from scratch with this plugin. It is
+	not important to know whether the project exists or not prior to the use
+	of this plugin (if it did already exists, it would follow the
+	{{{../mavenization/index.html}Mavenization process}}).
+	
+* Description of the client project
+
+	We consider that the client project addresses a classic ESB pattern:
+	
+	* Messages are received through JMS from different partners and in different
+	formats.
+	
+	* All input messages will be transformed to an internal Pivot format.
+
+	* According to a routing pattern, the transformed message will be sent to
+	a recipient partner after being transformed from the internal Pivot format
+	to the requested format.
+	
+* Messages formats
+
+	To keep it simple we will define only the following message formats:
+	
+*-----------------*-----------*------------*---------------------------------+
+| <<Format name>> | <<Input>> | <<Output>> | <<Target Namespace>>            |
+*-----------------+-----------+------------+---------------------------------+
+| Y456            | yes       | no         | http://company.com/project/Y456 |
+*-----------------+-----------+------------+---------------------------------+
+| Z123            | yes       | no         | http://company.com/project/Z123 |
+*-----------------+-----------+------------+---------------------------------+
+| ABC1            | no        | yes        | http://company.com/project/ABC1 |
+*-----------------+-----------+------------+---------------------------------+
+| DEF4            | no        | yes        | http://company.com/project/DEF2 |
+*-----------------+-----------+------------+---------------------------------+
+| XX33            | yes       | yes        | http://company.com/project/XX33 |
+*-----------------+-----------+------------+---------------------------------+
+
+	Format with 1-letter 3-digit name pattern (ex: Z123) will be converted to
+	the internal Pivot while the formats with 3-letter 1-digit pattern 
+	(ex: ABC1) will be filled from the internal Pivot. Last, the XX33 will be
+	converted to and from the internal Pivot.
+	
+	As a consequence, here are the possible transformations in the application:
+	
+[../images/esb-transformations.png] Possible transformations
+
+
+* List of BW projects for transformations
+
+	All the BusinessWorks projects that we will create to transform from 
+	messages formats to internal Pivot or from internal Pivot to messages
+	formats will be prefixed with <<<flow->>>.
+	
+*-----------------+---------------------------------+
+| <<Format name>> | <<BW Project Name>>             |
+*-----------------+---------------------------------+
+| Y456            | flow-y456-to-pivot              |
+*-----------------+---------------------------------+
+| Z123            | flow-z123-to-pivot              |
+*-----------------+---------------------------------+
+| ABC1            | flow-pivot-to-abc1              |
+*-----------------+---------------------------------+
+| DEF4            | flow-pivot-to-def4              |
+*-----------------+---------------------------------+
+| XX33            | flow-xx33-to-pivot              |
+*-----------------+---------------------------------+
+| XX33            | flow-pivot-to-xx33              |
+*-----------------+---------------------------------+
+
+* Full client project tree
+
+	Below is the full client project tree, representing the POM files of the
+	project:
+		
+[../images/full-client-project.png] Full client project tree

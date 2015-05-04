@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd"
+	 xmlns:fcu="http://fastconnect.fr/fcunit.xsd"
+	 targetNamespace="http://fastconnect.fr/fcunit-errors.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="FCUnitSchema.xsd"/>
+	<xs:complexType name="error-type"/>
+	<xs:complexType name="assertion-error-type">
+		<xs:complexContent>
+			<xs:extension base="fcue:error-type">
+				<xs:sequence>
+					<xs:element name="assertion" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="assertion-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-equal-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="expected">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="actual">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-equal-double-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="expected" type="xs:double"/>
+						<xs:element name="actual" type="xs:double"/>
+						<xs:element name="delta" type="xs:double"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-match-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="string" type="xs:string"/>
+						<xs:element name="pattern" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-subset-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="superset">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="subset">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-exists-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="content">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-not-equal-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="expected-and-actual">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="timeout-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:error-type">
+					<xs:sequence>
+						<xs:element name="timeout" type="xs:long"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-not-found-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:error-type">
+					<xs:sequence>
+						<xs:element ref="fcu:test-id"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assert-xml-equal-error">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcue:assertion-error-type">
+					<xs:sequence>
+						<xs:element name="expected">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="actual">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any namespace="##any" processContents="lax"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="error-fields">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="xpath" type="xs:string"/>
+												<xs:element name="expected" type="xs:string" minOccurs="0"/>
+												<xs:element name="actual" type="xs:string" minOccurs="0"/>
+												<xs:element name="description" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ignored-fields">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="xpath" type="xs:string"/>
+												<xs:element name="description" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="xpath">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<component-set>
+	<components>
+
+		<!-- POM packaging (to override) -->
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>pom</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+ 			<configuration>
+ 				<lifecycles>
+ 					<lifecycle>
+ 						<id>default</id>
+						<phases>
+							<prepare-package>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-pom
+							</prepare-package>
+							<install>
+								org.apache.maven.plugins:maven-install-plugin:install
+							</install>
+							<deploy>
+								org.apache.maven.plugins:maven-deploy-plugin:deploy
+							</deploy>
+						</phases>
+					</lifecycle>
+				</lifecycles>
+			</configuration>
+		</component>
+
+		<!-- BW EAR Deploy packaging and lifecyle (for deployment on TIBCO domain) -->
+		<component>
+			<role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+			<role-hint>bw-ear-deploy</role-hint>
+			<implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler
+			</implementation>
+			<configuration>
+				<type>bw-ear-deploy</type>
+				<extension>ear</extension>
+				<packaging>bw-ear-deploy</packaging>
+			</configuration>
+		</component>
+
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>bw-ear-deploy</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+ 			<configuration>
+ 				<lifecycles>
+ 					<lifecycle>
+ 						<id>default</id>
+						<phases>
+							<prepare-package>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-properties-from-xml 
+							</prepare-package>
+							<package>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:merge-properties,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-xml-from-properties
+							</package>
+							<deploy>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:deploy-bw
+							</deploy>
+						</phases>
+ 					</lifecycle>
+ 				</lifecycles>
+			</configuration>
+		</component>
+
+		<!-- BW EAR packaging and lifecyle -->
+		<component>
+			<role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+			<role-hint>bw-ear</role-hint>
+			<implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler
+			</implementation>
+			<configuration>
+				<type>bw-ear</type>
+				<extension>ear</extension>
+				<packaging>bw-ear</packaging>
+			</configuration>
+		</component>
+
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>bw-ear</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+ 			<configuration>
+ 				<lifecycles>
+ 					<lifecycle>
+ 						<id>default</id>
+						<phases>
+							<initialize>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:initialize							
+							</initialize>
+   							<generate-sources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-sources
+  							</generate-sources>
+  							<generate-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-dependencies
+  							</generate-resources>
+  							<process-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-dependencies
+  							</process-resources>
+							<compile>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:update-alias-lib,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:compile-bw-ear,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:include-dependencies-in-bw-ear
+							</compile>
+							<generate-test-sources>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-sources
+							</generate-test-sources>
+							<generate-test-resources>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-dependencies
+							</generate-test-resources>
+  							<process-test-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-test-dependencies
+  							</process-test-resources>
+							<test>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:bw-test
+							</test>
+							<prepare-package>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:extract-xml-from-ear,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-properties-from-xml,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-pom
+							</prepare-package>
+							<package>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:merge-properties,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-xml-from-properties
+							</package>
+							<pre-integration-test>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-install-dependencies,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-setup-root-deploy-pom,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-deploy-bw
+							</pre-integration-test>
+							<install>
+								org.apache.maven.plugins:maven-install-plugin:install
+							</install>
+							<deploy>
+								org.apache.maven.plugins:maven-deploy-plugin:deploy
+							</deploy>
+						</phases>
+ 					</lifecycle>
+ 				</lifecycles>
+			</configuration>
+		</component>
+
+		<!-- Projlib packaging and lifecyle -->
+		<component>
+			<role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+			<role-hint>projlib</role-hint>
+			<implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler
+			</implementation>
+			<configuration>
+				<type>projlib</type>
+				<extension>projlib</extension>
+				<packaging>projlib</packaging>
+			</configuration>
+		</component>
+
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>projlib</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+ 			<configuration>
+ 				<lifecycles>
+ 					<lifecycle>
+ 						<id>default</id>
+						<phases>
+   							<generate-sources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-sources
+  							</generate-sources>
+  							<generate-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-dependencies
+  							</generate-resources>
+  							<process-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-dependencies
+  							</process-resources>
+							<compile>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:update-alias-lib,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:compile-projlib
+							</compile>
+							<generate-test-sources>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-sources
+							</generate-test-sources>
+							<generate-test-resources>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-dependencies
+							</generate-test-resources>
+  							<process-test-resources>
+   								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-test-dependencies
+  							</process-test-resources>
+							<test>
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:bw-test
+							</test>
+							<install>
+								org.apache.maven.plugins:maven-install-plugin:install
+							</install>
+							<deploy>
+								org.apache.maven.plugins:maven-deploy-plugin:deploy
+							</deploy>
+						</phases>
+ 					</lifecycle>
+ 				</lifecycles>
+			</configuration>
+		</component>
+
+		<!-- 
+		  - Configuration of preparation goals for all packaging
+		 -->
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-sources'
+		 
+		   This <execution> "default-copy-bw-sources" will copy the content of
+		  the BW sources to the target directory in order to build the BW
+		  artifact from sources that can be modified ('.designtimelibs' file).
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-copy-bw-sources</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.CopyBWSourcesMojo</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<goal>copy-resources</goal>
+
+				<resources>
+					<resource>
+						<directory>${bw.project.location}</directory>
+						<filtering>true</filtering>
+						<excludes>
+							<exclude>**/*TestSuite/</exclude> <!-- exclude FCUnit TestSuites -->
+						</excludes>
+					</resource>
+				</resources>
+				<configuration>
+ 					<property>
+ 						<name>outputDirectory</name>
+  						<value>${project.build.directory}/src</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-dependencies'
+		
+		   This <execution> "default-copy-bw-dependencies" will copy the
+		   dependencies of the "runtime" scope.
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-copy-bw-dependencies</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.CopyBWDependenciesMojo</implementation> 
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<goal>copy-dependencies</goal>
+
+ 				<configuration>
+ 					<property>
+ 						<name>outputDirectory</name>
+ 						<value>${project.build.directory}/lib</value>
+ 					</property>
+ 					<property>
+ 						<name>includeTypes</name>
+ 						<!-- <value>bw-ear,projlib,jar</value> -->
+ 						<value>projlib,jar</value>
+ 					</property>
+ 					<property>
+ 						<name>includeScope</name>
+ 						<value>runtime</value>
+ 					</property>
+ 					<property>
+ 						<name>overWriteIfNewer</name>
+ 						<value>true</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-dependencies'
+
+		   This <execution> "default-resolve-bw-dependencies" will write in a
+		  file the list of dependencies (Projlib & JARs) required to build the
+		  BW artifact.
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-resolve-bw-dependencies</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ResolveBWDependenciesMojo</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<goal>list</goal>
+ 				<configuration>
+ 					<property>
+ 						<name>outputFile</name>
+ 						<value>${project.build.directory}/resolved</value>
+ 					</property>
+ 					<property>
+ 						<name>includeTypes</name>
+ 						<!-- <value>bw-ear,projlib,jar</value> -->
+ 						<value>projlib,jar</value>
+ 					</property>
+ 					<property>
+ 						<name>includeScope</name>
+ 						<value>runtime</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-sources'
+		 
+		   This <execution> "default-copy-bw-test-sources" will copy the content
+		  of the BW test sources to the target directory in order to execute the
+		  unit tests.
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-copy-bw-test-sources</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.CopyBWTestSourcesMojo</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<goal>copy-resources</goal>
+				<resources>
+					<resource>
+						<directory>${bw.project.location}</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+ 				<configuration>
+ 					<property>
+ 						<name>outputDirectory</name>
+  						<value>${project.build.test.directory.src}</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:copy-bw-test-dependencies'
+		
+		   This <execution> "default-copy-bw-test-dependencies" will copy the
+		   dependencies of the "test" scope
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-copy-bw-test-dependencies</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.CopyBWTestDependenciesMojo</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<goal>copy-dependencies</goal>
+
+ 				<configuration>
+ 					<property>
+ 						<name>outputDirectory</name>
+ 						<value>${project.build.test.directory}/lib</value> <!-- TODO : proper properties -->
+ 					</property>
+ 					<property>
+ 						<name>includeTypes</name>
+ 						<value>projlib,jar</value>
+ 					</property>
+ 					<property>
+ 						<name>includeScope</name>
+ 						<value>test</value>
+ 					</property>
+ 					<property>
+ 						<name>overWriteIfNewer</name>
+ 						<value>true</value>
+ 					</property>
+ 					<property>
+ 						<name>overWriteReleases</name>
+ 						<value>true</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-test-dependencies'
+
+		   This <execution> "default-resolve-bw-test-dependencies" will write in
+		  a file the list of dependencies (Projlib & JARs) required to run the
+		  tests.
+		-->
+ 		<component>
+ 			<role>org.apache.maven.plugin.Mojo</role>
+ 			<role-hint>default-resolve-bw-test-dependencies</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ResolveBWTestDependenciesMojo</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<goal>list</goal>
+ 				<configuration>
+ 					<property>
+ 						<name>outputFile</name>
+ 						<value>${project.build.test.directory}/resolved</value>
+ 					</property>
+ 					<property>
+ 						<name>includeTypes</name>
+ 						<value>projlib,jar</value>
+ 					</property>
+ 					<property>
+ 						<name>includeScope</name>
+ 						<value>test</value>
+ 					</property>
+ 				</configuration>
+			</configuration>
+ 			<requirements>
+        		<requirement>
+	          		<role>org.apache.maven.plugin.BuildPluginManager</role>
+    	      		<role-hint />
+        	  		<field-name>pluginManager</field-name>
+        		</requirement>
+        	</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-install-dependencies
+
+		   This <execution> "default-it-install-dependencies" will install the
+		  required artifacts for the run of Integration Tests.
+		-->
+		<component>
+			<role>org.apache.maven.plugin.Mojo</role>
+			<role-hint>default-it-install-dependencies</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ITInstallTestsMojo
+			</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<version>1.9</version>
+				<goal>install</goal>
+				<configuration>
+					<property>
+						<name>localRepositoryPath</name>
+						<value>${bw.it.local.repository.path}</value>
+					</property>
+					<property>
+						<name>skipInstallation</name>
+						<value>${bw.it.skip}</value>
+					</property>
+				</configuration>
+			</configuration>
+			<requirements>
+				<requirement>
+					<role>org.apache.maven.plugin.BuildPluginManager</role>
+					<role-hint />
+					<field-name>pluginManager</field-name>
+				</requirement>
+			</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-setup-root-deploy-pom
+
+		   This <execution> "default-it-setup-root-deploy-pom" will install the
+		  root deployment POM to the temporary repository.
+		-->
+		<component>
+			<role>org.apache.maven.plugin.Mojo</role>
+			<role-hint>default-it-setup-root-deploy-pom</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ITSetupTestsMojo
+			</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<version>1.9</version>
+				<goal>run</goal>
+				<configuration>
+					<property>
+						<name>cloneProjectsTo</name>
+						<value>${bw.it.projects.setup.clone}</value>
+					</property>
+					<property>
+						<name>goals</name>
+						<value>${bw.it.projects.setup.goals}</value>
+					</property>
+					<property>
+						<name>localRepositoryPath</name>
+						<value>${bw.it.local.repository.path}</value>
+					</property>
+					<property>
+						<name>pomIncludes</name>
+						<value>${bw.it.projects.setup.pomIncludes}</value>
+					</property>
+					<property>
+						<name>profiles</name>
+						<value>${bw.it.projects.setup.profile}</value>
+					</property>
+					<property>
+						<name>projectsDirectory</name>
+						<value>${bw.it.projects.setup.directory}</value>
+					</property>
+					<property>
+						<name>properties</name>
+						<value>${bw.it.projects.setup.properties}</value>
+					</property>
+					<property>
+						<name>setupIncludes</name>
+						<value>${bw.it.projects.setup.setupIncludes}</value>
+					</property>
+					<property>
+						<name>streamLogs</name>
+						<value>true</value>
+					</property>
+					<property>
+						<name>skipInvocation</name>
+						<value>${bw.it.skip}</value>
+					</property>
+				</configuration>
+			</configuration>
+			<requirements>
+				<requirement>
+					<role>org.apache.maven.plugin.BuildPluginManager</role>
+					<role-hint />
+					<field-name>pluginManager</field-name>
+				</requirement>
+			</requirements>
+		</component>
+
+		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-deploy-bw
+
+		   This <execution> "default-it-deploy-bw" will deploy the
+		  BusinessWorks application ('bw-ear' packaging) to a TIBCO domain to
+		  prepare the Integration Tests.
+		-->
+		<component>
+			<role>org.apache.maven.plugin.Mojo</role>
+			<role-hint>default-it-deploy-bw</role-hint>
+			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ITRunTestsMojo
+			</implementation>
+			<isolated-realm>false</isolated-realm>
+			<configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<version>1.9</version>
+				<goal>run</goal>
+				<configuration>
+					<property>
+						<name>cloneProjectsTo</name>
+						<value>${bw.it.projects.run.clone}</value>
+					</property>
+					<property>
+						<name>goals</name>
+						<value>${bw.it.projects.run.goals}</value>
+					</property>
+					<property>
+						<name>localRepositoryPath</name>
+						<value>${bw.it.local.repository.path}</value>
+					</property>
+					<property>
+						<name>pomIncludes</name>
+						<value>${bw.it.projects.run.pomIncludes}</value>
+					</property>
+					<property>
+						<name>profiles</name>
+						<value>${bw.it.projects.run.profile}</value>
+					</property>
+					<property>
+						<name>projectsDirectory</name>
+						<value>${bw.it.projects.run.directory}</value>
+					</property>
+					<property>
+						<name>properties</name>
+						<value>${bw.it.projects.run.properties}</value>
+					</property>
+					<property>
+						<name>streamLogs</name>
+						<value>true</value>
+					</property>
+					<property>
+						<name>skipInvocation</name>
+						<value>${bw.it.skip}</value>
+					</property>
+				</configuration>
+			</configuration>
+			<requirements>
+				<requirement>
+					<role>org.apache.maven.plugin.BuildPluginManager</role>
+					<role-hint />
+					<field-name>pluginManager</field-name>
+				</requirement>
+			</requirements>
+		</component>
+
+	</components>
+</component-set>

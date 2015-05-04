@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="com/tibco/pe/commands" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+    <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
+    <pd:name>FCUnit/Core/Run/runTestSuite.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:test-suite"/>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <pfx:test-suite-result>
+            <xsl:if test="$Start/pfx:test-suite/@name">
+                <xsl:attribute name="name">
+                    <xsl:value-of select="$Start/pfx:test-suite/@name"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$Start/pfx:test-suite/@path">
+                <xsl:attribute name="path">
+                    <xsl:value-of select="$Start/pfx:test-suite/@path"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:attribute name="datetime">
+                <xsl:value-of select="current-dateTime()"/>
+            </xsl:attribute>
+            <xsl:copy-of select="$runTestSuites/pfx:test-suites-results/pfx:test-suite-result"/>
+            <xsl:copy-of select="$results/AccumulatedOutput/pfx:test-case-result"/>
+        </pfx:test-suite-result>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:test-suite-result"/>
+    <pd:endX>570</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301560968328</pd:targetNamespace>
+    <pd:activity name="runTestSuites">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>205</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Run/runTestSuites.process</processName>
+        </config>
+        <pd:inputBindings>
+            <pfx:test-suites>
+                <xsl:copy-of select="$Start/pfx:test-suite/pfx:test-suite"/>
+            </pfx:test-suites>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Iterate over TestCases">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>303</pd:x>
+        <pd:y>37</pd:y>
+        <pd:width>187</pd:width>
+        <pd:height>172</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/pfx:test-suite/pfx:test-case</pd:over>
+            <pd:iterationElementSlot>case</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>results</pd:outSlot>
+            <pd:activityOutputName>runTestCase</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>runTestCase</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>runTestCase</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="runTestCase">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>393</pd:x>
+            <pd:y>130</pd:y>
+            <config>
+                <processName>/FCUnit/Core/Run/runTestCase.process</processName>
+            </config>
+            <pd:inputBindings>
+                <xsl:copy-of select="$case/pfx:test-case"/>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>runTestSuites</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>runTestSuites</pd:from>
+        <pd:to>Iterate over TestCases</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Iterate over TestCases</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:label>
+        <pd:name>Label</pd:name>
+        <pd:description>Appel récursif de TestSuites pour les suites enfants</pd:description>
+        <pd:x>211</pd:x>
+        <pd:y>218</pd:y>
+        <pd:width>166</pd:width>
+        <pd:height>53</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-1</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+</pd:ProcessDefinition>

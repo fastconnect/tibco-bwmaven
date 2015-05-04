@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="AliasLibrary">
+        <FILE_ALIASES_LIST>&lt;?xml version="1.0" encoding="UTF-8"?&gt; 
+&lt;java version="1.6.0_30" class="java.beans.XMLDecoder"&gt; 
+ &lt;object class="java.util.ArrayList"&gt; 
+  &lt;void method="add"&gt; 
+   &lt;object class="java.util.HashMap"&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;isClasspathFile&lt;/string&gt; 
+     &lt;boolean&gt;true&lt;/boolean&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;name&lt;/string&gt; 
+     &lt;string&gt;com.company.project.java:java-project:1.0.0:jar&lt;/string&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;includeInDeployment&lt;/string&gt; 
+     &lt;boolean&gt;false&lt;/boolean&gt; 
+    &lt;/void&gt; 
+   &lt;/object&gt; 
+  &lt;/void&gt;  
+ &lt;/object&gt; 
+&lt;/java&gt; 
+</FILE_ALIASES_LIST>
+    </name>
+</Repository:repository>

@@ -1,0 +1,415 @@
+
+Configuration 
+
+===
+
+* Maven settings.xml file
+
+	It is important to have a good settings.xml file to declare properties used
+	in every projects.
+	
+	These properties include:
+	
+	* the configuration of the TIBCO stack
+	
+	* the description of client-specific and project-specific information such
+	as the root POM of the client project
+	
+	* technical configuration such as proxy (if needed)
+	
+	[]
+	
+	Please keep in mind that the following sample file is almost ready-to-use
+	because it contains all the required properties. It is just required to
+	review the default values and to change the client profile to meet your
+	standards.
+	
+	However if your Maven installation already have a settings.xml file, this
+	sample must be merged with the existing file.
+	
+	The management of a "settings.xml" is out of the scope of this
+	documentation. Please refer to the
+	{{{http://maven.apache.org/settings.html}Maven documentation}}.
+
+===
+
+** Default "settings.xml" sample file
+
++------------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <localRepository>C:\.m2\repo</localRepository>
+
+  <proxies>
+    <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>proxyhost</host>
+      <port>proxyport</port>
+      <username>username</username>
+      <password>password</password>
+      <nonProxyHosts>127.0.0.1|localhost</nonProxyHosts>
+    </proxy>
+    <proxy>
+      <active>true</active>
+      <protocol>https</protocol>
+      <host>proxyhost</host>
+      <port>proxyport</port>
+      <username>username</username>
+      <password>password</password>
+      <nonProxyHosts>127.0.0.1|localhost</nonProxyHosts>
+    </proxy>
+  </proxies>
+  
+  <servers>
+    <server>
+      <id>repo.internal.fastconnect.org</id>
+      <username>username</username>
+      <password>password</password>
+    </server>
+    <server>
+      <id>repo.internal.snapshot.fastconnect.org</id>
+      <username>username</username>
+      <password>password</password>
+    </server>
+    <server>
+      <id>repo.site.fastconnect.org</id>
+      <username>username</username>
+      <password>password</password>
+    </server>
+    <server>
+      <id>repo.public.site.fastconnect.org</id>
+      <username>username</username>
+      <password>password</password>
+    </server>
+  </servers>
+  
+  <pluginGroups>
+    <pluginGroup>fr.fastconnect.factory.tibco.bw.maven</pluginGroup>
+  </pluginGroups>
+  
+  <profiles>
+    <profile>
+      <id>tibco</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <tibco.home>C:/tibco</tibco.home>
+        <executables.extension>.exe</executables.extension>
+        <tibco.bw.version>5.9</tibco.bw.version>
+        <tibco.designer.version>5.7</tibco.designer.version>
+        <tibco.ems.version>6.3</tibco.ems.version>
+        <tibco.tra.version>5.7</tibco.tra.version>
+        <tibco.rv.version>8.3</tibco.rv.version>
+      </properties>
+    </profile>
+  
+    <profile>
+      <id>fc</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <settingsRepositoryReleaseURL>
+https://fastconnect.org/maven/content/repositories/fastconnect
+        </settingsRepositoryReleaseURL>
+        <settingsRepositorySnapshotURL>
+https://fastconnect.org/maven/content/repositories/fastconnect-snapshot
+        </settingsRepositorySnapshotURL>
+        <settingsRepositorySiteProtocol>
+dav
+        </settingsRepositorySiteProtocol>
+        <settingsRepositorySiteURL>
+https://fastconnect.org/maven/content/sites/documentation
+        </settingsRepositorySiteURL>
+        <settingsRepositoryPublicSiteProtocol>
+dav
+        </settingsRepositoryPublicSiteProtocol>
+        <settingsRepositoryPublicSiteURL>
+https://fastconnect.org/maven/content/sites/public/documentation
+        </settingsRepositoryPublicSiteURL>
+      </properties>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>repo.internal.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/fastconnect
+          </url>
+        </pluginRepository>
+        <pluginRepository>
+          <id>repo.third-party.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/third-party
+          </url>
+        </pluginRepository>
+      </pluginRepositories>
+      <repositories>
+        <repository>
+          <id>repo.internal.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/fastconnect
+          </url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+        </repository>
+        <repository>
+          <id>repo.internal.snapshot.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/fastconnect-snapshot
+          </url>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>repo.opensource.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/opensource
+          </url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+        </repository>
+        <repository>
+          <id>repo.opensource.snapshot.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/opensource-snapshot
+          </url>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>repo.third-party.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/repositories/third-party
+          </url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>warn</checksumPolicy>
+          </releases>
+        </repository>
+        <repository>
+          <id>repo.site.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/sites/documentation
+          </url>
+        </repository>
+        <repository>
+          <id>repo.public.site.fastconnect.org</id>
+          <url>
+https://fastconnect.org/maven/content/sites/public/documentation
+          </url>
+        </repository>
+      </repositories>
+    </profile>
+  
+    <profile>
+      <id>client</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <!-- for mavenization -->
+        <clientGroupId>com.company.project</clientGroupId>
+        <rootProjectGroupId>com.company.project</rootProjectGroupId>
+        <rootProjectArtifactId>project-root</rootProjectArtifactId>
+        <rootProjectVersion>1.0.0</rootProjectVersion>
+        <!-- domain -->
+        <tibco.domain.name>LOCAL</tibco.domain.name>
+        <tibco.domain.username>admin</tibco.domain.username>
+        <tibco.domain.password>admin</tibco.domain.password>
+      </properties>
+    </profile>
+  </profiles>
+</settings>
++------------------------------------------------------------------------------+
+
+** 	 Manage different projects (or different versions of a project)
+
+	In the case you have several projects (or several versions of a same
+	project) you can create different profiles to define different values of a
+	same property. For instance: 
+
++------------------------------------------------------------------------------+
+<profile>
+	<id>client</id>
+	<properties>
+		<rootProjectGroupId>com.company.project</rootProjectGroupId>
+		<rootProjectArtifactId>project-root</rootProjectArtifactId>
+	</properties>
+</profile>
+
+<profile>
+	<id>project-3.2.0</id>
+	<activation>
+		<activeByDefault>false</activeByDefault>
+	</activation>
+	<properties>
+		<rootProjectVersion>3.2.5</rootProjectVersion>
+	</properties>
+</profile>
+
+<profile>
+	<id>project-4.0.0</id>
+	<activation>
+		<activeByDefault>false</activeByDefault>
+	</activation>
+	<properties>
+		<rootProjectVersion>4.0.0</rootProjectVersion>
+	</properties>
+</profile>
++------------------------------------------------------------------------------+
+
+	When using Maven you simply have to add the "-P project-3.2.0" in the
+	command-line arguments to enable the 3.2.0 version.
+
+===
+
+* Root parent
+
+	Once the "{{{./configuration.html#Maven_settingsxml_file}settings.xml}}" is correctly configured,
+	there are two possibilities to define the common properties required by
+	different plugins (including this one).
+
+	These properties will provide the parameters of Maven Mojos and can't be
+	included in the "settings.xml" file.
+
+	There are two possibilities:
+	
+	* include the configuration in your
+	{{{./mavenization.html#Client_Root_creation}client root POM}}. This client root POM
+	is created during {{{./mavenization.html}mavenization}} process.
+
+	* use the provided FC TIBCO Factory root parent POM which is configured for
+	all plugins of the FC TIBCO Factory. The easiest way is to make the client
+	root POM inherit from this FC TIBCO Factory root parent POM.
+
+===
+
+** Properties in the client root POM
+
+	The main reason yo would put the required properties directly in your client
+	root POM is that you don't want to inherit from other configuration of the
+	FC TIBCO Factory root parent POM.
+	
+	Only the properties section will be needed. Here is an overview of this
+	section from the FC TIBCO Factory root parent POM:
+
++------------------------------------------------------------------------------+
+
+<properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <bw.maven.plugin.version>2.1.5</bw.maven.plugin.version>
+  <code.review.plugin.version>2.0.0</code.review.plugin.version>
+
+  <!-- TIBCO stack configuration -->
+      <!-- appmanage (deployment utility) -->
+      <appmanage.path>${tibco.home}/tra/${tibco.tra.version}/bin/AppManage${executables.extension}</appmanage.path>
+      <appmanage.tra.path>${tibco.home}/tra/${tibco.tra.version}/bin/AppManage.tra</appmanage.tra.path>
+      
+      <!-- buildear (create EARs) -->
+      <buildear.path>${tibco.home}/tra/${tibco.tra.version}/bin/buildear${executables.extension}</buildear.path>
+      <buildear.tra.path>${tibco.home}/tra/${tibco.tra.version}/bin/buildear.tra</buildear.tra.path>
+      
+      <!-- buildlibrary (create Projlibs) -->
+      <buildlibrary.path>${tibco.home}/designer/${tibco.designer.version}/bin/buildlibrary${executables.extension}</buildlibrary.path>
+      <buildlibrary.tra.path>${tibco.home}/designer/${tibco.designer.version}/bin/buildlibrary.tra</buildlibrary.tra.path>
+      
+      <!--  bwengine -->
+      <bwengine.path>${tibco.home}/bw/${tibco.bw.version}/bin/bwengine${executables.extension}</bwengine.path>
+      <bwengine.tra.path>${tibco.home}/bw/${tibco.bw.version}/bin/bwengine.tra</bwengine.tra.path>
+      
+      <!-- designer (design BW projects)-->
+      <designer.path>${tibco.home}/designer/${tibco.designer.version}/bin/designer${executables.extension}</designer.path>
+      <designer.tra.path>${tibco.home}/designer/${tibco.designer.version}/bin/designer.tra</designer.tra.path>
+      
+      <!-- emsadmin (EMS administration tool) -->
+      <emsadmin.path>${tibco.home}/ems/${tibco.ems.version}/bin/tibemsadmin${executables.extension}</emsadmin.path>
+      <emsadmin.tra.path>${tibco.home}/ems/${tibco.ems.version}/bin/tibemsadmin.tra</emsadmin.tra.path>
+      
+      <!-- emsd (EMS daemon) -->
+      <emsd.path>${tibco.home}/ems/${tibco.ems.version}/bin/tibemsd${executables.extension}</emsd.path>
+      <emsd.tra.path>${tibco.home}/ems/${tibco.ems.version}/bin/tibemsd.tra</emsd.tra.path>
+
+  <!-- package-side configuration -->
+    <package.bw.applications.root>applications</package.bw.applications.root>
+    <package.bw.applications.root.return>..</package.bw.applications.root.return> <!-- as many .. as folders in <package.bw.applications.root> -->
+    <assembly.relative.path>.</assembly.relative.path>
+    <assembly.relative.path.return>.</assembly.relative.path.return>
+
+  <!-- project configuration -->
+    <project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
+    <project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
+    <project.build.test.directory>${project.build.directory}/test</project.build.test.directory>
+    <project.build.test.directory.lib>${project.build.test.directory}/lib</project.build.test.directory.lib>
+    <project.build.test.directory.src>${project.build.test.directory}/src</project.build.test.directory.src>
+
+    <project.review.directory>${project.build.directory}/review</project.review.directory>
+    <project.review.project.directory>${project.review.directory}/project</project.review.project.directory>
+    <project.review.resources.directory>${project.review.directory}/resources</project.review.resources.directory>
+
+    <project.package.directory>${project.build.directory}/package</project.package.directory>
+      <generate.pom.parent.groupId>fr.fastconnect.factory.tibco</generate.pom.parent.groupId>
+      <generate.pom.parent.artifactId>fc-tibco-factory</generate.pom.parent.artifactId>
+      <generate.pom.parent.version>2.2.0</generate.pom.parent.version>
+
+    <deploy.descriptor>${project.package.directory}/${project.build.finalName}.xml</deploy.descriptor>
+    <deploy.descriptor.final>${project.package.directory}/${project.build.finalName}${dashClassifier}.xml</deploy.descriptor.final>
+    <deploy.properties.globalVariables>${project.package.directory}/${project.build.finalName}.gv.properties</deploy.properties.globalVariables>
+    <deploy.properties.services>${project.package.directory}/${project.build.finalName}.services.properties</deploy.properties.services>
+    <deploy.project.name>${project.artifactId}</deploy.project.name>
+
+    <bw.project.location>./src/main/tibco/${bw.project.name}</bw.project.location>
+    <bw.project.archive.builder>/${bw.project.name}.archive</bw.project.archive.builder>
+    <bw.project.library.builder>/${bw.project.name}.libbuilder</bw.project.library.builder>
+
+    <!-- advanced features when a TRA points to another TRA -->
+    <tra.buildear.tra.use.designer.tra.path>false</tra.buildear.tra.use.designer.tra.path>
+    <tra.buildlibrary.tra.use.designer.tra.path>false</tra.buildlibrary.tra.use.designer.tra.path>
+
+  <!-- FCUnit -->
+    <fcunit.engine.port>9099</fcunit.engine.port>
+</properties>
++------------------------------------------------------------------------------+
+
+	This default configuration linked with the "settings.xml" will work for most
+	of the projects. It will use the default directories for generated output
+	(such as "target/test" for tests, "target/classes" for artifacts...) defined
+	by Maven and find all the required TIBCO binaries. Anyhow if you need to
+	change these default you can do it by editing the corresponding properties.
+	
+	<<NB:>> if you don't need to change any of these default properties, you'd
+	better use the next solution.
+	
+** Properties from the FC TIBCO Factory root parent POM
+
+	The other solution is to inherit from the provided FC TIBCO	Factory root
+	parent POM.	To do so, simply add this snippet to your client root POM:
+
++------------------------------------------------------------------------------+
+	<parent>
+		<groupId>fr.fastconnect.factory.tibco</groupId>
+		<artifactId>fc-tibco-factory</artifactId>
+		<version>2.2.0</version>
+	</parent>
++------------------------------------------------------------------------------+
+
+	This is the default solution documented for the
+	{{{./mavenization.html#Client_Root_creation}client root POM}} creation. 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://fastconnect.fr/fcunit.xsd" xmlns:tns="http://fastconnect.fr/fcunit-abstract" xmlns:ns2="http://ws-i.org/profiles/basic/1.1/xsd" targetNamespace="http://fastconnect.fr/fcunit-abstract" name="FCUnit">
+    <documentation>Version 0.1</documentation>
+    <import namespace="http://fastconnect.fr/fcunit.xsd" location="../Schemas/FCUnitSchema.xsd"/>
+    <!--<import namespace="http://ws-i.org/profiles/basic/1.1/xsd"/>-->
+    <message name="test-suites-msg">
+        <part name="test-suites" element="ns:test-suites"/>
+    </message>
+    <message name="settings-msg">
+        <part name="settings" element="ns:settings"/>
+    </message>
+    <message name="test-suites-results-msg">
+        <part name="test-suites-results" element="ns:test-suites-results"/>
+    </message>
+    <message name="null-msg">
+        <part name="null" element="ns:empty"/>
+    </message>
+    <portType name="FCUnit">
+        <operation name="getTestSuites">
+            <input message="tns:settings-msg"/>
+            <output message="tns:test-suites-msg"/>
+        </operation>
+        <operation name="runAllTests">
+            <input message="tns:settings-msg"/>
+            <output message="tns:test-suites-results-msg"/>
+        </operation>
+        <operation name="stopEngine">
+            <input message="tns:null-msg"/>
+            <output message="tns:null-msg"/>
+        </operation>
+        <operation name="isStarted">
+            <input message="tns:null-msg"/>
+            <output message="tns:null-msg"/>
+        </operation>
+    </portType>
+</definitions>

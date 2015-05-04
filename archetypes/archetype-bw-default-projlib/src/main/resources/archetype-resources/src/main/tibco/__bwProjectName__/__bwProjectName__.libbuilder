@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="__bwProjectName__">
+        <version>1</version>
+        <author>916633</author>
+        <fileLocation>C:\Users\916633\ProjectLibrary.projlib</fileLocation>
+        <resources/>
+    </name>
+</Repository:repository>

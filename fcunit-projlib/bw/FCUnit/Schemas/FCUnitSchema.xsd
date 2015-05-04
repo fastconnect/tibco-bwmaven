@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:fcu="http://fastconnect.fr/fcunit.xsd"
+	 targetNamespace="http://fastconnect.fr/fcunit.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:simpleType name="path">
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+	<xs:complexType name="test-type">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="path" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="test-xml-type">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="path" type="xs:string"/>
+		<xs:attribute name="expected-xml-filename" type="xs:string"/>
+		<xs:attribute name="ignored-xpaths-filename" type="xs:string"/>
+		<xs:attribute name="accept-more-fields-in-actual" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:element name="test" type="fcu:test-type"/>
+	<xs:element name="test-xml" type="fcu:test-xml-type"/>
+	<xs:element name="test-failure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="error-report">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StackTrace" type="xs:string"/>
+							<xs:element name="Msg" type="xs:string"/>
+							<xs:element name="FullClass" type="xs:string"/>
+							<xs:element name="Class" type="xs:string"/>
+							<xs:element name="ProcessStack">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProcessName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MsgCode" type="xs:string" minOccurs="0"/>
+							<xs:element name="Data" type="fcu:anydata" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-case" type="fcu:test-case-type"/>
+	<xs:element name="test-suite" type="fcu:test-suite-type"/>
+	<xs:complexType name="anydata">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="test-success">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="duration">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="test" type="xs:unsignedLong"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="test-suite-collection">
+		<xs:sequence>
+			<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="test-suites" type="fcu:test-suite-collection"/>
+	<xs:element name="test-result">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcu:test-type">
+					<xs:choice>
+						<xs:element ref="fcu:test-success"/>
+						<xs:element ref="fcu:test-failure"/>
+					</xs:choice>
+					<xs:attribute name="datetime" type="xs:dateTime"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-case-result">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcu:test-type">
+					<xs:sequence>
+						<xs:element ref="fcu:test-result" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+					<xs:attribute name="datetime" type="xs:dateTime"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-suite-result">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fcu:test-type">
+					<xs:sequence>
+						<xs:element ref="fcu:test-suite-result" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element ref="fcu:test-case-result" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+					<xs:attribute name="datetime" type="xs:dateTime"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test-suites-results">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="fcu:test-suite-result" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="TestedProcessesNumber" type="xs:int" minOccurs="0"/>
+				<xs:element name="TestProcessesNumber" type="xs:int" minOccurs="0"/>
+				<xs:element name="TestableProcessesNumber" type="xs:int" minOccurs="0"/>
+				<xs:element name="TestCoveragePercentage" type="xs:double" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="datetime" type="xs:dateTime"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="settings">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="scope" type="xs:string" minOccurs="0"/>
+				<xs:element name="suite-pattern" type="xs:string" minOccurs="0"/>
+				<xs:element name="case-pattern" type="xs:string" minOccurs="0"/>
+				<xs:element name="export-to-files" type="xs:boolean" default="true"/>
+				<xs:element name="export-directory" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="test-case-type">
+		<xs:complexContent>
+			<xs:extension base="fcu:test-type">
+				<xs:sequence>
+					<xs:element ref="fcu:test" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="test-suite-type">
+		<xs:complexContent>
+			<xs:extension base="fcu:test-type">
+				<xs:sequence>
+					<xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="fcu:test-case" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="test-id" type="xs:string"/>
+	<xs:element name="empty">
+		<xs:complexType/>
+	</xs:element>
+</xs:schema>

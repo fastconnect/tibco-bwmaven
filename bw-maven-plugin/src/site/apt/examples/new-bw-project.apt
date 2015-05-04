@@ -1,0 +1,103 @@
+
+How to create a new BusinessWorks project
+
+	This page shows the creation of a new (and empty) TIBCO BusinessWorks
+	project. Creations of new projects are performed with Maven archetypes.
+	
+	<<NB:>> the Maven command must be executed in the folder where you want to
+	put the project. As any Maven archetype, the resulted project will be in a
+	<<<artifact-id>>> subfolder. You can find a
+	{{{../installation/maven-reminder.html}quick reminder}} about basic Maven
+	features.
+	
+	Before creating a new BusinessWorks project inside a client project, ensure
+	that a
+	{{{../naming-conventions.html#Maven_artifacts_in_examples}naming policy is defined}}.
+	In this example, we will use the default policy.
+
+* Using the default archetype in interactive mode
+
+	The default Maven archetype provided is called
+	<<<archetype-bw-default-project>>>. Here is the command line to use it:
+
++------------------------------------------------------------------------------+
+ mvn archetype:generate -DarchetypeGroupId=fr.fastconnect.factory.tibco.bw.maven \
+                        -DarchetypeArtifactId=archetype-bw-default-project
++------------------------------------------------------------------------------+
+
+	This will launch the interactive mode of Maven archetype and ask for several
+	parameters. In the following example you will find a description for these
+	parameters.
+	
+	Before using this archetype you might want to read the discussion about the
+	use of a {{{../mavenization/client-root.html}client root POM}}.
+
+* Example
+
+	The project we want to create will be called "Flow z123 to Pivot".
+	We consider that it will transform a format named "z123" to the internal
+	Pivot format of the company.
+	
+	The next table describes all required parameters. The 4 first parameters
+	concern the TIBCO BusinessWorks project to create. The <<<root*>>>
+	parameters refer to the
+	{{{../mavenization/client-root.html}client root POM}}. If you don't want to
+	use a client root POM, these parameters will default to the
+	{{{../configuration/root-parent.html}FC TIBCO Factory root parent POM}}. 
+	
+*-----------------------*-------------------------------------------------------------------*------------------------------*------------------------------*
+| <<Parameter>>         | <<Description>>                                                   | <<Value>>                    | <<Default>>                  |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| groupId               | The groupId of the client project followed by "bw"                | com.company.project.bw       | <<<N/A>>>                    |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| artifactId            | The name of the BW project in the <<<lowercase-and-dash>>> format | flow-z123-to-pivot           | <<<N/A>>>                    |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| version               | The version of the BW project                                     | 1.0.1                        | <<<N/A>>>                    |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| bwProjectName         | The name of the BW project in human readable format               | Z123 to Pivot transformation | <<<N/A>>>                    |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| rootProjectGroupId    | The groupId of the client root project                            | com.company.project          | fr.fastconnect.factory.tibco |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| rootProjectArtifactId | The artifactId of the client root project                         | project-root                 | fc-tibco-factory            |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+| rootProjectVersion    | The version of the client root project                            | 1.0.0                        | 1.0.0                        |
+*-----------------------+-------------------------------------------------------------------+------------------------------+------------------------------+
+Archetype parameters
+
+	The resulting command line to create the example project is:
+
++------------------------------------------------------------------------------+
+ mvn archetype:generate -DarchetypeGroupId=fr.fastconnect.factory.tibco.bw.maven \
+                        -DarchetypeArtifactId=archetype-bw-default-project \
+                        -DgroupId=com.company.project.bw \
+                        -DartifactId=flow-z123-to-pivot \
+                        -Dversion=1.0.1 \
+                        -DbwProjectName="Z123 to Pivot transformation" \
+                        -DrootProjectGroupId=com.company.project \
+                        -DrootProjectArtifactId=project-root \
+                        -DrootProjectVersion=1.0.0
+                       [-DinteractiveMode=false]
++------------------------------------------------------------------------------+
+
+	The "interactiveMode" parameter is optional. If set to true, the archetype
+	will not ask for confirmation.
+
+* Eclipse integration
+
+	All the Maven archetypes can be used in the "New Maven Project" dialog of
+	Eclipse.
+	
+	The parameters will be requested in a rich interface.
+
+* Run
+
+	Once the creation process is over, it is possible to launch the TIBCO
+	Designer to	edit the project:
+
++------------------------------------------------------------------------------+
+ mvn bw:launch-designer
++------------------------------------------------------------------------------+
+
+	More details can be found on the <<<bw:launch-designer>>>
+	{{{../launch-designer-mojo.html} goal documentation}}.
+ 

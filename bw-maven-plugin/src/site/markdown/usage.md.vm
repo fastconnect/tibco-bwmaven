@@ -1,0 +1,258 @@
+#set($h1 = '#')
+#set($h2 = '##')
+#set($h3 = '###')
+#set($h4 = '####')
+
+$h1 Usage
+
+---
+
+The usage page lists the common use cases of the BWMaven plugin:
+
+* create a simple project
+* create a simple Projlib
+* define a dependency relation between a project and a Projlib
+* create a delivery package
+	
+$h2 Simple project
+
+The simple project is an empty BusinessWorks project.
+
+---
+
+$h3 Create
+
+The command to create a new default empty project:
+
+```bash
+mvn archetype:generate \
+  -DarchetypeGroupId= \
+    fr.fastconnect.factory.tibco.bw.maven \
+  -DarchetypeArtifactId= \
+    archetype-bw-default-project
+```
+
+Several parameters must be provided
+([with -D command line option](http://books.sonatype.com/mvnref-book/reference/running-sect-options.html#running-sect-define-prop))
+:
+
+| Parameter             | Example Value        |
+|-----------------------|----------------------|
+| groupId               | com.company.project  |
+| artifactId            | simple-project       |
+| version               | 1.0.0                |
+| bwProjectName         | SimpleProject        |
+| rootProjectGroupId    | ${factoryGroupId}    |
+| rootProjectArtifactId | ${factoryArtifactId} |
+| rootProjectVersion    | ${factoryVersion}    |
+
+$h3 Design
+
+Move to the project directory (the one with the POM):
+
+```bash
+cd ./simple-project
+```
+
+Launch the TIBCO Designer with the
+[bw:launch-designer goal](./launch-designer-mojo.html):
+
+```bash
+mvn bw:launch-designer
+```
+
+The project can be edited as any other TIBCO BusinessWorks project.
+
+${notaBene} before going on with the <i>package</i> phase, it is mandatory to exit
+the TIBCO Designer.
+
+$h3 Package 
+
+The [packaging](./phases/packaging.html) of the application is performed with
+this command:
+
+```bash
+mvn package
+```
+
+This will create the TIBCO BusinessWorks EAR archive and the
+[associated configuration files](./phases/packaging.html#Properties-based_configuration).
+
+---
+
+$h2 Simple Projlib
+
+The simple Projlib is an empty BusinessWorks Projlib.
+
+---
+
+$h3 Create
+
+The command to create a new default empty Projlb project:
+
+```bash
+mvn archetype:generate \
+  -DarchetypeGroupId=
+   fr.fastconnect.factory.tibco.bw.maven \
+  -DarchetypeArtifactId=
+   archetype-bw-default-projlib
+```
+
+Several parameters must be provided
+([with -D command line option](http://books.sonatype.com/mvnref-book/reference/running-sect-options.html#running-sect-define-prop))
+:
+
+| Parameter             | Example Value        |
+|-----------------------|----------------------|
+| groupId               | com.company.project  |
+| artifactId            | simple-project       |
+| version               | 1.0.0                |
+| bwProjectName         | SimpleProjlib        |
+| rootProjectGroupId    | ${factoryGroupId}    |
+| rootProjectArtifactId | ${factoryArtifactId} |
+| rootProjectVersion    | ${factoryVersion}    |
+
+$h3 Design
+
+Move to the project directory (the one with the POM):
+
+```bash
+cd ./simple-projlib
+```
+
+Launch the TIBCO Designer with the
+[bw:launch-designer goal](./launch-designer-mojo.html):
+
+```bash
+mvn bw:launch-designer
+```
+
+The project can be edited as any other TIBCO BusinessWorks project.
+
+${notaBene} before going on with the <i>package</i> phase, it is mandatory to exit
+the TIBCO Designer.
+
+$h3 Package 
+
+The [packaging](./phases/packaging.html) of the application is performed
+with this command:
+
+```bash
+mvn package
+```
+
+This will
+[create the TIBCO BusinessWorks Projlib](./compile-projlib-mojo.html).
+
+${notaBene} to make available this Projlib to other projects, it is mandatory
+to perform the <i>install</i> phase. The <i>install</i> phase will perform the same goals
+as the <i>package</i> phase but will also copy the Maven artifact generated in the
+Maven local repository. This is the command to run:
+
+```bash
+mvn install
+```
+
+To share the Projlib between different developers, it is better to perform
+the <i>deploy</i> phase to deploy the artifact on a remote repository with this
+command:
+
+```bash
+mvn deploy
+```
+
+---
+
+$h2 Dependency management
+
+With the BWMaven plugin it is possible to define a dependency relation
+between a TIBCO BusinessWorks project and a Projlib. It is done with the
+[standard Maven dependency mechanism](http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html)
+.
+
+---
+
+$h3 Add
+
+The command to add the <i>simple-projlib</i> as a dependency (to run in 
+<i>simple-project</i> folder for instance).
+
+```bash
+mvn bw:add-dependency
+```
+
+Several parameters must be provided
+([with -D command line option](http://books.sonatype.com/mvnref-book/reference/running-sect-options.html#running-sect-define-prop))
+:
+
+| Parameter            | Example Value       |
+|----------------------|---------------------|
+| dependencyGroupId    | com.company.project |
+| dependencyArtifactId | simple-projlib      |
+| dependencyVersion    | 1.0.0               |
+| dependencyType       | simple-projlib      |
+| doIt                 | true                |
+
+The full command line:
+
+```bash
+mvn bw:add-dependency \
+    -DdependencyGroupId=com.company.project \
+    -DdependencyArtifactId=simple-projlib \
+    -DdependencyVersion=1.0.0 \
+    -DdependencyType=projlib \
+    -DdoIt=true
+```
+
+$h3 POM
+
+The dependency management commands will update the &lt;dependencies> section
+of the project's POM:
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>com.company.project</groupId>
+    <artifactId>simple-projlib</artifactId>
+    <version>1.0.0</version>
+    <type>projlib</type>
+  </dependency>
+</dependencies>
+```
+
+${notaBene} the dependency management is just a convenient method to manipulate the
+declarative &lt;dependencies> section of a POM. Consequently, the result might be
+inconsistent if the dependency to add does not exist or is not correct.
+
+$h3 Remove
+
+The command to remove the <i>simple-projlib</i> dependency (to run in 
+<i>simple-project</i> folder for instance).
+
+```bash
+mvn bw:remove-dependency
+```
+
+Several parameters must be provided
+([with -D command line option](http://books.sonatype.com/mvnref-book/reference/running-sect-options.html#running-sect-define-prop))
+:
+
+| Parameter            | Example Value       |
+|----------------------|---------------------|
+| dependencyGroupId    | com.company.project |
+| dependencyArtifactId | simple-projlib      |
+| dependencyVersion    | 1.0.0               |
+| dependencyType       | simple-projlib      |
+| doIt                 | true                |
+
+The full command line:
+
+```bash
+mvn bw:remove-dependency \
+    -DdependencyGroupId=com.company.project \
+    -DdependencyArtifactId=simple-projlib \
+    -DdependencyVersion=1.0.0 \
+    -DdependencyType=projlib \
+    -DdoIt=true
+```
+	

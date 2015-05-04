@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>FCUnit/Core/Misc/callProcessToTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:any processContents="skip"/>
+    </pd:startType>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Start/*"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:any processContents="skip"/>
+    </pd:endType>
+    <pd:endX>698</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301662469484</pd:targetNamespace>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:label>
+        <pd:name>Label</pd:name>
+        <pd:description>En entrée, un élément XML quelconque (any). Pas de validation (pour rester générique).</pd:description>
+        <pd:x>160</pd:x>
+        <pd:y>217</pd:y>
+        <pd:width>256</pd:width>
+        <pd:height>51</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-3342388</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (1)</pd:name>
+        <pd:description>En sortie on copie l'élément renvoyé par l'exécution du process à tester (et ses enfants).</pd:description>
+        <pd:x>785</pd:x>
+        <pd:y>216</pd:y>
+        <pd:width>290</pd:width>
+        <pd:height>48</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-13108</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+    <pd:label>
+        <pd:name>Label (1) (1)</pd:name>
+        <pd:description>En situation réelle, au moment du CallProcess, le process à tester sera appelé grace à la directive "Process Name Dynamic Override"</pd:description>
+        <pd:x>468</pd:x>
+        <pd:y>222</pd:y>
+        <pd:width>296</pd:width>
+        <pd:height>61</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-52</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>0</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+</pd:ProcessDefinition>
