@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- MUST USE THE UNORDERED INDENT -->
+<dimensions>
+  <pyramide>
+	  <aire_base>9</aire_base>
+	  	<volume>15</volume>
+<timestamp>2013-08-09T10:30:05.677+02:00</timestamp>
+	    </pyramide>
+	<square>
+		<size>2</size>
+		<area>4</area>
+	</square>
+	<square></square>
+</dimensions>

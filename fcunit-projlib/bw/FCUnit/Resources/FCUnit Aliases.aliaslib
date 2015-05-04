@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="FCUnit Aliases">
+        <FILE_ALIASES_LIST>&lt;?xml version="1.0" encoding="UTF-8"?&gt; 
+&lt;java version="1.6.0_30" class="java.beans.XMLDecoder"&gt; 
+ &lt;object class="java.util.ArrayList"&gt; 
+  &lt;void method="add"&gt; 
+   &lt;object class="java.util.HashMap"&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;isClasspathFile&lt;/string&gt; 
+     &lt;boolean&gt;true&lt;/boolean&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;name&lt;/string&gt; 
+     &lt;string&gt;junit:junit:4.8.2:jar&lt;/string&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;includeInDeployment&lt;/string&gt; 
+     &lt;boolean&gt;false&lt;/boolean&gt; 
+    &lt;/void&gt; 
+   &lt;/object&gt; 
+  &lt;/void&gt; 
+  &lt;void method="add"&gt; 
+   &lt;object class="java.util.HashMap"&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;isClasspathFile&lt;/string&gt; 
+     &lt;boolean&gt;true&lt;/boolean&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;name&lt;/string&gt; 
+     &lt;string&gt;xmlunit:xmlunit:1.3:jar&lt;/string&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;includeInDeployment&lt;/string&gt; 
+     &lt;boolean&gt;false&lt;/boolean&gt; 
+    &lt;/void&gt; 
+   &lt;/object&gt; 
+  &lt;/void&gt; 
+  &lt;void method="add"&gt; 
+   &lt;object class="java.util.HashMap"&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;isClasspathFile&lt;/string&gt; 
+     &lt;boolean&gt;true&lt;/boolean&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;name&lt;/string&gt; 
+     &lt;string&gt;fr.fastconnect.factory.tibco.bw.maven:fcunit-core:${project.version}:jar&lt;/string&gt; 
+    &lt;/void&gt; 
+    &lt;void method="put"&gt; 
+     &lt;string&gt;includeInDeployment&lt;/string&gt; 
+     &lt;boolean&gt;true&lt;/boolean&gt; 
+    &lt;/void&gt; 
+   &lt;/object&gt; 
+  &lt;/void&gt; 
+ &lt;/object&gt; 
+&lt;/java&gt; 
+</FILE_ALIASES_LIST>
+    </name>
+</Repository:repository>

@@ -1,0 +1,37 @@
+ <?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_30" class="java.beans.XMLDecoder"> 
+ <object class="java.util.ArrayList"> 
+  <void method="add"> 
+   <object class="java.util.HashMap"> 
+    <void method="put"> 
+     <string>isClasspathFile</string> 
+     <boolean>false</boolean> 
+    </void> 
+    <void method="put"> 
+     <string>name</string> 
+     <string>FCUnit AvantVente.pptx</string> 
+    </void> 
+    <void method="put"> 
+     <string>includeInDeployment</string> 
+     <boolean>true</boolean> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="java.util.HashMap"> 
+    <void method="put"> 
+     <string>isClasspathFile</string> 
+     <boolean>false</boolean> 
+    </void> 
+    <void method="put"> 
+     <string>name</string> 
+     <string>designer-aliases.bmp</string> 
+    </void> 
+    <void method="put"> 
+     <string>includeInDeployment</string> 
+     <boolean>true</boolean> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+</java> 

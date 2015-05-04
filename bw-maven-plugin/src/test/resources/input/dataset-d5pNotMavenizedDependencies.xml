@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.HashSet"> 
+    <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>anotherProjlib</string> 
+    </void> 
+    <void property="groupId"> 
+     <string /> 
+    </void> 
+    <void property="systemPath"> 
+     <string /> 
+    </void> 
+    <void property="version"> 
+     <string /> 
+    </void> 
+   </object> 
+  </void>  
+ </object> 
+</java> 

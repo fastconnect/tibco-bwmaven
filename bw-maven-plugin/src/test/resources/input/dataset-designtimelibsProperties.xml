@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.Properties"> 
+  <void method="put"> 
+   <string>2</string> 
+   <string>projlib-example-1.0.0.projlib1=Double projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>1</string> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:bw-projlib-example:1.0.0:projlib=BW projlib example 2</string> 
+  </void> 
+  <void method="put"> 
+   <string>0</string> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:projlib-example:1.0.0:projlib=Projlib example 1</string> 
+  </void> 
+ </object> 
+</java> 

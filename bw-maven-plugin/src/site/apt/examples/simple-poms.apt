@@ -1,0 +1,90 @@
+
+Example of simple POMs
+
+	In this page you will find some basic examples of most commonly used POMs.
+	For a real-life project, please refer to
+	{{{../mavenization/index.html}mavenization}} process.
+
+* Simplest POM for a TIBCO BusinessWorks project building an EAR
+
++------------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.company.project</groupId>
+	<artifactId>my-bw-project</artifactId>
+	<version>1.0.0</version>
+	<packaging>bw-ear</packaging>
+	
+	<name>MyBWProject project</name>
+	
+	<properties>
+		<bw.project.name>MyBWProject</bw.project.name>
+		<bw.project.location>./src</bw.project.location>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+				<artifactId>bw-maven-plugin</artifactId>
+				<version>${bw.maven.plugin.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
++------------------------------------------------------------------------------+
+
+* More complex POM for a TIBCO BusinessWorks project building an EAR with one
+Projlib dependency and a {{{../mavenization/client-root.html}parent POM}}.
+
++------------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.company.project</groupId>
+		<artifactId>project-root</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	
+	<groupId>com.company.project</groupId>
+	<artifactId>my-bw-project</artifactId>
+	<version>1.0.0</version>
+	<packaging>bw-ear</packaging>
+	
+	<name>MyBWProjectWithDependency project</name>
+	
+	<properties>
+		<bw.project.name>MyBWProjectWithDependency</bw.project.name>
+		<bw.project.location>./src</bw.project.location>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.company.project</groupId>
+			<artifactId>common-utils</artifactId>
+			<type>projlib</type>
+			<!-- the <version> is defined in the parent POM -->
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+				<artifactId>bw-maven-plugin</artifactId>
+				<version>${bw.maven.plugin.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
++------------------------------------------------------------------------------+

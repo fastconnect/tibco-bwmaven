@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<ns0:httpSharedResource xmlns:ns0="www.tibco.com/shared/HTTPConnection">
+    <config>
+        <Host>localhost</Host>
+        <serverType>Tomcat</serverType>
+        <HttpConnectionProperties>
+            <row>
+                <PropertyName>maxPostSize (bytes)</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue>2097152</PropertyDefaultValue>
+            </row>
+            <row>
+                <PropertyName>maxSavePostSize (bytes)</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue>4096</PropertyDefaultValue>
+            </row>
+            <row>
+                <PropertyName>uriEncoding</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue/>
+            </row>
+            <row>
+                <PropertyName>acceptCount</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue/>
+            </row>
+            <row>
+                <PropertyName>compressableMimeType</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue>text/html,text/xml,text/plain</PropertyDefaultValue>
+            </row>
+            <row>
+                <PropertyName>compression</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue>off</PropertyDefaultValue>
+            </row>
+            <row>
+                <PropertyName>connectionTimeOut (ms)</PropertyName>
+                <PropertyValue/>
+                <PropertyDefaultValue>60000</PropertyDefaultValue>
+            </row>
+        </HttpConnectionProperties>
+        <Port>9099</Port>
+    </config>
+</ns0:httpSharedResource>

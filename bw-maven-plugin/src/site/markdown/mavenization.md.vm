@@ -1,0 +1,145 @@
+#set($h1 = '#')
+#set($h2 = '##')
+#set($h3 = '###')
+#set($h4 = '####')
+
+$h1 Mavenization
+
+---
+
+$h2 Introduction to Mavenization
+
+The Mavenization is the process that will convert an existing base of code not
+using this plugin to a fully Maven-enabled one. It implies basically to create
+and associate a POM (to mavenize) to every projects in the base of code.
+
+---
+
+$h3 Unintrusive
+
+This process is not intrusive in the source code itself and can be reverted at
+any time (simply by
+[removing the created POM](../unmavenize-bw-projects-mojo.html)).
+
+$h3 Prerequisites
+	
+Before reading this chapter, the user should be familiar with the basic
+[usage](../usage.html) of the Maven Plugin for TIBCO BusinessWorks and have a
+correct	"[settings.xml](./configuration.html#Maven_settingsxml_file)"
+installed.
+
+---
+
+$h3 Steps
+
+The steps of a classic Mavenization will be:
+
+* [the creation of a client root POM](./client-root.html), responsible for:
+	
+	* defining all the common configuration for the client project (inspired by
+	corporate good practices and configuration habits)
+	
+	* [defining default properties](../configuration/root-parent.html) for the
+	plugin (if not inherited from FC TIBCO Factory parent).
+
+* [the creation of POMs for all BW projects](./mass-mavenization.html): all the
+BusinessWorks projects of the client project must have a POM. This is called
+<b>mass Mavenization</b> because there is potentially a huge number of BW projects.
+We will see in details that it implies to define explicitly in the POMs the
+dependencies which are (too) loosely defined by standard TIBCO BusinessWorks
+mechanism (aliases, .designtimelibs files, ...).
+
+---
+
+$h2 Client Root creation
+
+---
+
+$h3 Disambiguation about "project"
+
+Before going further please be aware that the term "project" can be ambiguous.
+	
+We can use "project" to define two different things:
+	
+* a TIBCO BusinessWorks project
+
+* a full client project which is composed (but not only) by several TIBCO
+	BusinessWorks projects
+
+In this documentation the context will help to strip away the ambiguity. For
+instance <tt>client project</tt> and <tt>BusinessWorks project</tt> will often be
+used. 
+
+$h3 Why a root client project?
+
+The idea to have a root client project is to define a common POM ancestor to all
+the BusinessWorks projects to mavenize.
+	
+There are several advantages:
+	
+* as in classic Maven, you can manage the version of the Maven plugins
+(especially this one)  and dependencies to use in all the BusinessWorks
+projects. The build	will be more reliable. Moreover all projects can override
+the default setting of the root client project if needed.
+	
+* this root client project can be used for the aggregation pattern. It is
+particularly useful for a client project when it comes to create
+<tt>delivery packages</tt>.
+	
+---
+
+$h3 How to do?
+
+There is a Maven archetype provided called <tt>archetype-client-root-project</tt>.
+
+```bash
+ mvn archetype:generate -DarchetypeGroupId=fr.fastconnect.factory.tibco.bw.maven \
+                        -DarchetypeArtifactId=archetype-client-root-project \
+                        -DgroupId=com.company.project \
+                        -DartifactId=project-root \
+                        -Dversion=1.0.0 \
+                        -DclientProjectName=ABC \
+                        -DfcFactoryParentVersion=1.0.0 \
+                       [-DinteractiveMode=false]
+```
+
+Before using this archetype you might want to read the discussion about the use
+of [FC TIBCO Factory root parent POM](../configuration/root-parent.html) in	a
+client root POM.
+	
+---
+
+$h2 Mass Mavenization
+
+$h3 Concept
+
+The idea is to define a list of projects based on some criterias and to apply
+actions on the result list.
+	
+* A good example of <b>list</b> can be:
+<tt>Find recursively all the BW projects in the directory
+"C:/workspace" whose name contains the "flow" keyword</tt>.
+	
+* A good example of <b>action to apply</b> to the previous list can be:
+<tt>Add the "common-flow-utils" Projlib as a dependency to these
+projects</tt>.
+
+This being said, the mass Mavenization of an existing client project is much
+easier as it can handle the simplest action (ex: <tt>create a basic POM for all
+my BW projects</tt>) and more complex ones (ex: <tt>add a dependency to some
+projects</tt> or <tt>add some projects as modules to package in a delivery archive</tt>).
+	
+To conclude on the concept we can say that it will not only create the required
+POMs for all the BusinessWorks projects but also allow to enrich these POMs to
+define advanced properties and patterns.
+
+---
+
+$h3 Listing all the projects to mavenize
+
+The goal to use is [list-bw-projects](../list-bw-projects-mojo.html).
+
+$h3 Creating POM for the projects in a list (basic mavenization)
+
+The goal to use is [mavenize-bw-projects](../mavenize-bw-projects-mojo.html)
+ 

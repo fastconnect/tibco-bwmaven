@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>bw-maven-parent</artifactId>
+		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+		<version>2.3.0-SNAPSHOT</version>
+ 	</parent>
+
+	<artifactId>bw-maven-plugin</artifactId>
+
+	<packaging>maven-plugin</packaging>
+
+	<name>Maven Plugin for TIBCO BusinessWorks - Maven Plugin</name>
+
+	<description>
+		The ${project.name} defines all the Maven goals available to the
+		end-user.
+		These goals are defined in special Java classes named Mojos.
+	</description>
+
+	<properties>
+		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
+		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
+		<maven.site.skip>false</maven.site.skip>
+		<maven.site.deploy.skip>false</maven.site.deploy.skip>
+	</properties>
+
+	<dependencies>
+		<!-- Mojo executor, see fr.fastconnect.factory.tibco.bw.maven.builtin
+		for details -->
+		<dependency>
+			<groupId>org.twdata.maven</groupId>
+			<artifactId>mojo-executor</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<!-- Mojo unit tests -->
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-plugin-testing-harness</artifactId>
+			<version>1.0-beta-1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.sonatype.aether</groupId>
+			<artifactId>aether-api</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sonatype.aether</groupId>
+			<artifactId>aether-util</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-project</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-tools-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+		</dependency>
+	    <dependency>
+	      <groupId>org.apache.maven</groupId>
+	      <artifactId>maven-artifact</artifactId>
+	      <version>3.1.1</version>
+	    </dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<!-- External Plugins -->
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>maven-plugins</groupId>
+					<artifactId>maven-cobertura-plugin</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>maven-plugins</groupId>
+					<artifactId>maven-findbugs-plugin</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-source-plugin</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tibco.bw.schemas</groupId>
+			<artifactId>application-management</artifactId>
+			<version>5.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tibco.bw.schemas</groupId>
+			<artifactId>process-model</artifactId>
+			<version>5.9</version>
+		</dependency>
+
+		<!-- to manipulate ZIP files -->
+		<dependency>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>truezip-utils</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>truezip-maven-plugin</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- dependencies to annotations -->
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<!-- Not needed for execution -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- generated help mojo has a dependency to plexus-utils -->
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-interpolation</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.enforcer</groupId>
+			<artifactId>enforcer-api</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.enforcer</groupId>
+			<artifactId>enforcer-rules</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-archetype-plugin</artifactId>
+			<version>2.2</version>
+		</dependency>
+		
+		<!-- Hawk -->
+		<dependency>
+			<groupId>com.tibco.hawk</groupId>
+			<artifactId>console</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>com.tibco.hawk</groupId>
+			<artifactId>talon</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>com.tibco.hawk</groupId>
+			<artifactId>util</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>com.tibco.rv</groupId>
+			<artifactId>tibrvj</artifactId>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>xjc-alias</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>${project.basedir}/src/main/resources/alias</schemaDirectory>
+							<schemaFiles>alias.xsd</schemaFiles>
+							<packageName>fr.fastconnect.factory.tibco.bw.maven.source.alias.jaxb</packageName>
+							<clearOutputDir>false</clearOutputDir>
+						</configuration>
+					</execution>
+					<execution>
+						<id>xjc-doc</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>${project.basedir}/src/main/resources/doc</schemaDirectory>
+							<schemaFiles>bw-doc.xsd</schemaFiles>
+							<packageName>fr.fastconnect.factory.tibco.bw.maven.doc.jaxb</packageName>
+							<clearOutputDir>false</clearOutputDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<inherited>false</inherited>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>site</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<distributionManagement>
+				<site>
+					<id>repo.site.fastconnect.org</id>
+					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
+				</site>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>public-site</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<distributionManagement>
+				<site>
+					<id>repo.public.site.fastconnect.org</id>
+					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
+				</site>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
+</project>

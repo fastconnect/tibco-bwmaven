@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.HashSet"> 
+  <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>projlib3</string> 
+    </void> 
+    <void property="groupId"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven</string> 
+    </void> 
+    <void property="systemPath"> 
+     <string>C\:\\Users\\Matthieu\\.m2\\repository\\fr\\fastconnect\\tibco\\businessworks\\maven\\projlib3\\1.0.0\\projlib3-1.0.0.projlib</string> 
+    </void> 
+    <void property="type"> 
+     <string>projlib</string> 
+    </void> 
+    <void property="version"> 
+     <string>1.0.0</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>projlib1</string> 
+    </void> 
+    <void property="groupId"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven</string> 
+    </void> 
+    <void property="systemPath"> 
+     <string>C\:\\Users\\Matthieu\\.m2\\repository\\fr\\fastconnect\\tibco\\businessworks\\maven\\projlib1\\1.0.0\\projlib1-1.0.0.projlib</string> 
+    </void> 
+    <void property="type"> 
+     <string>projlib</string> 
+    </void> 
+    <void property="version"> 
+     <string>1.0.0</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>projlib2</string> 
+    </void> 
+    <void property="groupId"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven</string> 
+    </void> 
+    <void property="systemPath"> 
+     <string>C\:\\wrong\\path\\projlib2\\1.0.0\\projlib2-1.0.0.projlib</string> 
+    </void> 
+    <void property="type"> 
+     <string>projlib</string> 
+    </void> 
+    <void property="version"> 
+     <string>1.0.0</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>jar3</string> 
+    </void> 
+    <void property="groupId"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven</string> 
+    </void> 
+    <void property="systemPath"> 
+     <string /> 
+    </void> 
+    <void property="version"> 
+     <string>1.0.0</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.ComparableDependency"> 
+    <void property="artifactId"> 
+     <string>jar1</string> 
+    </void> 
+    <void property="groupId"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven</string> 
+    </void> 
+    <void property="systemPath"> 
+     <string /> 
+    </void> 
+    <void property="version"> 
+     <string>1.0.0</string> 
+    </void> 
+   </object> 
+  </void>
+ </object> 
+</java> 

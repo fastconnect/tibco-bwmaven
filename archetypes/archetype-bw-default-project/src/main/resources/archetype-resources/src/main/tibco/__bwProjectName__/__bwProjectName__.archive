@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <enterpriseArchive>
+        <sharedArchive name="Shared Archive">
+            <resourceType>shared.archive.resource</resourceType>
+            <authorProperty>author</authorProperty>
+        </sharedArchive>
+        <processArchive name="project-archive">
+            <resourceType>process.archive.resource</resourceType>
+            <authorProperty/>
+            <processProperty/>
+        </processArchive>
+        <versionProperty>1</versionProperty>
+        <authorProperty/>
+        <addServiceSettableGvars>true</addServiceSettableGvars>
+        <name>__bwProjectName__</name>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
+        <fileLocationProperty>C:\tibco\workspace\src.ear</fileLocationProperty>
+    </enterpriseArchive>
+</Repository:repository>

@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.Properties"> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.logsink.role.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>service.wsdl.save.path</string> 
+   <string>C:\BWEDU\bwp25\BWP.Core\Services\CreditCheck\Contract</string> 
+  </void> 
+  <void method="put"> 
+   <string>user.palette.dir</string> 
+   <string>C:\Users\Matthieu\.TIBCO\custom_palettes</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.30</string> 
+   <string>ae.activity.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.choose.dialog.lastWindowLocation</string> 
+   <string>810,445</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.window.location.y</string> 
+   <string>220</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.window.location.x</string> 
+   <string>735</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.data.BindTextSplit</string> 
+   <string>130</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.window.location.w</string> 
+   <string>450</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.data.DataBindSplit</string> 
+   <string>441</string> 
+  </void> 
+  <void method="put"> 
+   <string>graph.height.pref</string> 
+   <string>890</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.lastWindowSize</string> 
+   <string>1148,500</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.window.location.h</string> 
+   <string>600</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.indent.count</string> 
+   <string>4</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.location.splitterLocation</string> 
+   <string>218</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.29</string> 
+   <string>aa.generic.operation</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.28</string> 
+   <string>ae.subscriber.endpoint</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.9</string> 
+   <string>service.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.27</string> 
+   <string>archive.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.type.LineBendSplit</string> 
+   <string>327</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.8</string> 
+   <string>ae.palette.JMS.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.26</string> 
+   <string>aa.logsink</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.7</string> 
+   <string>ae.palette.parsepalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.25</string> 
+   <string>ae.publisher.endpoint</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.6</string> 
+   <string>httppalette.httpplugins</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.24</string> 
+   <string>ae.metadata.union</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.5</string> 
+   <string>ae.palette.rvpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.23</string> 
+   <string>ae.endpoint</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.4</string> 
+   <string>ae.palette.Policy</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.22</string> 
+   <string>ae.metadata.association</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.3</string> 
+   <string>ae.palette.xml.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.21</string> 
+   <string>ae.metadata.class</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.2</string> 
+   <string>ae.palette.java.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.20</string> 
+   <string>ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.1</string> 
+   <string>ae.pallette.tcp.pallette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.0</string> 
+   <string>ae.repo.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>DebugInputDialog.windowLocation</string> 
+   <string>603,250</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.repo.node.resource.0</string> 
+   <string>ae.repo.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>max.log.size.preference</string> 
+   <string>1</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.show.comments.pane</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.formula.docSplitLocation</string> 
+   <string>288</string> 
+  </void> 
+  <void method="put"> 
+   <string>graph.width.pref</string> 
+   <string>1855</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.logsink.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.service.resource.0</string> 
+   <string>service.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.wsdlresource.operation.0</string> 
+   <string>wsdlresource.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.19</string> 
+   <string>aa.logsink.role</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.18</string> 
+   <string>ae.server.endpoint</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.operation.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.17</string> 
+   <string>aa.loadurl</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.16</string> 
+   <string>ae.repo.instance.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.15</string> 
+   <string>aa.txcontrolpool</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.windowLocation</string> 
+   <string>650,99</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.14</string> 
+   <string>ae.metadata.operation</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.pane.layout.pref</string> 
+   <string>ae.pm.four.panes.tools.on.top</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.13</string> 
+   <string>aa.advisory</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.type.TypeBindSplit</string> 
+   <string>441</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.12</string> 
+   <string>ae.client.endpoint</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.11</string> 
+   <string>ae.designerfolder</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.show_tip_of_day</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.instance.show.errors</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.project</string> 
+   <string>projectName=bw-project-sample&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\bw-project-sample</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.10</string> 
+   <string>ae.metadata.aeschema</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.session.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>repo.encoding.pref</string> 
+   <string>UTF-8</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.only_show_on_startup</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>view.icon.size.pref</string> 
+   <string>0</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.show.warnings</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.use.tab</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>StatementDialog.windowLocation</string> 
+   <string>710,345</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.showingIndex</string> 
+   <string>0</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.scalar.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.use.determinism.check</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.undo.stack.size.pref</string> 
+   <string>0</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.archive.resource.1</string> 
+   <string>ae.process.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.archive.resource.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.lastWindowLocation</string> 
+   <string>382,354</string> 
+  </void> 
+  <void method="put"> 
+   <string>application.width</string> 
+   <string>1920</string> 
+  </void> 
+  <void method="put"> 
+   <string>fs.vfilestore.last.dir.pref</string> 
+   <string>C:\Users\Matthieu\Project\tibco-factory\bw-project-sample</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.9</string> 
+   <string>ae.palette.Filepalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.8</string> 
+   <string>ae.palette.JMS.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.import.resource.dirpath</string> 
+   <string>C:\BE401</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.7</string> 
+   <string>ae.palette.parsepalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.6</string> 
+   <string>ae.palette.Mail.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.5</string> 
+   <string>httppalette.httpplugins</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.4</string> 
+   <string>ae.palette.rvpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.timer.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.3</string> 
+   <string>ae.palette.Policy</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.2</string> 
+   <string>ae.palette.xml.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.1</string> 
+   <string>ae.palette.java.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>StatementDialog.windowSize</string> 
+   <string>500,350</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.0</string> 
+   <string>ae.pallette.tcp.pallette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.two.column.pm.dividers.1</string> 
+   <string>550</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.two.column.pm.dividers.0</string> 
+   <string>200</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.9</string> 
+   <string>&lt;repositoryManagement:/deployment/repositoryManagement.archive&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.window.location.y</string> 
+   <string>159</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.8</string> 
+   <string>&lt;repriseHawk:/deployment/repriseHawk.archive/project-archive&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.window.location.x</string> 
+   <string>591</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.7</string> 
+   <string>&lt;bw:/.folder&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.window.location.w</string> 
+   <string>909</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.6</string> 
+   <string>&lt;__artifactId__:/.folder&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.5</string> 
+   <string>&lt;SEPAConversion:/deployment/.folder&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.support.logging</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.4</string> 
+   <string>&lt;test:/ecrsd/.folder&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.3</string> 
+   <string>&lt;Simple:/FCUnit/Core/Asserts/AssertAtLeastEqualXML.process#activity.XMLUnit AssertEqual&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.2</string> 
+   <string>&lt;Simple-Mavenized:/FCUnit/runAllTestsAndShowResults.process&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.1</string> 
+   <string>&lt;src:/.folder&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.selected.resource.0</string> 
+   <string>&lt;bw-project-sample:/Dependencies/Java Dependencies.aliaslib&gt;</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.aeschema.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.instance.show.markup.icons</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.9</string> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:bw-projlib-example:1.0.1:projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-projlib-example\1.0.0\bw-projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.data.LineBendSplit</string> 
+   <string>235</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.8</string> 
+   <string>authorizationAndAudit_v2.1.1=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\authorizationAndAudit\2.1.1\authorizationAndAudit-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.7</string> 
+   <string>traceAndErrorPivot_v2.1.1.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\traceAndErrorPivot\2.1.1\traceAndErrorPivot-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.splitLocation</string> 
+   <string>438</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.window.location.h</string> 
+   <string>772</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.6</string> 
+   <string>image=C:\Users\Matthieu\Project\tibco-factory\bw-ear-example\src\Resources\fed23f8d-8861-4dc9-91ae-edc2de6bca05_5.jpg</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.5</string> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:bw-projlib-example:1.0.0:projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-projlib-example\1.0.0\bw-projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.4</string> 
+   <string>FCUnit.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\fcunit\fcunit-projlib\1.4.0-SNAPSHOT\fcunit-projlib-1.4.0-SNAPSHOT.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.3</string> 
+   <string>BWUnit.projlib=C:\Users\Matthieu\Project\CACP\EST\projet\branches\1.3.x\DesignTimeLibrary\BWUnit.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.2</string> 
+   <string>archivageUtils_v2.1.1=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\archivageUtils\2.1.1\archivageUtils-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>DebugInputDialog.lastPath</string> 
+   <string>C:\Users\Matthieu\Project\tibco-factory\FCTibcoFactory\BWMaven-fusion\trunk\FCUnit\examples\Simple-Mavenized\src\main\tibco\Simple-Mavenized\Main TestSuite\XML TestSuite\Simple Volume TestCase</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.1</string> 
+   <string>FCUnit.jar=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\fcunit\fcunit-core\1.4.0-SNAPSHOT\fcunit-core-1.4.0-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.window.is.tree.default.view</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.0</string> 
+   <string>xmlunit-1.3.jar=C:\Users\Matthieu\.m2\repository\xmlunit\xmlunit\1.3\xmlunit-1.3.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingFixerDialog.windowLocation</string> 
+   <string>735,395</string> 
+  </void> 
+  <void method="put"> 
+   <string>replace.dirty.forms.pref</string> 
+   <string>warn</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.9</string> 
+   <string>form.flow.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.8</string> 
+   <string>wsdlresource.operation</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.union.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.loadurl.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.7</string> 
+   <string>wsdlresource.porttypeAndMessage</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.6</string> 
+   <string>ae.session</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.5</string> 
+   <string>ae.metadata.sequence</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.4</string> 
+   <string>service.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.3</string> 
+   <string>ae.repo.node.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.2</string> 
+   <string>ae.resource</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.1</string> 
+   <string>ae.timer</string> 
+  </void> 
+  <void method="put"> 
+   <string>application.y</string> 
+   <string>-8</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.0</string> 
+   <string>ae.metadata.scalar</string> 
+  </void> 
+  <void method="put"> 
+   <string>application.x</string> 
+   <string>-8</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.publisher.endpoint.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.constants.splitLocation</string> 
+   <string>177</string> 
+  </void> 
+  <void method="put"> 
+   <string>DebugInputDialog.windowSize</string> 
+   <string>1045,649</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingFixerDialog.windowSize</string> 
+   <string>450,250</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.client.endpoint.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingFixerDialog.fixColumn</string> 
+   <string>50</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.server.endpoint.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.17</string> 
+   <string>ae.palette.JDBCpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.16</string> 
+   <string>ae.palette.transaction.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.designerfolder.0</string> 
+   <string>palette.generalpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.15</string> 
+   <string>ae.palette.FTPpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.14</string> 
+   <string>ae.palette.GeneralPalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.13</string> 
+   <string>ae.palette.SOAPpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.12</string> 
+   <string>ae.aepalette.ae.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.11</string> 
+   <string>ae.palette.jrmi.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.9</string> 
+   <string>projectName=repositoryManagement&amp;rootDirectory=C:\Users\Matthieu\Project\CACP\EST\projet\branches\3.1.x_bwmaven\maven\repositoryManagement\src\main\tibco\repositoryManagement</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.activity.resource.10</string> 
+   <string>service.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.8</string> 
+   <string>projectName=repriseHawk&amp;rootDirectory=C:\Users\Matthieu\Project\CACP\EST\projet\branches\3.1.x_bwmaven\maven\repriseHawk\src\main\tibco\repriseHawk</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.7</string> 
+   <string>projectName=bw&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\FCTibcoFactory\BWMaven-fusion\trunk\Projlib-builder\bw</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.general.default.encoding</string> 
+   <string>UTF-8</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.6</string> 
+   <string>projectName=__artifactId__&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\FCTibcoFactory\BWMaven-fusion\trunk\archetype-ear\src\main\resources\archetype-resources\src\main\tibco\__artifactId__</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.5</string> 
+   <string>projectName=SEPAConversion&amp;rootDirectory=C:\Users\Matthieu\Project\CACP\EST\projet\branches\3.1.x_bwmaven\SEPAConversion</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.4</string> 
+   <string>projectName=test&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\test</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.3</string> 
+   <string>projectName=Simple&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\FCTibcoFactory\BWMaven-fusion\trunk\FCUnit\examples\Simple\Simple</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.2</string> 
+   <string>projectName=Simple-Mavenized&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\FCTibcoFactory\BWMaven-fusion\trunk\FCUnit\examples\Simple-Mavenized\src\main\tibco\Simple-Mavenized</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.1</string> 
+   <string>projectName=src&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\bw-ear-example\src</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.recent.projects.0</string> 
+   <string>projectName=bw-project-sample&amp;rootDirectory=C:\Users\Matthieu\Project\tibco-factory\bw-project-sample</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.data.DataTextSplit</string> 
+   <string>163</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.wsdlresource.porttypeAndMessage.0</string> 
+   <string>wsdlresource.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.association.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.subscriber.endpoint.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>application.height</string> 
+   <string>1056</string> 
+  </void> 
+  <void method="put"> 
+   <string>javaxslt.lastFile</string> 
+   <string>C:\Users\Matthieu\Project\CACP\EST\projet\branches\3.1.x_bwmaven\CustomFunction\PockXML\TransformFormatPla2Xml.class</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.project.action.show.warnings</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.sequence.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>boundingBallSpeedPref</string> 
+   <string>90</string> 
+  </void> 
+  <void method="put"> 
+   <string>xpath.dialog.functions.splitLocation</string> 
+   <string>168</string> 
+  </void> 
+  <void method="put"> 
+   <string>graph.link.mode.pref</string> 
+   <string>0</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.instance.show.content.hints</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>validate.resource.action.window.is.tree.default.view</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingFixerDialog.showWarnings</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.txcontrolpool.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.type.BindTextSplit</string> 
+   <string>210</string> 
+  </void> 
+  <void method="put"> 
+   <string>user.log.dir</string> 
+   <string>C:\Users\Matthieu\.TIBCO\logs</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.check.references.pref</string> 
+   <string>1</string> 
+  </void> 
+  <void method="put"> 
+   <string>palette.state.ae.repo.palette</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.splitterLocation</string> 
+   <string>549</string> 
+  </void> 
+  <void method="put"> 
+   <string>importer.tool.window.location.y</string> 
+   <string>214</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.19</string> 
+   <string>traceAndErrorCollect_v2.1.1.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\traceAndErrorCollect\2.1.1\traceAndErrorCollect-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>importer.tool.window.location.x</string> 
+   <string>542</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.18</string> 
+   <string>junit4.jar=C:\Users\Matthieu\.m2\repository\junit\junit\4.8.2\junit-4.8.2.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>importer.tool.window.location.w</string> 
+   <string>835</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.17</string> 
+   <string>settings.xml=C:\Users\Matthieu\Project\tibco-factory\doc\settings.xml</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.16</string> 
+   <string>bw-heartbeat-1.0.0.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-heartbeat\1.0.0\bw-heartbeat-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.15</string> 
+   <string>fr.fastconnect:fast-utils-event:0.0.1-SNAPSHOT:jar=C:\Users\Matthieu\.m2\repository\fr\fastconnect\fast-utils-event\0.0.1-SNAPSHOT\fast-utils-event-0.0.1-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.14</string> 
+   <string>projlib-example-1.0.0.projlib1=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\projlib-example\1.0.0\projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.13</string> 
+   <string>fr.fastconnect:fast-utils-common:0.0.1-SNAPSHOT:jar=C:\Users\Matthieu\.m2\repository\fr\fastconnect\fast-utils-common\0.0.1-SNAPSHOT\fast-utils-common-0.0.1-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.12</string> 
+   <string>socleUtil_v2.1.1.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\socleUtil\2.1.1\socleUtil-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.11</string> 
+   <string>bw-heartbeat-example-1.0.0.projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-heartbeat-example\1.0.0\bw-heartbeat-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>filealias.pref.10</string> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:projlib-example:1.0.0:projlib=C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\projlib-example\1.0.0\projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.19</string> 
+   <string>ae.palette.JDBCpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.windowSize</string> 
+   <string>941,591</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.18</string> 
+   <string>ae.palette.transaction.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>importer.tool.window.location.h</string> 
+   <string>652</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.17</string> 
+   <string>palette.generalpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.16</string> 
+   <string>ae.process.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.15</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingFixerDialog.categoryColumn</string> 
+   <string>50</string> 
+  </void> 
+  <void method="put"> 
+   <string>adapter.tester.tool.window.location.y</string> 
+   <string>520</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.14</string> 
+   <string>turbo.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>adapter.tester.tool.window.location.x</string> 
+   <string>952</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.13</string> 
+   <string>ae.palette.FTPpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>adapter.tester.tool.window.location.w</string> 
+   <string>683</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.12</string> 
+   <string>ae.palette.GeneralPalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.11</string> 
+   <string>ae.palette.SOAPpalette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.resource.10</string> 
+   <string>wsdlresource.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.min.palette.button.width.pref</string> 
+   <string>75</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.schema.show.overview.pane</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>adapter.tester.tool.window.location.h</string> 
+   <string>417</string> 
+  </void> 
+  <void method="put"> 
+   <string>bouncingBallPref</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.inlineEditing</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>user.templates.dir</string> 
+   <string>C:\Users\Matthieu\.TIBCO\templates</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.pm.four.panes.tools.on.top.dividers.2</string> 
+   <string>458</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.pm.four.panes.tools.on.top.dividers.1</string> 
+   <string>326</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.pm.four.panes.tools.on.top.dividers.0</string> 
+   <string>509</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingWizard.windowLocation</string> 
+   <string>777,481</string> 
+  </void> 
+  <void method="put"> 
+   <string>turbo.pref.namespace.prefix</string> 
+   <string>http://www.tibco.com/schemas</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.generic.operation.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>ae.pmi.use.switch.panes</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>palette.state.aa.adapteradministrator.palette</string> 
+   <string>true</string> 
+  </void> 
+  <void method="put"> 
+   <string>palette.catmode.pref</string> 
+   <string>false</string> 
+  </void> 
+  <void method="put"> 
+   <string>binding.choose.dialog.lastWindowSize</string> 
+   <string>300,150</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.endpoint.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.metadata.class.0</string> 
+   <string>palette.ae.metadata</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.ae.repo.instance.resource.0</string> 
+   <string>ae.repo.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.aa.advisory.0</string> 
+   <string>aa.adapteradministrator.palette</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.activePanel</string> 
+   <string>location</string> 
+  </void> 
+  <void method="put"> 
+   <string>XMLChooser.namespace.splitterLocation</string> 
+   <string>180</string> 
+  </void> 
+  <void method="put"> 
+   <string>BindingWizard.windowSize</string> 
+   <string>450,250</string> 
+  </void> 
+  <void method="put"> 
+   <string>last.loaded.palette.form.flow.resource.0</string> 
+   <string>ae.palette.GeneralPalette</string> 
+  </void> 
+ </object> 
+</java> 

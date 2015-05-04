@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+        <artifactId>plexus-website-monitor-plugin</artifactId>
+        <configuration>
+          <websites>
+            <website>http://plexus.codehaus.org/</website>
+          </websites>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

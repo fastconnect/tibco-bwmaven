@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fcu="java://fr.fastconnect.tibco.businessworks.fcunit.CustomFunctions" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/Schemas/FCUnitSchema.xsd" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
+    <pd:name>FCUnit/Core/Run/runTestCase.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:test-case"/>
+    <pd:startX>58</pd:startX>
+    <pd:startY>194</pd:startY>
+    <pd:returnBindings>
+        <pfx:test-case-result>
+            <xsl:if test="$Start/pfx:test-case/@name">
+                <xsl:attribute name="name">
+                    <xsl:value-of select="$Start/pfx:test-case/@name"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$Start/pfx:test-case/@path">
+                <xsl:attribute name="path">
+                    <xsl:value-of select="$Start/pfx:test-case/@path"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:attribute name="datetime">
+                <xsl:value-of select="current-dateTime()"/>
+            </xsl:attribute>
+            <xsl:copy-of select="$resultsXML/AccumulatedOutput/pfx:test-result"/>
+            <xsl:copy-of select="$resultsSimple/AccumulatedOutput/pfx:test-result"/>
+        </pfx:test-case-result>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:test-case-result"/>
+    <pd:endX>986</pd:endX>
+    <pd:endY>194</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301560934843</pd:targetNamespace>
+    <pd:group name="Appels des tests XML">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>140</pd:x>
+        <pd:y>32</pd:y>
+        <pd:width>368</pd:width>
+        <pd:height>306</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/pfx:test-case/pfx:test</pd:over>
+            <pd:iterationElementSlot>testXML</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>resultsXML</pd:outSlot>
+            <pd:activityOutputName>runSimpleTestXML</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Otherwise XML</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>runSimpleTestXML</pd:to>
+            <pd:xpathDescription>Appel d'un test XML en présence d'un fichier "input-data.xml"</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>fcu:isXMLTest($Start/pfx:test-case/@path)</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Otherwise XML</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>runSimpleTestXML</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="runSimpleTestXML">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>315</pd:x>
+            <pd:y>98</pd:y>
+            <config>
+                <processName>/FCUnit/Core/Run/runSimpleTestXML.process</processName>
+            </config>
+            <pd:inputBindings>
+                <pfx:test>
+                    <xsl:if test="$testXML/pfx:test/@name">
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="$testXML/pfx:test/@name"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:if test="$testXML/pfx:test/@path">
+                        <xsl:attribute name="path">
+                            <xsl:value-of select="$testXML/pfx:test/@path"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                </pfx:test>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Otherwise XML">
+            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+            <pd:resourceType>ae.activities.null</pd:resourceType>
+            <pd:x>304</pd:x>
+            <pd:y>258</pd:y>
+            <config/>
+            <pd:inputBindings/>
+        </pd:activity>
+    </pd:group>
+    <pd:group name="Appels des tests simples">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>552</pd:x>
+        <pd:y>34</pd:y>
+        <pd:width>374</pd:width>
+        <pd:height>304</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/pfx:test-case/pfx:test</pd:over>
+            <pd:iterationElementSlot>testSimple</pd:iterationElementSlot>
+            <pd:indexSlot>j</pd:indexSlot>
+            <pd:outSlot>resultsSimple</pd:outSlot>
+            <pd:activityOutputName>runSimpleTest</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Otherwise simple</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>runSimpleTest</pd:to>
+            <pd:xpathDescription>Appel d'un test simple</pd:xpathDescription>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>not(fcu:isXMLTest($Start/pfx:test-case/@path))</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>runSimpleTest</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Otherwise simple</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="runSimpleTest">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>718</pd:x>
+            <pd:y>98</pd:y>
+            <config>
+                <processName>/FCUnit/Core/Run/runSimpleTest.process</processName>
+            </config>
+            <pd:inputBindings>
+                <pfx:test>
+                    <xsl:if test="$testSimple/pfx:test/@name">
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="$testSimple/pfx:test/@name"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:if test="$testSimple/pfx:test/@path">
+                        <xsl:attribute name="path">
+                            <xsl:value-of select="$testSimple/pfx:test/@path"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                </pfx:test>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Otherwise simple">
+            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+            <pd:resourceType>ae.activities.null</pd:resourceType>
+            <pd:x>727</pd:x>
+            <pd:y>258</pd:y>
+            <config/>
+            <pd:inputBindings/>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Appels des tests XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Appels des tests XML</pd:from>
+        <pd:to>Appels des tests simples</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Appels des tests simples</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,34 @@
+The command to launch in the folder of the project
+(for instance 'C:/workspace/bw/MyTransformation'):
+
+	mvn archetype:generate -DarchetypeGroupId=fr.fastconnect.factory.tibco.bw.maven -DarchetypeArtifactId=archetype-bw-mavenizer -DbwProjectName=MyTransformationProject -DgroupId=com.company.project -DartifactId=my-transformation-project -Dversion=1.0.0 -DbwProjectLocation=./src -DrootProjectGroupId=com.company -DrootProjectArtifactId=project-root -DrootProjectVersion=1.0.0 -Dgoals=antrun:run -DinteractiveMode=false
+
+Description of the example
+ 
+ The identifier of the client is              : com.company
+ The name of the client project is            : project
+ The root POM of the client project is        : com.company.project:project-root:1.0.0
+ The POM of the project to mavenize will be   : com.company.project:my-transformation:1.0.0
+ The name of the project to mavenize is       : MyTransformation
+ The source folder in the existing project is : ./src
+
+List of properties used:
+
+	# readonly properties (do not edit)
+	archetypeGroupId=fr.fastconnect.factory.tibco.bw.maven
+	archetypeArtifactId=archetype-bw-mavenizer
+	goals=antrun:run
+	interactiveMode=false
+	
+	# root POM of the client project (adapt with your root POM created with 'archetype-client-root-project'
+	rootProjectGroupId=com.company.project
+	rootProjectArtifactId=project-root
+	rootProjectVersion=1.0.0
+	
+	# the project to mavenize
+	groupId=com.company.project
+	artifactId=my-transformation
+	version=1.0.0
+	bwProjectName=MyTransformation
+	bwProjectLocation=./src
+	

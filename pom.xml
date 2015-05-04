@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<artifactId>fc-tibco-factory</artifactId>
+		<groupId>fr.fastconnect.factory.tibco</groupId>
+		<version>2.2.2</version>
+	</parent>
+
+	<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+	<artifactId>bw-maven-parent</artifactId>
+	<version>2.3.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Maven Plugin for TIBCO BusinessWorks</name>
+
+	<description>
+		This is the root project for the ${project.name}.
+	</description>
+
+	<scm>
+		<developerConnection>scm:svn:https://fastconnect.org/svn/FastConnect/rd/products/FCTIBCOFactory2/BWMaven/trunk/project/</developerConnection>
+	</scm>
+
+	<inceptionYear>2011</inceptionYear>
+
+ 	<prerequisites>
+		<maven>3.1</maven>
+	</prerequisites>
+
+	<developers>
+		<developer>
+			<email>emilien@fastconnect.fr</email>
+			<name>Emilien Thomas</name>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<email>mathieu.debove@fastconnect.fr</email>
+			<name>Mathieu Debove</name>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<properties>
+		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
+		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
+		<maven.site.skip>true</maven.site.skip>
+		<maven.site.deploy.skip>true</maven.site.deploy.skip>
+	</properties>
+
+	<profiles>
+		<!-- to include sources attachement when deploying, use
+		       mvn -P source deploy -->
+		<profile>
+      		<id>source</id>
+      		<activation>
+      			<activeByDefault>false</activeByDefault>
+      			<property>
+      				<name>includeSource</name>
+      				<value>true</value>
+      			</property>
+      		</activation>
+      		<build>
+      			<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+      			</plugins>
+      		</build>
+    	</profile>
+
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>bw-maven-plugin</module>
+				<module>fcunit-core</module>
+				<module>fcunit-projlib</module>
+				<module>bw-maven-assemblies</module>
+				<module>bw-javaxpath-maven-plugin</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>archetypes</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>archetypes/archetype-bw-default-project</module>
+				<module>archetypes/archetype-bw-default-projlib</module>
+				<module>archetypes/archetype-bw-mavenizer</module>
+				<module>archetypes/archetype-client-root-project</module>
+			</modules>
+		</profile>
+	</profiles>
+
+</project>

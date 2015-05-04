@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${groupId}</groupId>
+ 	<artifactId>${artifactId}</artifactId>
+ 	<version>${version}</version>
+	<packaging>${projectPackaging}</packaging>
+
+	<parent>
+		<groupId>${rootProjectGroupId}</groupId>
+		<artifactId>${rootProjectArtifactId}</artifactId>
+		<version>${rootProjectVersion}</version>
+		<relativePath>${rootRelativePath}</relativePath>
+	</parent>
+	
+	<name>${bwProjectName} project</name>
+
+	<properties>
+		<bw.project.name>${bwProjectName}</bw.project.name>
+		
+		<bw.project.location>${bwProjectLocation}</bw.project.location>
+		<!-- here you can override the default TIBCO stack configuration and
+		     default project configuration found in 'fc-tibco-factory' -->
+	</properties>
+
+	<!-- If this POM inherits from a client root POM, this <build> section
+		 might be removed -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+				<artifactId>bw-maven-plugin</artifactId>
+				<version>${bw.maven.plugin.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<!-- remove after -->
+			
+			<!-- Because we are mavenizing an existing project, we need to move
+			the generated POM (this file) after creating the project to the
+			parent folder and destroy the folder created. -->
+			
+			<!-- This plugin will self destroy when executed! Yes it is brilliant... -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo file="${basedir}/_build.xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="postrun" default="postrun">
+<target name="postrun" depends="fixBWLocation,fixRelativePath,fixVersion,selfDestroy,moveToParent"/>
+<target name="init">
+	<condition property="_putPOMInParentDirectory">
+		<equals arg1="${putPOMInParentDirectory}" arg2="true"/>
+	</condition>
+	<condition property="_bwProjectLocationIsInherited">
+		<equals arg1="${bwProjectLocationIsInherited}" arg2="true"/>
+	</condition>
+	<condition property="_versionIsInherited">
+		<equals arg1="${versionIsInherited}" arg2="true"/>
+	</condition>
+</target>
+<target name="selfDestroy">
+	<replaceregexp file="${basedir}/pom.xml"
+	               match="&lt;\!-- remove after(.*)end remove -->"
+	               replace=""
+	               byline="false"
+	               flags="gs"
+	/>
+</target>
+<target name="moveToParent" if="_putPOMInParentDirectory" depends="init">
+	<echo message="${basedir}"/>
+	<copy file="${basedir}/pom.xml" tofile="${basedir}/../pom.xml"/>
+	<delete dir="${basedir}" failonerror="false" includeEmptyDirs="true" deleteonexit="true"/>
+</target>
+<target name="fixRelativePath" if="_putPOMInParentDirectory" depends="init">
+	<echo message="Fixing relative path in ${basedir}/pom.xml"/>
+	<replaceregexp file="${basedir}/pom.xml"
+	               match="&lt;relativePath>../(.*)&lt;/relativePath>"
+	               replace="&lt;relativePath>\1&lt;/relativePath>"
+	               byline="true"
+	               flags="gs"
+	/>
+</target>
+<target name="fixBWLocation" if="_bwProjectLocationIsInherited" depends="init">
+	<echo message="Fixing BW location property in ${basedir}/pom.xml"/>
+	<replaceregexp file="${basedir}/pom.xml"
+	               match="&lt;bw.project.location>(.*)&lt;/bw.project.location>"
+	               replace=""
+	               byline="true"
+	               flags="gs"
+	/>
+</target>
+<target name="fixVersion" if="_versionIsInherited" depends="init">
+	<echo message="Fixing project's version (because it is inherited) in ${basedir}/pom.xml"/>
+	<replaceregexp file="${basedir}/pom.xml"
+	               match="&lt;version>(.*)&lt;/version>(.*)&lt;packaging>(.*)&lt;/packaging>"
+	               replace="&lt;packaging>\3&lt;/packaging>"
+	               byline="false"
+	               flags="gs"
+	/>
+</target>
+</project>
+								]]></echo>
+                    			<ant antfile="${basedir}/_build.xml"/>	
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin><!-- end remove -->
+		</plugins>
+	</build>
+</project>

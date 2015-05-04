@@ -1,0 +1,6 @@
+#Design time libraries
+#Format: #=File Alias=Description
+#Tue Aug 20 17:41:31 CEST 2013
+2=projlib-example-1.0.0.projlib1\=Double projlib
+1=fr.fastconnect.factory.tibco.bw.maven\:bw-projlib-example\:1.0.0\:projlib\=BW projlib example 2
+0=fr.fastconnect.factory.tibco.bw.maven\:projlib-example\:1.0.0\:projlib\=Projlib example 1

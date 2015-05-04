@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.HashMap"> 
+  <void method="put"> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:artifact1:1.0.0:jar</string> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.AliaslibElement"> 
+    <void property="aliasName"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven:artifact1:1.0.0:jar</string> 
+    </void> 
+    <void property="includeDeployment"> 
+     <boolean>true</boolean> 
+    </void>
+    <void property="classpathFile"> 
+     <boolean>true</boolean> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:artifact3:1.1.0:jar</string> 
+   <object class="fr.fastconnect.factory.tibco.bw.maven.config.AliaslibElement"> 
+    <void property="aliasName"> 
+     <string>fr.fastconnect.factory.tibco.bw.maven:artifact3:1.1.0:jar</string> 
+    </void> 
+    <void property="includeDeployment"> 
+     <boolean>true</boolean> 
+    </void>
+    <void property="classpathFile"> 
+     <boolean>false</boolean> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+</java> 

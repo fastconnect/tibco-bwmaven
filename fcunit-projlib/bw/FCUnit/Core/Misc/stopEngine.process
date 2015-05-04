@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://fastconnect.fr/fcunit.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="com/tibco/pe/commands" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pfx="http://fastconnect.fr/fcunit-abstract">
+    <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
+    <pd:name>FCUnit/Core/Misc/stopEngine.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="pfx:null-msg"/>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Start/pfx:null-msg"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="pfx:null-msg"/>
+    <pd:endX>346</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1302684558968</pd:targetNamespace>
+    <pd:activity name="Stop Engine">
+        <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
+        <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
+        <pd:x>198</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <command>Shutdown</command>
+        </config>
+        <pd:inputBindings>
+            <ns:input>
+                <MaxDelayInSeconds>
+                    <xsl:value-of select="20"/>
+                </MaxDelayInSeconds>
+            </ns:input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Stop Engine</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Stop Engine</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application xmlns="http://www.tibco.com/xmlns/ApplicationManagement"
+	name="ArchivageBuild">
+	<description></description>
+	<contact></contact>
+	<repoInstances></repoInstances>
+	<services>
+		<bw>
+			<enable></enable>
+			<bindings>
+				<binding></binding>
+				<binding></binding>
+			</bindings>
+			<NVPairs></NVPairs>
+			<checkpoints>
+			</checkpoints>
+		</bw>
+		<bw>
+			<enable></enable>
+			<bindings>
+				<binding></binding>
+				<binding></binding>
+			</bindings>
+			<NVPairs></NVPairs>
+			<checkpoints>
+			</checkpoints>
+		</bw>
+	</services>
+</application>

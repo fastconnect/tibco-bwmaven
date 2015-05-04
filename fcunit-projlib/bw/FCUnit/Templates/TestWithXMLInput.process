@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns3="http://fastconnect.fr/fcunit-asserts.xsd" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+    <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
+    <pd:name>FCUnit/Templates/TestWithXMLInput.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="test">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx:test-xml"/>
+                    <xsd:element name="input-data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:any processContents="skip"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>42</pd:startX>
+    <pd:startY>120</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>930</pd:endX>
+    <pd:endY>120</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301653581484</pd:targetNamespace>
+    <pd:activity name="callProcessToTest">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>284</pd:x>
+        <pd:y>120</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Misc/callProcessToTest.process</processName>
+            <processNameXPath>$Start/test/path</processNameXPath>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/test/input-data/*"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertAtLeastEqualXML">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>697</pd:x>
+        <pd:y>179</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Asserts/AssertAtLeastEqualXML.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns3:equal-xml>
+                <ns3:expected-filename>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/@expected-xml-filename"/>
+                </ns3:expected-filename>
+                <ns3:actual>
+                    <xsl:copy-of select="$callProcessToTest/*"/>
+                </ns3:actual>
+                <ns3:ignored-xpaths-filename>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/@ignored-xpaths-filename"/>
+                </ns3:ignored-xpaths-filename>
+            </ns3:equal-xml>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertEqualXML">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>697</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Asserts/AssertEqualXML.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns3:equal-xml>
+                <ns3:expected-filename>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/@expected-xml-filename"/>
+                </ns3:expected-filename>
+                <ns3:actual>
+                    <xsl:copy-of select="$callProcessToTest/*"/>
+                </ns3:actual>
+                <ns3:ignored-xpaths-filename>
+                    <xsl:value-of select="$Start/test/pfx:test-xml/@ignored-xpaths-filename"/>
+                </ns3:ignored-xpaths-filename>
+            </ns3:equal-xml>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>callProcessToTest</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>callProcessToTest</pd:from>
+        <pd:to>AssertAtLeastEqualXML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/test/pfx:test-xml/@accept-more-fields-in-actual="true"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertAtLeastEqualXML</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>callProcessToTest</pd:from>
+        <pd:to>AssertEqualXML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertEqualXML</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:label>
+        <pd:name>Label (1)</pd:name>
+        <pd:description>CallProcessToTest permet de fournir les données XML brutes, sans validation</pd:description>
+        <pd:x>281</pd:x>
+        <pd:y>192</pd:y>
+        <pd:width>235</pd:width>
+        <pd:height>48</pd:height>
+        <pd:fontColor>-16777216</pd:fontColor>
+        <pd:color>-13108</pd:color>
+        <pd:type>solid</pd:type>
+        <pd:thickness>2</pd:thickness>
+        <pd:fade>true</pd:fade>
+    </pd:label>
+</pd:ProcessDefinition>

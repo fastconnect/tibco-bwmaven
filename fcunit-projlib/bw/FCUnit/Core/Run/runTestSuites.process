@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+    <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
+    <pd:name>FCUnit/Core/Run/runTestSuites.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:test-suites"/>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <pfx:test-suites-results>
+            <xsl:attribute name="datetime">
+                <xsl:value-of select="current-dateTime()"/>
+            </xsl:attribute>
+            <xsl:copy-of select="$results/AccumulatedOutput/pfx:test-suite-result"/>
+        </pfx:test-suites-results>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:test-suites-results"/>
+    <pd:endX>442</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301560994421</pd:targetNamespace>
+    <pd:group name="Iterate over TestSuites">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>141</pd:x>
+        <pd:y>40</pd:y>
+        <pd:width>193</pd:width>
+        <pd:height>163</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/pfx:test-suites/pfx:test-suite</pd:over>
+            <pd:iterationElementSlot>suite</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>results</pd:outSlot>
+            <pd:activityOutputName>runTestSuite</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>runTestSuite</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>runTestSuite</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="runTestSuite">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>233</pd:x>
+            <pd:y>130</pd:y>
+            <config>
+                <processName>/FCUnit/Core/Run/runTestSuite.process</processName>
+            </config>
+            <pd:inputBindings>
+                <pfx:test-suite>
+                    <xsl:copy-of select="$suite/pfx:test-suite/ancestor-or-self::*/namespace::node()"/>
+                    <xsl:copy-of select="$suite/pfx:test-suite/@*"/>
+                    <xsl:copy-of select="$suite/pfx:test-suite/node()"/>
+                </pfx:test-suite>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Iterate over TestSuites</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Iterate over TestSuites</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

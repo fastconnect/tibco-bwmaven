@@ -1,0 +1,79 @@
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<files>
+		<file>
+			<outputDirectory>/</outputDirectory>
+			<source>${project.package.directory}/${deploy.pom}</source>
+			<destName>${deploy.pom}</destName>
+		</file>
+	</files>
+
+	<moduleSets>
+		<!-- moduleSet for EARs -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>*:bw-ear</include>
+			</includes>
+ 			<binaries>
+ 				<outputDirectory>${package.bw.applications.root}/${module.properties.assembly.relative.path}/${module.artifactId}/</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+		<!-- moduleSet for deploy POMs ('bw-ear-deploy' packaging) -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>*:bw-ear</include>
+			</includes>
+ 			<binaries>
+ 				<outputDirectory>${package.bw.applications.root}/${module.properties.assembly.relative.path}/${module.artifactId}/</outputDirectory>
+ 				<outputFileNameMapping>${module.properties.deploy.pom}</outputFileNameMapping>
+				<unpack>false</unpack>
+				<attachmentClassifier>deploy</attachmentClassifier>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+		<!-- moduleSet for final configuration XML file -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>*:bw-ear</include>
+			</includes>
+ 			<binaries>
+ 				<outputDirectory>${package.bw.applications.root}/${module.properties.assembly.relative.path}/${module.artifactId}/</outputDirectory>
+				<unpack>false</unpack>
+				<attachmentClassifier>final</attachmentClassifier>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+
+</assembly>

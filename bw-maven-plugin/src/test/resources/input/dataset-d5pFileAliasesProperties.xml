@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_41" class="java.beans.XMLDecoder"> 
+ <object class="java.util.Properties"> 
+  <void method="put"> 
+   <string>BWUnit.projlib</string> 
+   <string>C:\Users\Matthieu\Project\CACP\EST\projet\branches\1.3.x\DesignTimeLibrary\BWUnit.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>bw-heartbeat-1.0.0.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-heartbeat\1.0.0\bw-heartbeat-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:projlib-example:1.0.0:projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\projlib-example\1.0.0\projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>junit4.jar</string> 
+   <string>C:\Users\Matthieu\.m2\repository\junit\junit\4.8.2\junit-4.8.2.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>bw-heartbeat-example-1.0.0.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-heartbeat-example\1.0.0\bw-heartbeat-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect:fast-utils-common:0.0.1-SNAPSHOT:jar</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\fast-utils-common\0.0.1-SNAPSHOT\fast-utils-common-0.0.1-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>traceAndErrorCollect_v2.1.1.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\traceAndErrorCollect\2.1.1\traceAndErrorCollect-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:bw-projlib-example:1.0.0:projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-projlib-example\1.0.0\bw-projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>authorizationAndAudit_v2.1.1</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\authorizationAndAudit\2.1.1\authorizationAndAudit-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>settings.xml</string> 
+   <string>C:\Users\Matthieu\Project\tibco-factory\doc\settings.xml</string> 
+  </void> 
+  <void method="put"> 
+   <string>archivageUtils_v2.1.1</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\archivageUtils\2.1.1\archivageUtils-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>projlib-example-1.0.0.projlib1</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\projlib-example\1.0.0\projlib-example-1.0.0.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>traceAndErrorPivot_v2.1.1.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\traceAndErrorPivot\2.1.1\traceAndErrorPivot-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>FCUnit.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\fcunit\fcunit-projlib\1.4.0-SNAPSHOT\fcunit-projlib-1.4.0-SNAPSHOT.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>socleUtil_v2.1.1.projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\socleUtil\2.1.1\socleUtil-2.1.1.projlib</string> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect:fast-utils-event:0.0.1-SNAPSHOT:jar</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\fast-utils-event\0.0.1-SNAPSHOT\fast-utils-event-0.0.1-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>xmlunit-1.3.jar</string> 
+   <string>C:\Users\Matthieu\.m2\repository\xmlunit\xmlunit\1.3\xmlunit-1.3.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>image</string> 
+   <string>C:\Users\Matthieu\Project\tibco-factory\bw-ear-example\src\Resources\fed23f8d-8861-4dc9-91ae-edc2de6bca05_5.jpg</string> 
+  </void> 
+  <void method="put"> 
+   <string>FCUnit.jar</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\fcunit\fcunit-core\1.4.0-SNAPSHOT\fcunit-core-1.4.0-SNAPSHOT.jar</string> 
+  </void> 
+  <void method="put"> 
+   <string>fr.fastconnect.factory.tibco.bw.maven:bw-projlib-example:1.0.1:projlib</string> 
+   <string>C:\Users\Matthieu\.m2\repository\fr\fastconnect\tibco\businessworks\maven\bw-projlib-example\1.0.0\bw-projlib-example-1.0.0.projlib</string> 
+  </void> 
+ </object> 
+</java> 

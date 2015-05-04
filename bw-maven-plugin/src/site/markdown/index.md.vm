@@ -1,0 +1,36 @@
+#set($h1 = '#')
+#set($h2 = '##')
+#set($h3 = '###')
+#set($h4 = '####')
+
+$h4 Advanced Configuration Management
+
+[![Advanced Configuration Management](images/banner-configuration.png)](./phases/packaging.html)
+	
+An advanced configuration management is introduced during all the application 
+lifecycle, from development to deployment through packaging.
+
+$h4 TIBCO Designer aliases
+
+[![TIBCO Designer aliases](images/banner-aliases.png)](./phases/development.html)
+	
+BWMaven will automatically adds the aliases in TIBCO Designer based on
+dependencies declared in the POM file of the project.
+
+---
+
+$h2 Quick starter guide
+
+To start using this plugin, read following pages:
+
+  * [Installation](../../installation.html)
+  * [Configuration](../../configuration.html)
+  * [Mavenization](./mavenization.html)
+
+$h2 Plugin information
+
+  * [Usage page](./usage.html)
+  * [FAQ](./faq.html)
+  * [Mailing list](./mail-lists.html)
+  * [Issue tracker](./issue-tracking.html)
+  * [Source repository](./source-repository.html)

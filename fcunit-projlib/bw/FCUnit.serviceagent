@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ |     Copyright (C) 2011 FastConnect SAS http://www.fastconnect.fr/
+ |
+ |     This file is part of FCUnit
+ |
+ |     FCUnit is free software: you can redistribute it and/or modify
+ |     it under the terms of the GNU General Public License as published by
+ |     the Free Software Foundation, either version 3 of the License, or
+ |     (at your option) any later version.
+ |
+ |     FCUnit is distributed in the hope that it will be useful,
+ |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |     GNU General Public License for more details.
+ |
+ |     You should have received a copy of the GNU General Public License
+ |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<serviceResource xmlns:wsdl="http://fastconnect.fr/fcunit-abstract">
+    <ns0:import xmlns:ns0="http://schemas.xmlsoap.org/wsdl/" namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
+    <config>
+        <class>com.tibco.bw.service.serviceAgent.ServiceServiceAgent</class>
+        <name>FCUnit</name>
+        <resourceType>service.definition</resourceType>
+        <implType>bw</implType>
+        <groups>
+            <row isDefault="true" groupName="Default"/>
+        </groups>
+        <serviceChange>Fri May 20 16:03:01 CEST 2011</serviceChange>
+        <wsdl namespace="http://fastconnect.fr/fcunit-concrete" embedWsdlComponents="true" embedSchemaComponents="true" embedJndiProperties="false"/>
+        <interfaceImpl>
+            <tab>
+                <tabName>FCUnit</tabName>
+                <tabType>bw</tabType>
+                <config>
+                    <wsdlDetail location="/FCUnit/WSDLs/FCUnit-abstract.wsdl" portType="FCUnit" ns="http://fastconnect.fr/fcunit-abstract"/>
+                    <detail>
+                        <tab>
+                            <tabName>service.definition.impl.tab.label</tabName>
+                            <tabType>impl</tabType>
+                            <config>
+                                <operations>
+                                    <row opName="getTestSuites" opImpl="/FCUnit/Core/Misc/getTestSuites.process"/>
+                                    <row opName="runAllTests" opImpl="/FCUnit/Core/Run/runAllTests.process"/>
+                                    <row opName="stopEngine" opImpl="/FCUnit/Core/Misc/stopEngine.process"/>
+                                    <row opName="isStarted" opImpl="/FCUnit/Core/Misc/isStarted.process"/>
+                                </operations>
+                            </config>
+                        </tab>
+                        <tab>
+                            <tabName>service.definition.ep.tab.label</tabName>
+                            <tabType>ep</tabType>
+                            <config>
+                                <epBindings>
+                                    <row epName="FCUnit" epType="soap">
+                                        <config>
+                                            <epDetail>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.transport.tab.label</tabName>
+                                                    <tabType>transport</tabType>
+                                                    <config>
+                                                        <sharedChannel>/FCUnit/Resources/HTTP Connection.sharedhttp</sharedChannel>
+                                                        <transport>
+                                                            <config>
+                                                                <useBasicAuthentication>false</useBasicAuthentication>
+                                                                <httpURI>/FCUnit</httpURI>
+                                                            </config>
+                                                        </transport>
+                                                    </config>
+                                                </tab>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.details.tab.label</tabName>
+                                                    <tabType>details</tabType>
+                                                    <config>
+                                                        <operationStyle>document</operationStyle>
+                                                        <soapVersion>SOAP 1.1</soapVersion>
+                                                        <soap>
+                                                            <operation name="getTestSuites">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/FCUnit/getTestSuites</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="runAllTests">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/FCUnit/runAllTests</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="stopEngine">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/FCUnit/stopEngine</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="isStarted">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/FCUnit/isStarted</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                        </soap>
+                                                    </config>
+                                                </tab>
+                                            </epDetail>
+                                        </config>
+                                    </row>
+                                </epBindings>
+                            </config>
+                        </tab>
+                    </detail>
+                </config>
+            </tab>
+        </interfaceImpl>
+    </config>
+</serviceResource>

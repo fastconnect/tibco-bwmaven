@@ -1,0 +1,5 @@
+#Design time libraries
+#Format: #=File Alias=Description
+#Wed Aug 14 15:28:33 CEST 2013
+1=fr.fastconnect.factory.tibco.bw.maven\:artifact1\:1.0.0\:projlib\=
+0=fr.fastconnect.factory.tibco.bw.maven\:artifact3\:1.1.0:\projlib\=

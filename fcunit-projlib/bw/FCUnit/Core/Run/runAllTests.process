@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://fastconnect.fr/fcunit.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://fastconnect.fr/fcunit-abstract" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://fastconnect.fr/fcunit.xsd"/>
+    <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
+    <pd:name>FCUnit/Core/Run/runAllTests.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="ns:settings-msg"/>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <ns:test-suites-results-msg>
+            <test-suites-results>
+                <ns1:test-suites-results>
+                    <xsl:attribute name="datetime">
+                        <xsl:value-of select="current-dateTime()"/>
+                    </xsl:attribute>
+                    <xsl:copy-of select="$runTestSuites/ns1:test-suites-results/ns1:test-suite-result"/>
+                    <ns1:TestedProcessesNumber>
+                        <xsl:value-of select="$getTestCoverage/testCoverage/testedProcessesNumber"/>
+                    </ns1:TestedProcessesNumber>
+                    <ns1:TestProcessesNumber>
+                        <xsl:value-of select="$getTestCoverage/testCoverage/testProcessesNumber"/>
+                    </ns1:TestProcessesNumber>
+                    <ns1:TestableProcessesNumber>
+                        <xsl:value-of select="$getTestCoverage/testCoverage/testableProcessesNumber"/>
+                    </ns1:TestableProcessesNumber>
+                    <ns1:TestCoveragePercentage>
+                        <xsl:value-of select="$getTestCoverage/testCoverage/percentage"/>
+                    </ns1:TestCoveragePercentage>
+                </ns1:test-suites-results>
+            </test-suites-results>
+        </ns:test-suites-results-msg>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="ns:test-suites-results-msg"/>
+    <pd:endX>794</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1301578436171</pd:targetNamespace>
+    <pd:activity name="getTestSuites">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>204</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Misc/getTestSuites.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:settings-msg>
+                <settings>
+                    <xsl:copy-of select="$Start/ns:settings-msg/settings/ns1:settings"/>
+                </settings>
+            </ns:settings-msg>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="runTestSuites">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>365</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Run/runTestSuites.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$getTestSuites/ns:test-suites-msg/test-suites/ns1:test-suites"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="writeTestResultsToFile">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>566</pd:x>
+        <pd:y>34</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Misc/writeTestResultsToFile.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:copy-of select="$runTestSuites/ns1:test-suites-results"/>
+                <directory>
+                    <xsl:value-of select="$Start/ns:settings-msg/settings/ns1:settings/ns1:export-directory"/>
+                </directory>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="getTestCoverage">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>565</pd:x>
+        <pd:y>194</pd:y>
+        <config>
+            <processName>/FCUnit/Core/Misc/getTestCoverage.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>getTestSuites</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>getTestSuites</pd:from>
+        <pd:to>runTestSuites</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>runTestSuites</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>runTestSuites</pd:from>
+        <pd:to>writeTestResultsToFile</pd:to>
+        <pd:xpathDescription>Ecriture des résultats dans des fichiers (si export-to-files = true)</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/ns:settings-msg/settings/ns1:settings/ns1:export-to-files="true"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>writeTestResultsToFile</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>runTestSuites</pd:from>
+        <pd:to>getTestCoverage</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>getTestCoverage</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

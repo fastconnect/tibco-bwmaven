@@ -1,0 +1,15 @@
+
+Development
+
+===
+
+	In any project it is very important to synchronise all developers with the
+	latest version of code. It implies to have up-to-date dependencies
+	(Projlibs, JARs...) and a unified configuration of the development tool
+	(i.e. TIBCO Designer).
+	
+	With BWMaven plugin, this setup of development part is managed with the same
+	logic of packaging phase.
+	
+	It means that the same preliminary steps will be executed before launching
+	TIBCO Designer to open a project.

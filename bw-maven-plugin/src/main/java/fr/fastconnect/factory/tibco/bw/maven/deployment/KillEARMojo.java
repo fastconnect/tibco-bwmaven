@@ -1,0 +1,76 @@
+/**
+ * (C) Copyright 2011-2015 FastConnect SAS
+ * (http://www.fastconnect.fr/) and others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fr.fastconnect.factory.tibco.bw.maven.deployment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+
+/**
+ * 
+ * <p>
+ * This goal kills a TIBCO BusinessWorks application deployed on a TIBCO domain.
+ * </p>
+ * 
+ * @author Mathieu Debove
+ *
+ */
+@Mojo( name="kill-bw",
+defaultPhase=LifecyclePhase.DEPLOY ) // FIXME: should be deployEAR
+public class KillEARMojo extends AbstractBWDeployMojo {
+	
+	protected final static String KILL_EAR_FAILED = "Some instances failed to be killed.";
+	protected final static String KILLING_EAR = "Killing instances of the application...";
+
+	private void killEAR() throws MojoExecutionException, IOException {
+		checkAppManage();
+
+		getLog().info(KILLING_EAR);
+
+		ArrayList<String> arguments = new ArrayList<String>();
+		arguments.add("-kill");
+		arguments.add("-app");
+		arguments.add(deployedProjectName);
+		arguments.add("-domain");
+		arguments.add(domainName);
+		arguments.add("-user");
+		arguments.add(domainUsername);
+		arguments.add("-pw");
+		arguments.add(domainPassword);
+
+		ArrayList<File> tras = new ArrayList<File>();
+		tras.add(tibcoAppManageTRAPath);
+
+		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, KILL_EAR_FAILED);
+	}
+
+	public void execute() throws MojoExecutionException {
+		if (super.skip()) {
+			return;
+		}
+		try {
+			killEAR();
+		} catch (IOException e) {
+			throw new MojoExecutionException(KILL_EAR_FAILED, e);
+		}
+	}
+
+}

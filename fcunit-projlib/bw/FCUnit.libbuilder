@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="FCUnit">
+        <version>204</version>
+        <author>Mathieu Debove</author>
+        <fileLocation>C:\FCUnit\FCUnit.projlib</fileLocation>
+        <resources>/FCUnit.serviceagent,/FCUnit/Activities/AssertAtLeastEqualXML.customProcess,/FCUnit/Activities/AssertEqual.customProcess,/FCUnit/Activities/AssertEqualDouble.customProcess,/FCUnit/Activities/AssertEqualXML.customProcess,/FCUnit/Activities/AssertFalse.customProcess,/FCUnit/Activities/AssertTrue.customProcess,/FCUnit/Activities/Fail.customProcess,/FCUnit/Core/Asserts/AssertAtLeastEqualXML.process,/FCUnit/Core/Misc/callProcessToTest.process,/FCUnit/Core/Misc/getTestSuites.process,/FCUnit/Core/Misc/stopEngine.process,/FCUnit/Core/Run/runAllTests.process,/FCUnit/Core/Run/runSimpleTest.process,/FCUnit/Core/Run/runSimpleTestXML.process,/FCUnit/Core/Run/runTestCase.process,/FCUnit/Core/Run/runTestSuite.process,/FCUnit/Core/Run/runTestSuites.process,/FCUnit/Resources/FCUnit Aliases.aliaslib,/FCUnit/Resources/FCUnit Java.javaxpath,/FCUnit/Resources/HTTP Connection.sharedhttp,/FCUnit/Resources/tests-structure.xslt,/FCUnit/Schemas/FCUnitAssertsSchema.xsd,/FCUnit/Schemas/FCUnitErrorsSchema.xsd,/FCUnit/Schemas/FCUnitSchema.xsd,/FCUnit/Templates/Test.process,/FCUnit/Templates/TestWithXMLInput.process,/FCUnit/WSDLs/FCUnit-abstract.wsdl,/FCUnit/WSDLs/FCUnit-concrete.wsdl,/FCUnit/runAllTestsAndShowResults.process</resources>
+    </name>
+</Repository:repository>

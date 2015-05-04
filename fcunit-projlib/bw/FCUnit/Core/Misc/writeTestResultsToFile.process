@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://fastconnect.fr/fcunit-abstract" xmlns:pfx="http://fastconnect.fr/fcunit.xsd">
+    <xsd:import namespace="http://fastconnect.fr/fcunit.xsd" schemaLocation="/FCUnit/Schemas/FCUnitSchema.xsd"/>
+    <wsdl:import namespace="http://fastconnect.fr/fcunit-abstract" location="/FCUnit/WSDLs/FCUnit-abstract.wsdl"/>
+    <pd:name>FCUnit/Core/Misc/writeTestResultsToFile.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx:test-suites-results"/>
+                    <xsd:element name="directory" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1178</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1303288361203</pd:targetNamespace>
+    <pd:activity name="Transform XML">
+        <pd:type>com.tibco.plugin.xml.XMLTransformActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLTransformActivity</pd:resourceType>
+        <pd:x>625</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <engine>Saxon</engine>
+            <stylesheet>/FCUnit/Resources/tests-export.xslt</stylesheet>
+        </config>
+        <pd:inputBindings>
+            <textInput>
+                <xmlString>
+                    <xsl:value-of select="$Results-To-XML/xmlString"/>
+                </xmlString>
+                <parameter>
+                    <name>
+                        <xsl:value-of select="&quot;ExportDirectory&quot;"/>
+                    </name>
+                    <value>
+                        <xsl:value-of select="$Set-Export-Directory/export-directory"/>
+                    </value>
+                    <isXMLDocument>
+                        <xsl:value-of select="&quot;false&quot;"/>
+                    </isXMLDocument>
+                </parameter>
+            </textInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Results To XML">
+        <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
+        <pd:x>497</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <renderAsText>text</renderAsText>
+            <validateInput>false</validateInput>
+            <textEncoding>UTF-8</textEncoding>
+            <term ref="pfx:test-suites-results"/>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/root/pfx:test-suites-results"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Set Export Directory">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>354</pd:x>
+        <pd:y>138</pd:y>
+        <config>
+            <element>
+                <xsd:element name="export-directory" type="xsd:string"/>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="$Start/root/directory=&quot;?&quot;">
+                    <export-directory>
+                        <xsl:value-of select="concat($Get-Project-Base-Dir/ns1:JavaMethodActivityOutput/MethodReturnValue,&quot;Tests&quot;)"/>
+                    </export-directory>
+                </xsl:when>
+                <xsl:otherwise>
+                    <export-directory>
+                        <xsl:value-of select="$Start/root/directory"/>
+                    </export-directory>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Get Project Base Dir">
+        <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
+        <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
+        <pd:x>212</pd:x>
+        <pd:y>138</pd:y>
+        <config>
+            <ConstructDeclaredClass>true</ConstructDeclaredClass>
+            <CacheConstructedClass>true</CacheConstructedClass>
+            <InvokeCleanupMethod>false</InvokeCleanupMethod>
+            <MethodInfo>
+                <classLocation>c:/documents and settings/debovema/mes documents/stage/fcunit/src/java/target/fcunit-0.0.1-snapshot.jar</classLocation>
+                <classPath>/FCUnit/Resources/FCUnit Aliases.aliaslib</classPath>
+                <className>fr.fastconnect.tibco.businessworks.fcunit.ProjectBaseDir</className>
+                <methodName>getProjectBaseDir</methodName>
+                <methodReturn>java.lang.String</methodReturn>
+            </MethodInfo>
+        </config>
+        <pd:inputBindings>
+            <ns:JavaMethodActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="FCUnit to JUnit">
+        <pd:type>com.tibco.plugin.xml.XMLTransformActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLTransformActivity</pd:resourceType>
+        <pd:x>782</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <engine>Saxon</engine>
+            <stylesheet>/FCUnit/Resources/fcunit-to-junit.xslt</stylesheet>
+        </config>
+        <pd:inputBindings>
+            <textInput>
+                <xmlString>
+                    <xsl:value-of select="$Transform-XML/xmlString"/>
+                </xmlString>
+            </textInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write Result to File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>911</pd:x>
+        <pd:y>138</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns2:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="concat($Set-Export-Directory/export-directory, '/results.xml')"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$FCUnit-to-JUnit/xmlString"/>
+                </textContent>
+            </ns2:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write XSL">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>1025</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns2:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="concat($Set-Export-Directory/export-directory, '/results.xsl')"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="concat(&#xA;&quot;&lt;xsl:stylesheet&#x9;xmlns:xsl=&quot;,'&quot;',&quot;http://www.w3.org/1999/XSL/Transform&quot;,'&quot;',&quot; version=&quot;,'&quot;',&quot;1.0&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&lt;xsl:output method=&quot;,'&quot;',&quot;html&quot;,'&quot;',&quot; indent=&quot;,'&quot;',&quot;yes&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;xsl:decimal-format decimal-separator=&quot;,'&quot;',&quot;.&quot;,'&quot;',&quot; grouping-separator=&quot;,'&quot;',&quot;,&quot;,'&quot;',&quot; />&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;testsuites&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;HTML>&quot;, &#xA;&quot;&#x9;&#x9;&lt;HEAD>&quot;, &#xA;&quot;    &lt;style type=&quot;,'&quot;',&quot;text/css&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;      body {&quot;, &#xA;&quot;      &#x9;font:normal 85% verdana,arial,helvetica;&quot;, &#xA;&quot;      &#x9;color:#000000;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      table tr td, table tr th {&quot;, &#xA;&quot;          font-size: 85%;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      table.details tr th{&quot;, &#xA;&quot;      &#x9;font-weight: bold;&quot;, &#xA;&quot;      &#x9;text-align:left;&quot;, &#xA;&quot;      &#x9;background:#a6caf0;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      table.details tr td{&quot;, &#xA;&quot;      &#x9;background:#eeeee0;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      &quot;, &#xA;&quot;      p {&quot;, &#xA;&quot;      &#x9;line-height:1.5em;&quot;, &#xA;&quot;      &#x9;margin-top:0.5em; margin-bottom:1.0em;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h1 {&quot;, &#xA;&quot;      &#x9;margin: 0px 0px 5px; font: 165% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h2 {&quot;, &#xA;&quot;      &#x9;margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h3 {&quot;, &#xA;&quot;      &#x9;margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h4 {&quot;, &#xA;&quot;      &#x9;margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h5 {&quot;, &#xA;&quot;      &#x9;margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      h6 {&quot;, &#xA;&quot;      &#x9;margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      .Error {&quot;, &#xA;&quot;      &#x9;font-weight:bold; color:red;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      .Failure {&quot;, &#xA;&quot;      &#x9;font-weight:bold; color:purple;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      .Properties {&quot;, &#xA;&quot;      &#x9;text-align:right;&quot;, &#xA;&quot;      }&quot;, &#xA;&quot;      &lt;/style>&quot;, &#xA;&quot;      &lt;script language=&quot;,'&quot;',&quot;JavaScript&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;        var TestCases = new Array();&quot;, &#xA;&quot;        var cur;&quot;, &#xA;&quot;        &lt;xsl:for-each select=&quot;,'&quot;',&quot;./testsuite&quot;,'&quot;',&quot;>      &quot;, &#xA;&quot;            &lt;xsl:apply-templates select=&quot;,'&quot;',&quot;properties&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;        &lt;/xsl:for-each>&quot;, &#xA;&quot;&quot;, &#xA;&quot;       &lt;/script>&quot;, &#xA;&quot;       &lt;script language=&quot;,'&quot;',&quot;JavaScript&quot;,'&quot;',&quot;>&lt;![CDATA[&quot;, &#xA;&quot;        function displayProperties (name) {&quot;, &#xA;&quot;          var win = window.open('','JUnitSystemProperties','scrollbars=1,resizable=1');&quot;, &#xA;&quot;          var doc = win.document.open();&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;html>&lt;head>&lt;title>Properties of &quot;,'&quot;',&quot; + name + &quot;,'&quot;',&quot;&lt;/title>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;style>&quot;,'&quot;',&quot;)&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;body {font:normal 85% verdana,arial,helvetica;&#x9;color:#000000; }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;table tr td, table tr th { font-size: 85%; }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;table.properties { border-collapse:collapse; border-left:solid 1 #cccccc; border-top:solid 1 #cccccc; padding:5px; }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;table.properties th { text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#eeeeee; }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;table.properties td { font:normal; text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#fffffff; }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;h3 { margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica }&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;/style>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;/head>&lt;body>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;h3>Properties of &quot;,'&quot;',&quot; + name + &quot;,'&quot;',&quot;&lt;/h3>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;div align=\&quot;,'&quot;',&quot;right\&quot;,'&quot;',&quot;>&lt;a href=\&quot;,'&quot;',&quot;javascript:window.close();\&quot;,'&quot;',&quot;>Close&lt;/a>&lt;/div>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;table class='properties'>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;tr>&lt;th>Name&lt;/th>&lt;th>Value&lt;/th>&lt;/tr>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          for (prop in TestCases[name]) {&quot;, &#xA;&quot;            doc.write(&quot;,'&quot;',&quot;&lt;tr>&lt;th>&quot;,'&quot;',&quot; + prop + &quot;,'&quot;',&quot;&lt;/th>&lt;td>&quot;,'&quot;',&quot; + TestCases[name][prop] + &quot;,'&quot;',&quot;&lt;/td>&lt;/tr>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          }&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;/table>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.write(&quot;,'&quot;',&quot;&lt;/body>&lt;/html>&quot;,'&quot;',&quot;);&quot;, &#xA;&quot;          doc.close();&quot;, &#xA;&quot;          win.focus();&quot;, &#xA;&quot;        }&quot;, &#xA;&quot;      ]]>  &quot;, &#xA;&quot;      &lt;/script>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/HEAD>&quot;, &#xA;&quot;&#x9;&#x9;&lt;body>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;a name=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&lt;/a>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;pageHeader&quot;,'&quot;',&quot;/>&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- Summary part -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;summary&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;hr size=&quot;,'&quot;',&quot;1&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot; align=&quot;,'&quot;',&quot;left&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- Package List part -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;packagelist&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;hr size=&quot;,'&quot;',&quot;1&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot; align=&quot;,'&quot;',&quot;left&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- For each package create its part -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;packages&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;hr size=&quot;,'&quot;',&quot;1&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot; align=&quot;,'&quot;',&quot;left&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- For each class create the  part -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;classes&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&lt;/body>&quot;, &#xA;&quot;&#x9;&lt;/HTML>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&lt;!-- ================================================================== -->&quot;, &#xA;&quot;&#x9;&lt;!-- Write a list of all packages with an hyperlink to the anchor of    -->&quot;, &#xA;&quot;&#x9;&lt;!-- of the package name.                                               -->&quot;, &#xA;&quot;&#x9;&lt;!-- ================================================================== -->&quot;, &#xA;&quot;&#x9;&lt;xsl:template name=&quot;,'&quot;',&quot;packagelist&quot;,'&quot;',&quot;>&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&lt;h2>Packages&lt;/h2>&quot;, &#xA;&quot;&#x9;&#x9;Note: package statistics are not computed recursively, they only sum up all of its testsuites numbers.&quot;, &#xA;&quot;&#x9;&#x9;&lt;table class=&quot;,'&quot;',&quot;details&quot;,'&quot;',&quot; border=&quot;,'&quot;',&quot;0&quot;,'&quot;',&quot; cellpadding=&quot;,'&quot;',&quot;5&quot;,'&quot;',&quot; cellspacing=&quot;,'&quot;',&quot;2&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;testsuite.test.header&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- list all packages recursively -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:for-each select=&quot;,'&quot;',&quot;./testsuite[not(./@package = preceding-sibling::testsuite/@package)]&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:sort select=&quot;,'&quot;',&quot;@package&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;testsuites-in-package&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;/testsuites/testsuite[./@package = current()/@package]&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;testCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum($testsuites-in-package/@tests)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;errorCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum($testsuites-in-package/@errors)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;failureCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum($testsuites-in-package/@failures)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;timeCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum($testsuites-in-package/@time)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;!-- write a summary for the package -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;!-- set a nice color depending if there is an error/failure -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:attribute name=&quot;,'&quot;',&quot;class&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;$failureCount > 0&quot;,'&quot;',&quot;>Failure&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;$errorCount > 0&quot;,'&quot;',&quot;>Error&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:attribute>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;a href=&quot;,'&quot;',&quot;#{@package}&quot;,'&quot;',&quot;>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@package&quot;,'&quot;',&quot;/>&lt;/a>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$testCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$errorCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$failureCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-time&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;$timeCount&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:for-each>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/table>&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&lt;!-- ================================================================== -->&quot;, &#xA;&quot;&#x9;&lt;!-- Write a package level report                                       -->&quot;, &#xA;&quot;&#x9;&lt;!-- It creates a table with values from the document:                  -->&quot;, &#xA;&quot;&#x9;&lt;!-- Name | Tests | Errors | Failures | Time                            -->&quot;, &#xA;&quot;&#x9;&lt;!-- ================================================================== -->&quot;, &#xA;&quot;&#x9;&lt;xsl:template name=&quot;,'&quot;',&quot;packages&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;!-- create an anchor to this package name -->&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:for-each select=&quot;,'&quot;',&quot;/testsuites/testsuite[not(./@package = preceding-sibling::testsuite/@package)]&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:sort select=&quot;,'&quot;',&quot;@package&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;a name=&quot;,'&quot;',&quot;{@package}&quot;,'&quot;',&quot;>&lt;/a>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;h3>Package &lt;xsl:value-of select=&quot;,'&quot;',&quot;@package&quot;,'&quot;',&quot;/>&lt;/h3>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;table class=&quot;,'&quot;',&quot;details&quot;,'&quot;',&quot; border=&quot;,'&quot;',&quot;0&quot;,'&quot;',&quot; cellpadding=&quot;,'&quot;',&quot;5&quot;,'&quot;',&quot; cellspacing=&quot;,'&quot;',&quot;2&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;testsuite.test.header&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;!-- match the testsuites of this package -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:apply-templates select=&quot;,'&quot;',&quot;/testsuites/testsuite[./@package = current()/@package]&quot;,'&quot;',&quot; mode=&quot;,'&quot;',&quot;print.test&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/table>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;a href=&quot;,'&quot;',&quot;#top&quot;,'&quot;',&quot;>Back to top&lt;/a>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;p/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;p/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:for-each>&quot;, &#xA;&quot;&#x9;&lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&lt;xsl:template name=&quot;,'&quot;',&quot;classes&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:for-each select=&quot;,'&quot;',&quot;testsuite&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:sort select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;!-- create an anchor to this class name -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;a name=&quot;,'&quot;',&quot;{@name}&quot;,'&quot;',&quot;>&lt;/a>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;h3>TestCase &lt;xsl:value-of select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>&lt;/h3>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;table class=&quot;,'&quot;',&quot;details&quot;,'&quot;',&quot; border=&quot;,'&quot;',&quot;0&quot;,'&quot;',&quot; cellpadding=&quot;,'&quot;',&quot;5&quot;,'&quot;',&quot; cellspacing=&quot;,'&quot;',&quot;2&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;  &lt;xsl:call-template name=&quot;,'&quot;',&quot;testcase.test.header&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;  &lt;!--&quot;, &#xA;&quot;&#x9;&#x9;&#x9;  test can even not be started at all (failure to load the class)&quot;, &#xA;&quot;&#x9;&#x9;&#x9;  so report the error directly&quot;, &#xA;&quot;&#x9;&#x9;&#x9;  -->&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:if test=&quot;,'&quot;',&quot;./error&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;tr class=&quot;,'&quot;',&quot;Error&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td colspan=&quot;,'&quot;',&quot;4&quot;,'&quot;',&quot;>&lt;xsl:apply-templates select=&quot;,'&quot;',&quot;./error&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:if>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:apply-templates select=&quot;,'&quot;',&quot;./testcase&quot;,'&quot;',&quot; mode=&quot;,'&quot;',&quot;print.test&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/table>&quot;, &#xA;&quot;            &lt;div class=&quot;,'&quot;',&quot;Properties&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;                &lt;a>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;        &lt;xsl:attribute name=&quot;,'&quot;',&quot;href&quot;,'&quot;',&quot;>javascript:displayProperties('&lt;xsl:value-of select=&quot;,'&quot;',&quot;@package&quot;,'&quot;',&quot;/>.&lt;xsl:value-of select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>');&lt;/xsl:attribute>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;        Properties >>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;    &lt;/a>&quot;, &#xA;&quot;            &lt;/div>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;p/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;a href=&quot;,'&quot;',&quot;#top&quot;,'&quot;',&quot;>Back to top&lt;/a>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:for-each>&quot;, &#xA;&quot;&#x9;&lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&lt;xsl:template name=&quot;,'&quot;',&quot;summary&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;h2>Summary&lt;/h2>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;testCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum(testsuite/@tests)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;errorCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum(testsuite/@errors)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;failureCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum(testsuite/@failures)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;timeCount&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;sum(testsuite/@time)&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:variable name=&quot;,'&quot;',&quot;successRate&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;($testCount - $failureCount - $errorCount) div $testCount&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;table class=&quot;,'&quot;',&quot;details&quot;,'&quot;',&quot; border=&quot;,'&quot;',&quot;0&quot;,'&quot;',&quot; cellpadding=&quot;,'&quot;',&quot;5&quot;,'&quot;',&quot; cellspacing=&quot;,'&quot;',&quot;2&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;th>Tests&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;th>Failures&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;th>Errors&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;th>Success rate&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;th>Time&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:attribute name=&quot;,'&quot;',&quot;class&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;$failureCount > 0&quot;,'&quot;',&quot;>Failure&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;$errorCount > 0&quot;,'&quot;',&quot;>Error&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:attribute>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$testCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$failureCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;$errorCount&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-percent&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;$successRate&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-time&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;$timeCount&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&#x9;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/table>&quot;, &#xA;&quot;&#x9;&#x9;&lt;table border=&quot;,'&quot;',&quot;0&quot;,'&quot;',&quot; width=&quot;,'&quot;',&quot;95%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;tr>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td&#x9;style=&quot;,'&quot;',&quot;text-align: justify;&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;Note: &lt;i>failures&lt;/i> are anticipated and checked for with assertions while &lt;i>errors&lt;/i> are unanticipated.&quot;, &#xA;&quot;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/table>&quot;, &#xA;&quot;&#x9;&lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;  &lt;!--&quot;, &#xA;&quot;   Write properties into a JavaScript data structure.&quot;, &#xA;&quot;   This is based on the original idea by Erik Hatcher (erik@hatcher.net)&quot;, &#xA;&quot;   -->&quot;, &#xA;&quot;  &lt;xsl:template match=&quot;,'&quot;',&quot;properties&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;    cur = TestCases['&lt;xsl:value-of select=&quot;,'&quot;',&quot;../@package&quot;,'&quot;',&quot;/>.&lt;xsl:value-of select=&quot;,'&quot;',&quot;../@name&quot;,'&quot;',&quot;/>'] = new Array();&quot;, &#xA;&quot;  &#x9;&lt;xsl:for-each select=&quot;,'&quot;',&quot;property&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;    &lt;xsl:sort select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;        cur['&lt;xsl:value-of select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>'] = '&lt;xsl:call-template name=&quot;,'&quot;',&quot;JS-escape&quot;,'&quot;',&quot;>&lt;xsl:with-param name=&quot;,'&quot;',&quot;string&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;@value&quot;,'&quot;',&quot;/>&lt;/xsl:call-template>';&quot;, &#xA;&quot;  &#x9;&lt;/xsl:for-each>&quot;, &#xA;&quot;  &lt;/xsl:template>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&lt;!-- Page HEADER -->&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;pageHeader&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;h1>Unit Test Results&lt;/h1>&quot;, &#xA;&quot;&#x9;&lt;table width=&quot;,'&quot;',&quot;100%&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td align=&quot;,'&quot;',&quot;left&quot;,'&quot;',&quot;>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td align=&quot;,'&quot;',&quot;right&quot;,'&quot;',&quot;>Powered by FCUnit.&lt;/td>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&#x9;&lt;/table>&quot;, &#xA;&quot;&#x9;&lt;hr size=&quot;,'&quot;',&quot;1&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;testsuite&quot;,'&quot;',&quot; mode=&quot;,'&quot;',&quot;header&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th width=&quot;,'&quot;',&quot;80%&quot;,'&quot;',&quot;>Name&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Tests&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Errors&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Failures&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th nowrap=&quot;,'&quot;',&quot;nowrap&quot;,'&quot;',&quot;>Time(s)&lt;/th>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;!-- class header -->&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;testsuite.test.header&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th width=&quot;,'&quot;',&quot;80%&quot;,'&quot;',&quot;>Name&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Tests&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Errors&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Failures&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th nowrap=&quot;,'&quot;',&quot;nowrap&quot;,'&quot;',&quot;>Time(s)&lt;/th>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;!-- method header -->&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;testcase.test.header&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Name&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th>Status&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th width=&quot;,'&quot;',&quot;80%&quot;,'&quot;',&quot;>Type&lt;/th>&quot;, &#xA;&quot;&#x9;&#x9;&lt;th nowrap=&quot;,'&quot;',&quot;nowrap&quot;,'&quot;',&quot;>Time(s)&lt;/th>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;!-- class information -->&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;testsuite&quot;,'&quot;',&quot; mode=&quot;,'&quot;',&quot;print.test&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;!-- set a nice color depending if there is an error/failure -->&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:attribute name=&quot;,'&quot;',&quot;class&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;@failures[.> 0]&quot;,'&quot;',&quot;>Failure&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;@errors[.> 0]&quot;,'&quot;',&quot;>Error&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:attribute>&quot;, &#xA;&quot;&#x9;&quot;, &#xA;&quot;&#x9;&#x9;&lt;!-- print testsuite information -->&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&lt;a href=&quot;,'&quot;',&quot;#{@name}&quot;,'&quot;',&quot;>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>&lt;/a>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@tests&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@errors&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@failures&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-time&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;@time&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;testcase&quot;,'&quot;',&quot; mode=&quot;,'&quot;',&quot;print.test&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;tr valign=&quot;,'&quot;',&quot;top&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:attribute name=&quot;,'&quot;',&quot;class&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;failure | error&quot;,'&quot;',&quot;>Error&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:attribute>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&lt;xsl:value-of select=&quot;,'&quot;',&quot;@name&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;failure&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>Failure&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:apply-templates select=&quot;,'&quot;',&quot;failure&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;error&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>Error&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;xsl:apply-templates select=&quot;,'&quot;',&quot;error&quot;,'&quot;',&quot;/>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:otherwise>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>Success&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;td>&lt;/td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:otherwise>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&lt;td>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-time&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;@time&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/td>&quot;, &#xA;&quot;&#x9;&lt;/tr>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;failure&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-failures&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template match=&quot;,'&quot;',&quot;error&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;display-failures&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;!-- Style for the error and failure in the tescase template -->&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;display-failures&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;not(@message)&quot;,'&quot;',&quot;>N/A&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:otherwise>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;@message&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:otherwise>&quot;, &#xA;&quot;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&#x9;&lt;!-- display the stacktrace -->&quot;, &#xA;&quot;&#x9;&lt;code>&quot;, &#xA;&quot;&#x9;&#x9;&lt;p/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;br-replace&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;word&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;.&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&lt;/code>&quot;, &#xA;&quot;&#x9;&lt;!-- the later is better but might be problematic for non-21&quot;,'&quot;',&quot; monitors... -->&quot;, &#xA;&quot;&#x9;&lt;!--pre>&lt;xsl:value-of select=&quot;,'&quot;',&quot;.&quot;,'&quot;',&quot;/>&lt;/pre-->&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;JS-escape&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:param name=&quot;,'&quot;',&quot;string&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&lt;xsl:choose>&lt;!-- something isn't right here, basically all single quotes need to be replaced with backslash-single-quote&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;contains($string,'&amp;apos;')&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;substring-before($string,'&amp;apos;')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;\&amp;apos;&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;JS-escape&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;string&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;substring-after($string,'&amp;apos;')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:when> -->&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;contains($string,'\')&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;substring-before($string,'\')&quot;,'&quot;',&quot;/>\\&lt;xsl:call-template name=&quot;,'&quot;',&quot;JS-escape&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;string&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;substring-after($string,'\')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:otherwise>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;$string&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:otherwise>&quot;, &#xA;&quot;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;!--&quot;, &#xA;&quot;&#x9;template that will convert a carriage return into a br tag&quot;, &#xA;&quot;&#x9;@param word the text from which to convert CR to BR tag&quot;, &#xA;&quot;-->&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;br-replace&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:param name=&quot;,'&quot;',&quot;word&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&lt;xsl:choose>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:when test=&quot;,'&quot;',&quot;contains($word,'&amp;#xA;')&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;substring-before($word,'&amp;#xA;')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;br/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:call-template name=&quot;,'&quot;',&quot;br-replace&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&#x9;&lt;xsl:with-param name=&quot;,'&quot;',&quot;word&quot;,'&quot;',&quot; select=&quot;,'&quot;',&quot;substring-after($word,'&amp;#xA;')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;/xsl:call-template>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:when>&quot;, &#xA;&quot;&#x9;&#x9;&lt;xsl:otherwise>&quot;, &#xA;&quot;&#x9;&#x9;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;$word&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&#x9;&lt;/xsl:otherwise>&quot;, &#xA;&quot;&#x9;&lt;/xsl:choose>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;display-time&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;format-number($value,'0.000')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;xsl:template name=&quot;,'&quot;',&quot;display-percent&quot;,'&quot;',&quot;>&quot;, &#xA;&quot;&#x9;&lt;xsl:param name=&quot;,'&quot;',&quot;value&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&#x9;&lt;xsl:value-of select=&quot;,'&quot;',&quot;format-number($value,'0.00%')&quot;,'&quot;',&quot;/>&quot;, &#xA;&quot;&lt;/xsl:template>&quot;, &#xA;&quot;&quot;, &#xA;&quot;&lt;/xsl:stylesheet>&quot;)"/>
+                </textContent>
+            </ns2:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="JUnit to HTML">
+        <pd:type>com.tibco.plugin.xml.XMLTransformActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLTransformActivity</pd:resourceType>
+        <pd:x>780</pd:x>
+        <pd:y>258</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <engine>Saxon</engine>
+            <stylesheet>/FCUnit/Resources/junit-to-html.xslt</stylesheet>
+        </config>
+        <pd:inputBindings>
+            <textInput>
+                <xmlString>
+                    <xsl:value-of select="$FCUnit-to-JUnit/xmlString"/>
+                </xmlString>
+            </textInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write HTML to File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>920</pd:x>
+        <pd:y>258</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns1:WriteActivityInputTextClass xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file">
+                <fileName>
+                    <xsl:value-of select="concat($Set-Export-Directory/export-directory, '/results.html')"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$JUnit-to-HTML/xmlString"/>
+                </textContent>
+            </ns1:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Results To XML</pd:from>
+        <pd:to>Transform XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Set Export Directory</pd:from>
+        <pd:to>Results To XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Get Project Base Dir</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Get Project Base Dir</pd:from>
+        <pd:to>Set Export Directory</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Transform XML</pd:from>
+        <pd:to>FCUnit to JUnit</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FCUnit to JUnit</pd:from>
+        <pd:to>Write Result to File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write Result to File</pd:from>
+        <pd:to>Write XSL</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write XSL</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FCUnit to JUnit</pd:from>
+        <pd:to>JUnit to HTML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JUnit to HTML</pd:from>
+        <pd:to>Write HTML to File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write HTML to File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

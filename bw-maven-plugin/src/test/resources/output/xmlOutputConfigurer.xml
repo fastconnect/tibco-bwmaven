@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="ArchivageBuild" xmlns="http://www.tibco.com/xmlns/ApplicationManagement">
+	<description/>
+	<contact/>
+	<NVPairs name="Global Variables">
+<type>
+<name>name</name>
+<value>value</value>
+</type>
+<type2>
+<name>name2</name>
+<value>value1</value>
+</type2>
+</NVPairs>
+<repoInstances/>
+	<services>
+		<bw>
+			<enable/>
+			<bindings>
+				<binding/>
+				<binding/>
+			</bindings>
+			<NVPairs/>
+			<checkpoints>
+			</checkpoints>
+		</bw>
+		<bw>
+			<enable/>
+			<bindings>
+				<binding/>
+				<binding/>
+			</bindings>
+			<NVPairs/>
+			<checkpoints>
+			</checkpoints>
+		</bw>
+	</services>
+</application>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="www.tibco.com/plugin/java/JavaToXmlActivityInput" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="www.tibco.com/plugin/java/JavaMethodActivityOutput" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns4="www.tibco.com/plugin/java/JavaToXmlActivityOutput" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns3="www.tibco.com/plugin/java/xmlSchema/fr.fastconnect.tibco.businessworks.fcunit.TestableProcess" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>FCUnit/Core/Misc/getTestCoverage.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>58</pd:startX>
+    <pd:startY>130</pd:startY>
+    <pd:returnBindings>
+        <xsl:variable name="testableProcessesCount" select="$getTestableProcessesCount/ns1:JavaMethodActivityOutput/MethodReturnValue"/>
+        <xsl:variable name="uniqueTestProcessesCount" select="$getUniqueTestProcesses/ns1:JavaMethodActivityOutput/MethodReturnValue"/>
+        <xsl:variable name="testProcessesCount" select="$getTestProcesses/ns1:JavaMethodActivityOutput/MethodReturnValue"/>
+        <testCoverage>
+            <percentage>
+                <xsl:value-of select="$uniqueTestProcessesCount div $testableProcessesCount"/>
+            </percentage>
+            <testedProcessesNumber>
+                <xsl:value-of select="$uniqueTestProcessesCount"/>
+            </testedProcessesNumber>
+            <testableProcessesNumber>
+                <xsl:value-of select="$testableProcessesCount"/>
+            </testableProcessesNumber>
+            <testProcessesNumber>
+                <xsl:value-of select="$testProcessesCount"/>
+            </testProcessesNumber>
+        </testCoverage>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="testCoverage">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="percentage" type="xsd:double"/>
+                    <xsd:element name="testedProcessesNumber" type="xsd:int"/>
+                    <xsd:element name="testableProcessesNumber" type="xsd:int"/>
+                    <xsd:element name="testProcessesNumber" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>698</pd:endX>
+    <pd:endY>130</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1312188904984</pd:targetNamespace>
+    <pd:activity name="getTestableProcessesCount">
+        <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
+        <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
+        <pd:x>216</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <ConstructDeclaredClass>true</ConstructDeclaredClass>
+            <CacheConstructedClass>false</CacheConstructedClass>
+            <InvokeCleanupMethod>false</InvokeCleanupMethod>
+            <MethodInfo>
+                <classLocation>c:/documents and settings/debovema/.m2/repository/fr/fastconnect/tibco/businessworks/fcunit/fcunit-core/1.3.0-snapshot/fcunit-core-1.3.0-snapshot.jar</classLocation>
+                <classPath>/FCUnit/Resources/FCUnit Aliases.aliaslib</classPath>
+                <className>fr.fastconnect.tibco.businessworks.fcunit.processes.TestableProcessList</className>
+                <methodName>getProcessesCount</methodName>
+                <methodReturn>int</methodReturn>
+            </MethodInfo>
+        </config>
+        <pd:inputBindings>
+            <ns:JavaMethodActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="getUniqueTestProcesses">
+        <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
+        <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
+        <pd:x>377</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <ConstructDeclaredClass>true</ConstructDeclaredClass>
+            <CacheConstructedClass>false</CacheConstructedClass>
+            <InvokeCleanupMethod>false</InvokeCleanupMethod>
+            <MethodInfo>
+                <classLocation>c:/documents and settings/debovema/.m2/repository/fr/fastconnect/tibco/businessworks/fcunit/fcunit-core/1.3.0-snapshot/fcunit-core-1.3.0-snapshot.jar</classLocation>
+                <classPath>/FCUnit/Resources/FCUnit Aliases.aliaslib</classPath>
+                <className>fr.fastconnect.tibco.businessworks.fcunit.processes.UniqueTestProcessList</className>
+                <methodName>getProcessesCount</methodName>
+                <methodReturn>int</methodReturn>
+            </MethodInfo>
+        </config>
+        <pd:inputBindings>
+            <ns:JavaMethodActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="getTestProcesses">
+        <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
+        <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
+        <pd:x>537</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <ConstructDeclaredClass>true</ConstructDeclaredClass>
+            <CacheConstructedClass>false</CacheConstructedClass>
+            <InvokeCleanupMethod>false</InvokeCleanupMethod>
+            <MethodInfo>
+                <classLocation>c:/documents and settings/debovema/.m2/repository/fr/fastconnect/tibco/businessworks/fcunit/fcunit-core/1.3.0-snapshot/fcunit-core-1.3.0-snapshot.jar</classLocation>
+                <classPath>/FCUnit/Resources/FCUnit Aliases.aliaslib</classPath>
+                <className>fr.fastconnect.tibco.businessworks.fcunit.processes.TestProcessList</className>
+                <methodName>getProcessesCount</methodName>
+                <methodReturn>int</methodReturn>
+            </MethodInfo>
+        </config>
+        <pd:inputBindings>
+            <ns:JavaMethodActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>getTestableProcessesCount</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>getTestableProcessesCount</pd:from>
+        <pd:to>getUniqueTestProcesses</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>getUniqueTestProcesses</pd:from>
+        <pd:to>getTestProcesses</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>getTestProcesses</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
