@@ -23,8 +23,11 @@
 	<properties>
 		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
 		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
+		<github.site.skip>false</github.site.skip>
 		<maven.site.skip>false</maven.site.skip>
 		<maven.site.deploy.skip>false</maven.site.deploy.skip>
+
+		<github.site.suffix>bw-maven-plugin</github.site.suffix>
 	</properties>
 
 	<dependencies>
@@ -249,6 +252,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
