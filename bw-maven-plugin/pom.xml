@@ -228,22 +228,22 @@
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>console</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>talon</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>util</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.rv</groupId>
 			<artifactId>tibrvj</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -252,14 +252,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<inherited>false</inherited>
-				<configuration>
-					<skip>false</skip>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -323,21 +315,21 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>site-maven-plugin</artifactId>
+						<inherited>false</inherited>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 			<distributionManagement>
 				<site>
 					<id>repo.site.fastconnect.org</id>
-					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
-				</site>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>public-site</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<distributionManagement>
-				<site>
-					<id>repo.public.site.fastconnect.org</id>
 					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
 				</site>
 			</distributionManagement>
