@@ -23,8 +23,8 @@ $h2 Quick starter guide
 
 To start using this plugin, read following pages:
 
-  * [Installation](../../installation.html)
-  * [Configuration](../../configuration.html)
+  * [Installation](${repositorySiteURL}/installation.html)
+  * [Configuration](${repositorySiteURL}/configuration.html)
   * [Mavenization](./mavenization.html)
 
 $h2 Plugin information

@@ -25,6 +25,8 @@
 		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
 		<maven.site.skip>false</maven.site.skip>
 		<maven.site.deploy.skip>false</maven.site.deploy.skip>
+		<github.site.skip>false</github.site.skip>
+		<github.site.suffix>/${project.artifactId}</github.site.suffix>
 	</properties>
 
 	<dependencies>
