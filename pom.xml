@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>fc-tibco-factory</artifactId>
 		<groupId>fr.fastconnect.factory.tibco</groupId>
-		<version>2.2.2</version>
+		<version>2.3.0</version>
 	</parent>
 
 	<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
@@ -97,9 +97,11 @@
 			<modules>
 				<module>bw-maven-plugin</module>
 				<module>fcunit-core</module>
-				<module>fcunit-projlib</module>
+				<!--<module>fcunit-projlib</module>-->
 				<module>bw-maven-assemblies</module>
 				<module>bw-javaxpath-maven-plugin</module>
+				<module>tibco-application-management-schema</module>
+				<module>tibco-bw-process-model-schema</module>
 			</modules>
 		</profile>
 

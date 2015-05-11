@@ -23,10 +23,11 @@
 	<properties>
 		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
 		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
+		<github.site.skip>false</github.site.skip>
 		<maven.site.skip>false</maven.site.skip>
 		<maven.site.deploy.skip>false</maven.site.deploy.skip>
-		<github.site.skip>false</github.site.skip>
-		<github.site.suffix>/${project.artifactId}</github.site.suffix>
+
+		<github.site.suffix>bw-maven-plugin</github.site.suffix>
 	</properties>
 
 	<dependencies>
@@ -227,22 +228,22 @@
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>console</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>talon</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>util</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.rv</groupId>
 			<artifactId>tibrvj</artifactId>
-			<!-- <scope>provided</scope> -->
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -314,21 +315,21 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.github</groupId>
+						<artifactId>site-maven-plugin</artifactId>
+						<inherited>false</inherited>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 			<distributionManagement>
 				<site>
 					<id>repo.site.fastconnect.org</id>
-					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
-				</site>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>public-site</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<distributionManagement>
-				<site>
-					<id>repo.public.site.fastconnect.org</id>
 					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
 				</site>
 			</distributionManagement>
