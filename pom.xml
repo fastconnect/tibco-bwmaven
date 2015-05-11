@@ -19,29 +19,6 @@
 		This is the root project for the ${project.name}.
 	</description>
 
-	<scm>
-		<developerConnection>scm:svn:https://fastconnect.org/svn/FastConnect/rd/products/FCTIBCOFactory2/BWMaven/trunk/project/</developerConnection>
-	</scm>
-
-	<inceptionYear>2011</inceptionYear>
-
- 	<prerequisites>
-		<maven>3.1</maven>
-	</prerequisites>
-
-	<developers>
-		<developer>
-			<email>emilien@fastconnect.fr</email>
-			<name>Emilien Thomas</name>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<email>mathieu.debove@fastconnect.fr</email>
-			<name>Mathieu Debove</name>
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -118,5 +95,53 @@
 			</modules>
 		</profile>
 	</profiles>
+
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://fcrack7.fastconnect.fr/jenkins/view/FCTIBCOFactory/</url>
+	</ciManagement>
+
+	<developers>
+		<developer>
+			<email>emilien@fastconnect.fr</email>
+			<name>Emilien Thomas</name>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<email>mathieu.debove@fastconnect.fr</email>
+			<name>Mathieu Debove</name>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<inceptionYear>2011</inceptionYear>
+
+	<issueManagement>
+		<url>https://github.com/fastconnect/tibco-bwmaven/issues</url>
+		<system>Github Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>FastConnect SAS</name>
+		<url>http://www.fastconnect.fr</url>
+	</organization>
+
+	<prerequisites>
+		<maven>3.1</maven>
+	</prerequisites>
+
+	<scm>
+		<url>https://github.com/fastconnect/tibco-bwmaven</url>
+		<connection>scm:git:git://github.com/fastconnect/tibco-bwmaven.git</connection>
+		<developerConnection>scm:git:git@github.com:fastconnect/tibco-bwmaven.git</developerConnection>
+	</scm>
 
 </project>
