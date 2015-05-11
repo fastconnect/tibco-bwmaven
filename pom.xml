@@ -74,7 +74,7 @@
 			<modules>
 				<module>bw-maven-plugin</module>
 				<module>fcunit-core</module>
-				<!--<module>fcunit-projlib</module>-->
+				<module>fcunit-projlib</module>
 				<module>bw-maven-assemblies</module>
 				<module>bw-javaxpath-maven-plugin</module>
 				<module>tibco-application-management-schema</module>
