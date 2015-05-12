@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>bw-maven-parent</artifactId>
 		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
-		<version>2.3.1-SNAPSHOT</version>
+		<version>2.3.0</version>
  	</parent>
 
 	<artifactId>bw-maven-plugin</artifactId>
@@ -166,12 +166,12 @@
 		<dependency>
 			<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 			<artifactId>application-management</artifactId>
-			<version>5.7</version>
+			<version>2.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 			<artifactId>process-model</artifactId>
-			<version>5.9</version>
+			<version>2.3.0</version>
 		</dependency>
 
 		<!-- to manipulate ZIP files -->
