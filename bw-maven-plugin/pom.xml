@@ -337,4 +337,6 @@
 		</profile>
 	</profiles>
 
+	<url>https://fastconnect.github.io/tibco-factory/bw-maven-plugin</url>
+
 </project>
