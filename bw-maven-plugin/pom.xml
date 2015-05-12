@@ -23,11 +23,8 @@
 	<properties>
 		<project.build.directory.lib>${project.build.directory}/lib</project.build.directory.lib>
 		<project.build.directory.src>${project.build.directory}/src</project.build.directory.src>
-		<github.site.skip>false</github.site.skip>
 		<maven.site.skip>false</maven.site.skip>
 		<maven.site.deploy.skip>false</maven.site.deploy.skip>
-
-		<github.site.suffix>bw-maven-plugin</github.site.suffix>
 	</properties>
 
 	<dependencies>
@@ -315,6 +312,10 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<github.site.skip>false</github.site.skip>
+			 	<repositorySiteURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}/bw-maven-plugin</repositorySiteURL>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
