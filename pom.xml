@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>fc-tibco-factory</artifactId>
 		<groupId>fr.fastconnect.factory.tibco</groupId>
-		<version>2.3.0</version>
+		<version>2.3.1</version>
 	</parent>
 
 	<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
 	<artifactId>bw-maven-parent</artifactId>
-	<version>2.3.0-SNAPSHOT</version>
+	<version>2.3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Maven Plugin for TIBCO BusinessWorks</name>
@@ -19,34 +19,25 @@
 		This is the root project for the ${project.name}.
 	</description>
 
-	<scm>
-		<developerConnection>scm:svn:https://fastconnect.org/svn/FastConnect/rd/products/FCTIBCOFactory2/BWMaven/trunk/project/</developerConnection>
-	</scm>
-
-	<inceptionYear>2011</inceptionYear>
-
- 	<prerequisites>
-		<maven>3.1</maven>
-	</prerequisites>
-
-	<developers>
-		<developer>
-			<email>emilien@fastconnect.fr</email>
-			<name>Emilien Thomas</name>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<email>mathieu.debove@fastconnect.fr</email>
-			<name>Mathieu Debove</name>
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>force-headers</id>
+						<inherited>false</inherited>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -96,8 +87,10 @@
 			</activation>
 			<modules>
 				<module>bw-maven-plugin</module>
+				<!-- 
 				<module>fcunit-core</module>
-				<!--<module>fcunit-projlib</module>-->
+				<module>fcunit-projlib</module>
+				-->
 				<module>bw-maven-assemblies</module>
 				<module>bw-javaxpath-maven-plugin</module>
 				<module>tibco-application-management-schema</module>
@@ -118,5 +111,56 @@
 			</modules>
 		</profile>
 	</profiles>
+
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://fcrack7.fastconnect.fr/jenkins/view/FCTIBCOFactory/</url>
+	</ciManagement>
+
+	<developers>
+		<developer>
+			<email>emilien@fastconnect.fr</email>
+			<name>Emilien Thomas</name>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<email>mathieu.debove@fastconnect.fr</email>
+			<name>Mathieu Debove</name>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<inceptionYear>2011</inceptionYear>
+
+	<issueManagement>
+		<url>https://github.com/fastconnect/tibco-bwmaven/issues</url>
+		<system>Github Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>FastConnect SAS</name>
+		<url>http://www.fastconnect.fr</url>
+	</organization>
+
+	<prerequisites>
+		<maven>3.1</maven>
+	</prerequisites>
+
+	<scm>
+		<url>https://github.com/fastconnect/tibco-bwmaven</url>
+		<connection>scm:git:git://github.com/fastconnect/tibco-bwmaven.git</connection>
+		<developerConnection>scm:git:git@github.com:fastconnect/tibco-bwmaven.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<url>https://fastconnect.github.io/tibco-factory/bw-maven-plugin</url>
 
 </project>

@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>com.tibco.bw.schemas</groupId>
+
+	<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 	<artifactId>process-model</artifactId>
 	<version>5.9</version>
-	
+
 	<name>JAXB implementation of TIBCO BusinessWorks Process Model schema</name>
 	<description>The targetNamespace of this schema is "http://xmlns.tibco.com/bw/process/2003"</description>
 	
@@ -16,13 +16,20 @@
 			<version>2.5.1</version>
 		</dependency>
 	</dependencies>
-	
-	<!-- Deployment of artefacts is done on the FastConnect third-party repository. -->
+
 	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 		<repository>
-			<id>repo.third-party.fastconnect.org</id>
-			<url>https://fastconnect.org/maven/content/repositories/third-party/</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<site>
+			<id>repo.site.fastconnect.org</id>
+			<url>${repositorySiteProtocol}:${repositorySiteURL}</url>
+		</site>
 	</distributionManagement>
 
 	<build>
@@ -38,4 +45,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

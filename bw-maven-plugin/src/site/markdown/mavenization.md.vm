@@ -19,13 +19,14 @@ $h3 Unintrusive
 
 This process is not intrusive in the source code itself and can be reverted at
 any time (simply by
-[removing the created POM](../unmavenize-bw-projects-mojo.html)).
+[removing the created POM](./unmavenize-bw-projects-mojo.html)).
 
 $h3 Prerequisites
 	
 Before reading this chapter, the user should be familiar with the basic
-[usage](../usage.html) of the Maven Plugin for TIBCO BusinessWorks and have a
-correct	"[settings.xml](./configuration.html#Maven_settingsxml_file)"
+[usage](${repositorySiteURL}/usage.html) of the Maven Plugin for TIBCO
+BusinessWorks and have a correct
+"[settings.xml](${repositorySiteURL}/configuration.html#Maven_settingsxml_file)"
 installed.
 
 ---
