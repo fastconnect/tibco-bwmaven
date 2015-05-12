@@ -158,7 +158,9 @@
 		<url>https://github.com/fastconnect/tibco-bwmaven</url>
 		<connection>scm:git:git://github.com/fastconnect/tibco-bwmaven.git</connection>
 		<developerConnection>scm:git:git@github.com:fastconnect/tibco-bwmaven.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
+
+	<url>https://fastconnect.github.io/tibco-factory/bw-maven-plugin</url>
 
 </project>
