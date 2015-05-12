@@ -16,14 +16,6 @@
 			<version>2.5.1</version>
 		</dependency>
 	</dependencies>
-	
-	<!-- Deployment of artefacts is done on the FastConnect third-party repository. -->
-	<distributionManagement>
-		<repository>
-			<id>repo.third-party.fastconnect.org</id>
-			<url>https://fastconnect.org/maven/content/repositories/third-party/</url>
-		</repository>
-	</distributionManagement>
 
 	<build>
 		<plugins>
