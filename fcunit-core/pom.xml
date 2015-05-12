@@ -9,7 +9,7 @@
 	<parent>
 		<artifactId>bw-maven-parent</artifactId>
 		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
-		<version>2.3.0-SNAPSHOT</version>
+		<version>2.3.0</version>
 	</parent>
 
 	<dependencies>
