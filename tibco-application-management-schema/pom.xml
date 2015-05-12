@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
 		<artifactId>bw-maven-parent</artifactId>
-		<version>2.3.1-SNAPSHOT</version>
+		<version>2.3.0</version>
 	</parent>
 
 	<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 	<artifactId>application-management</artifactId>
-	<version>5.7</version>
+	<version>2.3.0</version>
 	
 	<name>JAXB implementation of TIBCO ApplicationManagement schema</name>
 	<description>The targetNamespace of this schema is "http://www.tibco.com/xmlns/ApplicationManagement"</description>
