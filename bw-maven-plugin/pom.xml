@@ -164,12 +164,12 @@
 			<version>2.1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.tibco.bw.schemas</groupId>
+			<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 			<artifactId>application-management</artifactId>
 			<version>5.7</version>
 		</dependency>
 		<dependency>
-			<groupId>com.tibco.bw.schemas</groupId>
+			<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 			<artifactId>process-model</artifactId>
 			<version>5.9</version>
 		</dependency>
@@ -228,22 +228,22 @@
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>console</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>talon</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>util</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tibco.rv</groupId>
 			<artifactId>tibrvj</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
