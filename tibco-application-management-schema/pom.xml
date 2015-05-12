@@ -3,7 +3,7 @@
 	
 	<groupId>fr.fastconnect.jaxb.com.tibco.bw.schemas</groupId>
 	<artifactId>application-management</artifactId>
-	<version>2.3.0</version>
+	<version>5.7</version>
 	
 	<name>JAXB implementation of TIBCO ApplicationManagement schema</name>
 	<description>The targetNamespace of this schema is "http://www.tibco.com/xmlns/ApplicationManagement"</description>
