@@ -46,4 +46,109 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>deploy</id> <!--  -->
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+				<repository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+			</distributionManagement>
+			<properties>
+				<github.site.prefix />
+			</properties>
+			<build>
+				<plugins>
+					<!-- sign artifacts with GnuPG -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<passphraseServerId>fc.gpg</passphraseServerId>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- attach sources -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- attach javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<developers>
+		<developer>
+			<email>mathieu.debove@fastconnect.fr</email>
+			<name>Mathieu Debove</name>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<url>https://github.com/fastconnect/tibco-bwmaven/issues</url>
+		<system>Github Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>FastConnect SAS</name>
+		<url>http://www.fastconnect.fr</url>
+	</organization>
+
+	<scm>
+		<url>https://github.com/fastconnect/tibco-bwmaven</url>
+		<connection>scm:git:git://github.com/fastconnect/tibco-bwmaven.git</connection>
+		<developerConnection>scm:git:git@github.com:fastconnect/tibco-bwmaven.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<url>https://fastconnect.github.io/tibco-factory/bw-maven-plugin</url>
+
 </project>
