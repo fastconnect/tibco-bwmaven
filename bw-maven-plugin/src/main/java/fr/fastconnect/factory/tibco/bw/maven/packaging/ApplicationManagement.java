@@ -348,7 +348,7 @@ public class ApplicationManagement {
 		}
 
 	}
-	
+
 	public Properties getServices() {
 		SortedProperties result = new SortedProperties();
 		
