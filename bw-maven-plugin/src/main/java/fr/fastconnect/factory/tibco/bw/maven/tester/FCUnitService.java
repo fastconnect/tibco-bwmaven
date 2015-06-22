@@ -16,93 +16,88 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.tester;
 
-import java.rmi.RemoteException;
+import java.net.URL;
 
+import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
+import javax.xml.ws.BindingProvider;
 
+import com.sun.xml.ws.client.ClientTransportException;
+
+import fr.fastconnect.factory.tibco.bw.maven.bwengine.BWService;
 import fr.fastconnect.factory.tibco.bw.maven.bwengine.ServiceAgentInEngine;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.FCUnit_PortType;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.FCUnit_Service;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.FCUnit_ServiceLocator;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.Empty;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.Settings;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.holders.EmptyHolder;
+import fr.fastconnect.factory.tibco.bw.maven.jaxws.FCUnit;
+import fr.fastconnect.factory.tibco.bw.maven.jaxws.FCUnit_Service;
+import fr.fastconnect.factory.tibco.bw.maven.jaxws.Settings;
 
 /**
  * <p>
- * FCUnit possède un Service Agent qui permet d'invoquer les processes
- * d'exécution des tests comme des méthodes d'un Web Service.<br/>
- * 
- * Cette classe définit les méthodes pour les différents appels possibles qui
- * sont ensuite délégués aux éléments du framework Axis (consommation de Web
- * Services), contenus dans le package
- * "fr.fastconnect.factory.tibco.bw.maven.tester.ws"
+ * FCUnit Service Agent representation.
  * </p>
  * 
  * @author Mathieu Debove
  *
  */
-public class FCUnitService extends ServiceAgentInEngine<FCUnit_Service, FCUnit_PortType> {
-	
-	private String bwEnginePort;
-	
-	public FCUnitService(String bwEnginePort) throws ServiceException {
-		service = new FCUnit_ServiceLocator();
-		((FCUnit_ServiceLocator) service).setEndpointAddress("FCUnit", "http://localhost:"+bwEnginePort+"/FCUnit");
-		port = service.getFCUnit();	
+class FCUnit_Proxy implements BWService {
+
+	private FCUnit fcUnit;
+
+	public FCUnit_Proxy(FCUnit fcUnit) {
+		this.fcUnit = fcUnit;
 	}
 
-	public boolean isStarted() {
-		if (port == null) {
-			return false;
-		}
-		
-		EmptyHolder _null = new EmptyHolder(new Empty());
+	@Override
+	public void isStarted() {
+		fcUnit.isStarted();
+	}
 
-		try {
-			port.isStarted(_null);
-		} catch (RemoteException e) {
-			return false; // the isStarted method in the WebService is used to ping
-		}
-		
-		return true;
+	@Override
+	public void stopEngine() {
+		fcUnit.stopEngine();
+	}
+
+	public void runAllTests(Settings settings) {
+		fcUnit.runAllTests(settings);
+	}
+}
+
+public class FCUnitService extends ServiceAgentInEngine<FCUnit_Proxy> {
+
+	private FCUnit fcUnit;
+	private FCUnit_Proxy fcUnitProxy;
+
+	public FCUnitService(String bwEnginePort) throws ServiceException {
+		super();
+
+		URL wsdlLocation = FCUnitService.class.getResource("/FCUnit-concrete.wsdl");
+		FCUnit_Service fcUnitService = new FCUnit_Service(wsdlLocation, new QName("http://fastconnect.fr/fcunit-concrete", "FCUnit"));
+
+		fcUnit = fcUnitService.getPort(FCUnit.class);
+		fcUnitProxy = new FCUnit_Proxy(fcUnit);
+
+		BindingProvider bindingProvider = (BindingProvider) fcUnit;
+		bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:" + bwEnginePort + "/FCUnit");
+	}
+
+	@Override
+	public FCUnit_Proxy getService() {
+		return fcUnitProxy;
 	}
 
 	public boolean runAllTests(Settings settings) {
-		if (port == null) {
+		FCUnit_Proxy service = getService();
+
+		if (service == null) {
 			return false;
 		}
-		
+
 		try {
-			port.runAllTests(settings);
-		} catch (RemoteException e) {
-			e.printStackTrace(); // FIXME : remove printStackTrace()
-			return false;
+			service.runAllTests(settings);
+		} catch (ClientTransportException e) {
+			return false; // the isStarted method in the WebService is used to ping
 		}
-		
+
 		return true;
-	}
-	
-	public void stopEngine() {
-		if (port == null) {
-			return;
-		}
-		
-		EmptyHolder _null = new EmptyHolder(new Empty());
-
-		try {
-			port.stopEngine(_null);
-		} catch (RemoteException e) {
-			e.printStackTrace(); // FIXME : remove printStackTrace()
-		}
-	}
-
-	public String getBWEnginePort() {
-		return bwEnginePort;
-	}
-
-	public void setBWEnginePort(String bwEnginePort) {
-		this.bwEnginePort = bwEnginePort;
 	}
 
 }

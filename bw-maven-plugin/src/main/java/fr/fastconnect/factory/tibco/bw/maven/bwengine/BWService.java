@@ -14,25 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * EmptyHolder.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
+package fr.fastconnect.factory.tibco.bw.maven.bwengine;
 
-package fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.holders;
+public interface BWService {
 
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.Empty;
-
-public final class EmptyHolder implements javax.xml.rpc.holders.Holder {
-    public Empty value;
-
-    public EmptyHolder() {
-    }
-
-    public EmptyHolder(Empty value) {
-        this.value = value;
-    }
+	public abstract void isStarted();
+	public abstract void stopEngine();
 
 }
