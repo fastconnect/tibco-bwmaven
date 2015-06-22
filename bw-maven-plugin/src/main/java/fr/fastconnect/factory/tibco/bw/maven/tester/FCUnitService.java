@@ -19,7 +19,6 @@ package fr.fastconnect.factory.tibco.bw.maven.tester;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.rpc.ServiceException;
 import javax.xml.ws.BindingProvider;
 
 import com.sun.xml.ws.client.ClientTransportException;
@@ -66,7 +65,7 @@ public class FCUnitService extends ServiceAgentInEngine<FCUnit_Proxy> {
 	private FCUnit fcUnit;
 	private FCUnit_Proxy fcUnitProxy;
 
-	public FCUnitService(String bwEnginePort) throws ServiceException {
+	public FCUnitService(String bwEnginePort) {
 		super();
 
 		URL wsdlLocation = FCUnitService.class.getResource("/FCUnit-concrete.wsdl");
