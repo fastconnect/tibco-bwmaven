@@ -35,8 +35,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.xml.rpc.ServiceException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -172,7 +170,7 @@ public class FCUnitTestsMojo extends AbstractServiceEngineMojo {
 	public void initServiceAgent() throws MojoExecutionException {
 		try {
 			serviceAgent = new FCUnitService(bwEnginePort);
-		} catch (ServiceException e) {
+		} catch (Exception e) {
 			throw new MojoExecutionException(FCUNIT_FAILURE, e);
 		}
 	}
