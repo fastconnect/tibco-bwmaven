@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    (C) Copyright 2011-2015 FastConnect SAS
+    (http://www.fastconnect.fr/) and others.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--Created by TIBCO WSDL-->
+<wsdl:definitions xmlns:ns1="http://fastconnect.fr/fcunit-errors.xsd" xmlns:tns="http://fastconnect.fr/fcunit-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns0="http://fastconnect.fr/fcunit.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Untitled" targetNamespace="http://fastconnect.fr/fcunit-concrete">
+    <wsdl:documentation>Version 0.1</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:fcu="http://fastconnect.fr/fcunit.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd" targetNamespace="http://fastconnect.fr/fcunit.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:import namespace="http://fastconnect.fr/fcunit-errors.xsd"/>
+            <xs:complexType name="anydata">
+                <xs:sequence>
+                    <xs:any minOccurs="0" processContents="skip" namespace="##any"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="path">
+                <xs:restriction base="xs:anyURI"/>
+            </xs:simpleType>
+            <xs:complexType name="test-case-type">
+                <xs:complexContent>
+                    <xs:extension base="fcu:test-type">
+                        <xs:sequence>
+                            <xs:element ref="fcu:test" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element ref="fcu:test-xml" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="test-suite-type">
+                <xs:complexContent>
+                    <xs:extension base="fcu:test-type">
+                        <xs:sequence>
+                            <xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element ref="fcu:test-case" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="test-suites">
+                <xs:sequence>
+                    <xs:element ref="fcu:test-suite" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="test-type">
+                <xs:attribute name="name" type="xs:string"/>
+                <xs:attribute name="path" type="xs:string"/>
+            </xs:complexType>
+            <xs:complexType name="test-xml-type">
+                <xs:complexContent>
+                    <xs:extension base="fcu:test-type">
+                        <xs:sequence>
+                            <xs:element name="input-xml-filename" type="xs:string"/>
+                            <xs:element name="expected-xml-filename" type="xs:string"/>
+                            <xs:element name="tested-process-path" type="xs:string"/>
+                            <xs:element name="ignored-xpaths" type="fcu:xpaths-list-type"/>
+                            <xs:element name="accept-more-fields-in-actual" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="xpaths-list-type">
+                <xs:sequence>
+                    <xs:element name="xpath" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="empty">
+                <xs:complexType/>
+            </xs:element>
+            <xs:element name="settings">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="scope" type="xs:string" minOccurs="0"/>
+                        <xs:element name="suite-pattern" type="xs:string" minOccurs="0"/>
+                        <xs:element name="case-pattern" type="xs:string" minOccurs="0"/>
+                        <xs:element name="export-to-files" default="true" type="xs:boolean"/>
+                        <xs:element name="export-directory" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test" type="fcu:test-type"/>
+            <xs:element name="test-case" type="fcu:test-case-type"/>
+            <xs:element name="test-case-result">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcu:test-type">
+                            <xs:sequence>
+                                <xs:element ref="fcu:test-result" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                            <xs:attribute name="datetime" type="xs:dateTime"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-error">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element ref="fcue:test-not-found-error"/>
+                        <xs:element ref="fcue:timeout-error"/>
+                        <xs:element ref="fcue:unknown-error"/>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-failure">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error-report">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="StackTrace" type="xs:string"/>
+                                    <xs:element name="Msg" type="xs:string"/>
+                                    <xs:element name="FullClass" type="xs:string"/>
+                                    <xs:element name="Class" type="xs:string"/>
+                                    <xs:element name="ProcessStack">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="ProcessName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                    <xs:element name="MsgCode" type="xs:string" minOccurs="0"/>
+                                    <xs:element name="Data" type="fcu:anydata" minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-result">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcu:test-type">
+                            <xs:choice>
+                                <xs:element ref="fcu:test-error"/>
+                                <xs:element ref="fcu:test-failure"/>
+                                <xs:element ref="fcu:test-success"/>
+                            </xs:choice>
+                            <xs:attribute name="datetime" type="xs:dateTime"/>
+                            <xs:attribute name="duration" type="xs:float"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-success">
+                <xs:complexType/>
+            </xs:element>
+            <xs:element name="test-suite" type="fcu:test-suite-type"/>
+            <xs:element name="test-suite-result">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcu:test-type">
+                            <xs:sequence>
+                                <xs:element ref="fcu:test-suite-result" minOccurs="0" maxOccurs="unbounded"/>
+                                <xs:element ref="fcu:test-case-result" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                            <xs:attribute name="datetime" type="xs:dateTime"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-suites" type="fcu:test-suites"/>
+            <xs:element name="test-suites-results">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="fcu:test-suite-result" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="TestedProcessesNumber" type="xs:int" minOccurs="0"/>
+                        <xs:element name="TestProcessesNumber" type="xs:int" minOccurs="0"/>
+                        <xs:element name="TestableProcessesNumber" type="xs:int" minOccurs="0"/>
+                        <xs:element name="TestCoveragePercentage" type="xs:double" minOccurs="0"/>
+                    </xs:sequence>
+                    <xs:attribute name="datetime" type="xs:dateTime"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-xml" type="fcu:test-xml-type"/>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcue="http://fastconnect.fr/fcunit-errors.xsd" targetNamespace="http://fastconnect.fr/fcunit-errors.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:complexType name="assertion-error-type">
+                <xs:complexContent>
+                    <xs:extension base="fcue:error-type">
+                        <xs:sequence>
+                            <xs:element name="assertion" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="error-type"/>
+            <xs:simpleType name="xpath">
+                <xs:restriction base="xs:string"/>
+            </xs:simpleType>
+            <xs:element name="assert-equal-double-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="expected" type="xs:double"/>
+                                <xs:element name="actual" type="xs:double"/>
+                                <xs:element name="delta" type="xs:double"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-equal-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="expected">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="actual">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-exists-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="content">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-match-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="string" type="xs:string"/>
+                                <xs:element name="pattern" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-not-equal-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="expected-and-actual">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-not-match-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="string" type="xs:string"/>
+                                <xs:element name="pattern" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-subset-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="superset">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="subset">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assert-xml-equal-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type">
+                            <xs:sequence>
+                                <xs:element name="expected">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="actual">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:any processContents="lax" namespace="##any"/>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="error-fields">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element name="xpath" type="xs:string"/>
+                                                        <xs:element name="expected" type="xs:string" minOccurs="0"/>
+                                                        <xs:element name="actual" type="xs:string" minOccurs="0"/>
+                                                        <xs:element name="description" type="xs:string"/>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="ignored-fields">
+                                    <xs:complexType>
+                                        <xs:sequence>
+                                            <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+                                                <xs:complexType>
+                                                    <xs:sequence>
+                                                        <xs:element name="xpath" type="xs:string"/>
+                                                        <xs:element name="description" type="xs:string"/>
+                                                    </xs:sequence>
+                                                </xs:complexType>
+                                            </xs:element>
+                                        </xs:sequence>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="assertion-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:assertion-error-type"/>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="test-not-found-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:error-type">
+                            <xs:sequence>
+                                <xs:element name="test-id" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="timeout-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:error-type">
+                            <xs:sequence>
+                                <xs:element name="timeout" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="unknown-error">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="fcue:error-type"/>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:service name="FCUnit">
+        <wsdl:port name="FCUnit" binding="tns:FCUnitBinding">
+            <soap:address location="http://localhost:9099/FCUnit"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:portType name="FCUnit">
+        <wsdl:operation name="runAllTests">
+            <wsdl:input message="tns:settings-msg"/>
+            <wsdl:output message="tns:test-suites-results-msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="stopEngine">
+            <wsdl:input message="tns:null-msg"/>
+            <wsdl:output message="tns:null-msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="getTestSuites">
+            <wsdl:input message="tns:settings-msg"/>
+            <wsdl:output message="tns:test-suites-msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="isStarted">
+            <wsdl:input message="tns:null-msg"/>
+            <wsdl:output message="tns:null-msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="FCUnitBinding" type="tns:FCUnit">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="runAllTests">
+            <soap:operation style="document" soapAction="/FCUnit/runAllTests"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="settings"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="test-suites-results"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="stopEngine">
+            <soap:operation style="document" soapAction="/FCUnit/stopEngine"/>
+            <wsdl:input>
+                <soap:body use="literal" parts=""/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts=""/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getTestSuites">
+            <soap:operation style="document" soapAction="/FCUnit/getTestSuites"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="settings"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="test-suites"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="isStarted">
+            <soap:operation style="document" soapAction="/FCUnit/isStarted"/>
+            <wsdl:input>
+                <soap:body use="literal" parts=""/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts=""/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:message name="settings-msg">
+        <wsdl:part name="settings" element="ns0:settings"/>
+    </wsdl:message>
+    <wsdl:message name="test-suites-results-msg">
+        <wsdl:part name="test-suites-results" element="ns0:test-suites-results"/>
+    </wsdl:message>
+    <wsdl:message name="null-msg"/>
+    <wsdl:message name="test-suites-msg">
+        <wsdl:part name="test-suites" element="ns0:test-suites"/>
+    </wsdl:message>
+</wsdl:definitions>

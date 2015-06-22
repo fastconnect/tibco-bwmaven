@@ -36,6 +36,11 @@
 						<goals>
 							<goal>format</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/goal.txt</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

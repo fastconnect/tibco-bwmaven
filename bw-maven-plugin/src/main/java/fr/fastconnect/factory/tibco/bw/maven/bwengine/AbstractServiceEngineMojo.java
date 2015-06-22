@@ -57,13 +57,7 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	 * A Service Agent is a Web Service representation in TIBCO BusinessWorks.
 	 * This Service Agent will be started when the BusinessWorks engine starts.
 	 */
-	protected ServiceAgentInEngine<?, ?> serviceAgent;
-
-	/**
-	 * A Service Agent is a Web Service representation in TIBCO BusinessWorks.
-	 * This Service Agent will be started when the BusinessWorks engine starts.
-	 */
-	protected ServiceAgentInEngine2<?, ?> serviceAgent2;
+	protected ServiceAgentInEngine<?> serviceAgent;
 
 	private void bwEngineNotFound() throws MojoExecutionException {
 		throw new BinaryMissingException(BWENGINE_MISSING);
@@ -84,14 +78,7 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	 * service est bien lancé, false sinon.
 	 */
 	public boolean isStarted() {
-		if (serviceAgent != null) {
-			return serviceAgent.isStarted();
-		} else if (serviceAgent2 != null) {
-			return serviceAgent2.isStarted();
-		} else {
-			return false;
-		}
-//		return (serviceAgent == null) ? false : serviceAgent.isStarted();
+		return (serviceAgent == null) ? false : serviceAgent.isStarted();
 	}
 
 	/**
@@ -101,8 +88,6 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	public void stopEngine() {
 		if (serviceAgent != null) {
 			serviceAgent.stopEngine();
-		} else if (serviceAgent2 != null) {
-			serviceAgent2.stopEngine();
 		}
 	}
 
