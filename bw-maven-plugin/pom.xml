@@ -409,7 +409,8 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-			 	<repositorySiteURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}/bw-maven-plugin</repositorySiteURL>
+				<repositorySiteURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}</repositorySiteURL>
+				<github.site.suffix>${project.artifactId}</github.site.suffix>
 			</properties>
 			<build>
 				<plugins>
@@ -418,7 +419,6 @@
 						<artifactId>site-maven-plugin</artifactId>
 						<inherited>false</inherited>
 						<configuration>
-							<path>${github.site.prefix}${github.site.suffix}/${project.artifactId}</path>
 							<skip>false</skip>
 						</configuration>
 					</plugin>
