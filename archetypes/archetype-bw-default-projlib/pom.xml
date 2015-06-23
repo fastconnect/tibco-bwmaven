@@ -10,7 +10,7 @@
 	<artifactId>archetype-bw-default-projlib</artifactId>
 	<packaging>maven-archetype</packaging>
 	
-	<name>Archetype - TIBCO BusinessWorks project (Projlib target)</name>
+	<name>BWMaven TIBCO BusinessWorks project (Projlib target) archetype</name>
 	<description>
 		This archetype creates an empty TIBCO BusinessWorks Projlib project.
 	</description>

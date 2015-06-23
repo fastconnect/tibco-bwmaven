@@ -11,7 +11,7 @@
 
 	<packaging>maven-plugin</packaging>
 
-	<name>Maven Plugin for TIBCO BusinessWorks - Java XPath</name>
+	<name>BWMaven Java XPath plugin</name>
 
 	<dependencies>
 		<dependency>

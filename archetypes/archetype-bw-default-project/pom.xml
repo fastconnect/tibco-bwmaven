@@ -10,7 +10,7 @@
 	<artifactId>archetype-bw-default-project</artifactId>
 	<packaging>maven-archetype</packaging>
 	
-	<name>Archetype - TIBCO BusinessWorks project (EAR target)</name>
+	<name>BWMaven TIBCO BusinessWorks project (EAR target) archetype</name>
 	<description>
 		This archetype creates an empty TIBCO BusinessWorks project.
 	</description>

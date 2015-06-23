@@ -10,16 +10,16 @@
 	<artifactId>archetype-bw-mavenizer</artifactId>
 	<packaging>maven-archetype</packaging>
 	
-	<name>Archetype - TIBCO BusinessWorks project mavenizer</name>
+	<name>BWMaven TIBCO BusinessWorks project mavenizer</name>
 	<description>
-		This archetype will create a POM that inherits from ${factoryName}
+		This archetype will create a POM that inherits from FC TIBCO Factory
 		parent POM *OR* from the client's root POM created with
-		'archetype-client-root-project'.
+		'archetype-client-root-project' archetype.
 
 		This POM will be the Maven configuration for the existing TIBCO BW
 		project.
 		
-		1) you want to use the default ${factoryName} parent, then replace the
+		1) you want to use the default FC TIBCO Factory parent, then replace the
 		'rootProjectGroupId', 'rootProjectArtifactId' &amp; 'rootProjectVersion'
 		by the content of 'fcFactoryGroupId', 'fcFactoryArtifactId' &amp;
 		'fcFactoryVersion' respectively.
