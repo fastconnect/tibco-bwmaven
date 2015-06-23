@@ -13,10 +13,10 @@
 	<version>2.3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Maven Plugin for TIBCO BusinessWorks</name>
+	<name>BWMaven parent</name>
 
 	<description>
-		This is the root project for the ${project.name}.
+		BWMaven, application lifecycle management for TIBCO BusinessWorks projects
 	</description>
 
 	<build>

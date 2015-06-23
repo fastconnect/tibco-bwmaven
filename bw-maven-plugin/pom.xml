@@ -12,12 +12,10 @@
 
 	<packaging>maven-plugin</packaging>
 
-	<name>Maven Plugin for TIBCO BusinessWorks - Maven Plugin</name>
+	<name>BWMaven plugin</name>
 
 	<description>
-		The ${project.name} defines all the Maven goals available to the
-		end-user.
-		These goals are defined in special Java classes named Mojos.
+		BWMaven, application lifecycle management for TIBCO BusinessWorks projects
 	</description>
 
 	<properties>

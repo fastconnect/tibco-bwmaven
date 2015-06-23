@@ -9,7 +9,7 @@
 
 	<artifactId>bw-maven-assemblies</artifactId>
 
-	<name>Maven Plugin for TIBCO BusinessWorks - Default BWMaven assemblies</name>
+	<name>BWMaven assemblies</name>
 	<description>This project holds default assemblies ready to use. For instance it is possible to create a compressed archive with all TIBCO BusinessWorks applications ready to be deployed on target machines.</description>
 
 </project>
