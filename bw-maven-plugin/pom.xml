@@ -213,7 +213,8 @@
 			<version>2.2</version>
 		</dependency>
 		
-		<!-- Hawk -->
+		<!-- Hawk & RV : provided dependencies are injected on the fly by
+		BWLifecycleParticipant class at runtime -->
 		<dependency>
 			<groupId>com.tibco.hawk</groupId>
 			<artifactId>console</artifactId>
@@ -247,6 +248,19 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.plexus</groupId>
+				<artifactId>plexus-component-metadata</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>generate-metadata</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
