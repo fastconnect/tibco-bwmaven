@@ -112,47 +112,4 @@ public class MethodSubscriber extends AbstractMethodAction {
 		}
 	}
 
-    // Main - Usage: java ConsoleApp <hawkDomain> <rvService> <rvNetwork> <rvDaemon>
-    public static void main(String[] args) {
-        if (args.length != 4 ) {
-            System.err.println("Usage: java ConsoleApp <hawkDomain> <rvService> <rvNetwork> <rvDaemon>");
-        }
-
-        if (args.length == 4) {
-            try {
-//				ca.setMethodName("getFileStatusForComponentFile");
-//				ca.setArguments("TEC-JMS", "TEC-JMS-IN", "C:/tibco/tra/domain/LOCAL/application/logs/TEC-JMS-TEC-JMS-IN.log");
-            	MicroAgent microAgent = new MicroAgent(args[0],args[1],args[2],args[3],"COM.TIBCO.admin.TRA");
-            	
-            	MethodSubscriber ca = new MethodSubscriber(microAgent);
-				ca.setMethodName("getComponentInstanceStatus");
-				ca.setArguments("TEC-JMS", "TEC-JMS-IN");
-				ca.setInterval(1);
-				ca.setNumberOfRetry(1);
-				ca.subscribe(ca.new RunningInstanceSubscriptionHandler());
-
-            	MethodSubscriber ca2 = new MethodSubscriber(microAgent);
-				ca2.setMethodName("getComponentInstanceStatus");
-				ca2.setArguments("TEC-JMS", "TEC-JMS-IN_Sonic");
-				ca2.setInterval(1);
-				ca2.setNumberOfRetry(1);
-				ca2.subscribe(ca.new RunningInstanceSubscriptionHandler());
-
-				while (DefaultSubscriptionHandler.numberOfSubscriptions > 0) {
-					
-				}
-				if (ca.getResult() != null && ca.getResult().equals("RUNNING")) {
-					System.out.println("OH YEAH");
-				}
-				if (ca2.getResult() != null && ca2.getResult().equals("RUNNING")) {
-					System.out.println("OH YEAH2");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				System.exit(0);
-			}
-        }
-    }
-
 }

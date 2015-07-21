@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.sun.xml.ws.client.ClientTransportException;
+import com.sun.xml.ws.fault.ServerSOAPFaultException;
 
 
 /**
@@ -79,6 +80,8 @@ public abstract class ServiceAgentInEngine<Service extends BWService> {
 		try {
 			service.stopEngine();
 		} catch (ClientTransportException e) {
+			// nothing
+		} catch (ServerSOAPFaultException e) {
 			// nothing
 		}
 	}

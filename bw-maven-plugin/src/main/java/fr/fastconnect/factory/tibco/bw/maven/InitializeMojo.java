@@ -39,8 +39,7 @@ import fr.fastconnect.factory.tibco.bw.maven.source.POMManager;
  * @author Mathieu Debove
  *
  */
-@Mojo( name="initialize",
-defaultPhase=LifecyclePhase.INITIALIZE )
+@Mojo (name="initialize", defaultPhase=LifecyclePhase.INITIALIZE)
 public class InitializeMojo extends AbstractBWMojo {
 
 	protected static final String parentBasedirProperty = "parentProject.basedir";
@@ -123,7 +122,7 @@ public class InitializeMojo extends AbstractBWMojo {
 			getProject().getProperties().setProperty(parentBasedirProperty, parentPath.getAbsolutePath());
 		}
 	}
-	
+
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {

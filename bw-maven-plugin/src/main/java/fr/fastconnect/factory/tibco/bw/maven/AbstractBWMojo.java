@@ -114,6 +114,15 @@ public abstract class AbstractBWMojo extends AbstractMojo {
 	@Parameter( property = "timeOut", defaultValue="180" )
 	protected int timeOut;
 
+	/**
+	 * Path to the TIBCO home directory.
+	 */
+	@Parameter ( property = "tibco.home" )
+	protected File tibcoHome;
+
+	@Parameter (property="tibco.hawk.version")
+	protected String hawkVersion;
+
 	/*
 	 * TRA configuration files
 	 */
