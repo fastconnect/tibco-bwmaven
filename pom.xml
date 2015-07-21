@@ -10,7 +10,7 @@
 
 	<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
 	<artifactId>bw-maven-parent</artifactId>
-	<version>2.3.1-SNAPSHOT</version>
+	<version>2.3.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>BWMaven parent</name>
