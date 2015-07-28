@@ -23,10 +23,16 @@ import java.util.List;
 import org.apache.maven.AbstractMavenLifecycleParticipant;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Activation;
+import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Plugin;
+import org.apache.maven.model.Profile;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.ProjectBuilder;
+import org.apache.maven.project.ProjectBuildingException;
 import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.project.ProjectBuildingResult;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.logging.Logger;
@@ -42,10 +48,50 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 	@Requirement
 	private Logger logger;
 
+    @Requirement
+    protected ProjectBuilder projectBuilder;
+
+	private AbstractBWMojo propertiesManager;
+
 	@Override
 	public void afterProjectsRead(MavenSession session)	throws MavenExecutionException {
-		List<MavenProject> projects = prepareProjects(session.getProjects(), session.getProjectBuildingRequest());
+		propertiesManager = AbstractBWMojo.propertiesManager(session, session.getCurrentProject());
+
+		List<MavenProject> projects = prepareProjects(session.getProjects(), session);
 		session.setProjects(projects);
+	}
+
+	private List<String> activateProfilesWithProperties(MavenProject mavenProject, List<String> activeProfileIds) {
+		if (mavenProject == null) return activeProfileIds;
+		List<String> result = new ArrayList<String>();
+		if (activeProfileIds != null) {
+			result.addAll(activeProfileIds);
+		}
+
+		for (Profile profile : mavenProject.getModel().getProfiles()) {
+			Activation activation = profile.getActivation();
+			if (activation != null) {
+				ActivationProperty property = activation.getProperty();
+				if (property != null) {
+					String name = property.getName();
+					if (name != null) {
+						String value;
+						if (name.startsWith("!")) {
+							value = propertiesManager.getPropertyValue(name.substring(1));
+						} else {
+							value = propertiesManager.getPropertyValue(name);
+						}
+						if (value != null) {
+							if (!name.startsWith("!") && value.equals(property.getValue()) || name.startsWith("!") && !value.equals(property.getValue())) {
+								result.add(profile.getId());
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 	private File getHawkLibDirectory(MavenProject mavenProject) {
@@ -110,10 +156,35 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 		return null;
 	}
 
-	private List<MavenProject> prepareProjects(List<MavenProject> projects, ProjectBuildingRequest projectBuildingRequest) throws MavenExecutionException {
+	private List<MavenProject> prepareProjects(List<MavenProject> projects, MavenSession session) throws MavenExecutionException {
 		List<MavenProject> result = new ArrayList<MavenProject>();
 
+		ProjectBuildingRequest projectBuildingRequest = session.getProjectBuildingRequest();
+
 		for (MavenProject mavenProject : projects) {
+			List<String> oldActiveProfileIds = projectBuildingRequest.getActiveProfileIds();
+			try {
+				List<String> activeProfileIds = activateProfilesWithProperties(mavenProject, oldActiveProfileIds);
+				if (activeProfileIds.size() != oldActiveProfileIds.size()) {
+					projectBuildingRequest.setActiveProfileIds(activeProfileIds);
+					if (mavenProject.getFile() != null) {
+						List<File> files = new ArrayList<File>();
+						files.add(mavenProject.getFile());
+						List<ProjectBuildingResult> results = null;
+						try {
+							results = projectBuilder.build(files, true, projectBuildingRequest);
+						} catch (ProjectBuildingException e) {
+						}
+
+						for (ProjectBuildingResult projectBuildingResult : results) {
+							mavenProject = projectBuildingResult.getProject();
+						}
+					}
+				}
+			} finally {
+				projectBuildingRequest.setActiveProfileIds(oldActiveProfileIds);
+			}
+
 			if (mavenProject.getPackaging().startsWith(AbstractBWMojo.BWEAR_TYPE)) {
 				File hawkLib = getHawkLibDirectory(mavenProject);
 				File rvLib = getRvLibDirectory(mavenProject);
