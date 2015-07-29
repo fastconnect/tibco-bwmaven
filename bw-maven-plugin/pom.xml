@@ -442,6 +442,7 @@
 			<properties>
 				<repositorySiteURL>git@github.com/fastconnect/tibco-factory.git</repositorySiteURL>
 				<repositorySiteDisplayURL>http://fastconnect.github.io/tibco-factory/snapshot/bw-maven-plugin</repositorySiteDisplayURL>
+				<rootSiteDisplayURL>http://fastconnect.github.io/tibco-factory/snapshot</rootSiteDisplayURL>
 				<github.site.suffix>/${project.artifactId}</github.site.suffix>
 			</properties>
 			<build>
