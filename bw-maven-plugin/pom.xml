@@ -244,6 +244,23 @@
 	</dependencies>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-gitexe</artifactId>
+				<version>1.9.4</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-manager-plexus</artifactId>
+				<version>1.9.4</version>
+			</extension>
+			<extension>
+				<groupId>com.github.stephenc.wagon</groupId>
+				<artifactId>wagon-gitsite</artifactId>
+				<version>0.5</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -420,14 +437,23 @@
 		<profile>
 			<id>site</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<repositorySiteURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}</repositorySiteURL>
+				<repositorySiteURL>git@github.com/fastconnect/tibco-bwmaven.git</repositorySiteURL>
 				<github.site.suffix>${project.artifactId}</github.site.suffix>
 			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<configuration>
+							<skipDeploy>false</skipDeploy>
+						</configuration>
+					</plugin>
+
+			<!-- 
 					<plugin>
 						<groupId>com.github.github</groupId>
 						<artifactId>site-maven-plugin</artifactId>
@@ -436,12 +462,14 @@
 							<skip>false</skip>
 						</configuration>
 					</plugin>
+			-->
 				</plugins>
 			</build>
 			<distributionManagement>
 				<site>
-					<id>repo.site.fastconnect.org</id>
-					<url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url>
+					<id>fc.github</id>
+					<!-- <url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url> -->
+					<url>gitsite:${repositorySiteURL}/${project.artifactId}</url>
 				</site>
 			</distributionManagement>
 		</profile>
