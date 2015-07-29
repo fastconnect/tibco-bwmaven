@@ -440,7 +440,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<repositorySiteURL>git@github.com/fastconnect/tibco-bwmaven.git</repositorySiteURL>
+				<repositorySiteURL>git@github.com/fastconnect/tibco-factory.git</repositorySiteURL>
 				<github.site.suffix>${project.artifactId}</github.site.suffix>
 			</properties>
 			<build>
