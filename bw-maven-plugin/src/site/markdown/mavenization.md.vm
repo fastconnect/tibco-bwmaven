@@ -40,9 +40,9 @@ any time (simply by
 $h3 Prerequisites
 	
 Before reading this chapter, the user should be familiar with the basic
-[usage](${repositorySiteURL}/usage.html) of the Maven Plugin for TIBCO
+[usage](${repositorySiteDisplayURL}/usage.html) of the Maven Plugin for TIBCO
 BusinessWorks and have a correct
-"[settings.xml](${repositorySiteURL}/configuration.html#Maven_settingsxml_file)"
+"[settings.xml](${repositorySiteDisplayURL}/configuration.html#Maven_settingsxml_file)"
 installed.
 
 ---
