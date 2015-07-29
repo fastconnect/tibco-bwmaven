@@ -35,8 +35,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.xml.rpc.ServiceException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -49,7 +47,7 @@ import org.apache.tools.ant.types.selectors.ContainsSelector;
 import org.apache.tools.ant.types.selectors.FileSelector;
 
 import fr.fastconnect.factory.tibco.bw.maven.bwengine.AbstractServiceEngineMojo;
-import fr.fastconnect.factory.tibco.bw.maven.tester.ws.xsd.Settings;
+import fr.fastconnect.factory.tibco.bw.maven.jaxws.Settings;
 
 /**
  * <p>
@@ -124,7 +122,13 @@ public class FCUnitTestsMojo extends AbstractServiceEngineMojo {
 
 	@Override
 	public void executeServiceMethods() throws MojoExecutionException {
-		Settings settings = new Settings(null, null, null, null, true, testDirectory.getAbsolutePath());
+		Settings settings = new Settings();
+		settings.setScope(null);
+		settings.setSuitePattern(null);
+		settings.setCasePattern(null);
+		settings.setExportToFiles(true);
+		settings.setExportDirectory(testDirectory.getAbsolutePath());
+
 		// exécution des tests en appelant la méthode "runAllTests" du Service Agent de FCUnit
 		if (((FCUnitService) serviceAgent).runAllTests(settings)) {
 			getLog().info(FCUNIT_SUCCESSFUL);
@@ -166,7 +170,7 @@ public class FCUnitTestsMojo extends AbstractServiceEngineMojo {
 	public void initServiceAgent() throws MojoExecutionException {
 		try {
 			serviceAgent = new FCUnitService(bwEnginePort);
-		} catch (ServiceException e) {
+		} catch (Exception e) {
 			throw new MojoExecutionException(FCUNIT_FAILURE, e);
 		}
 	}

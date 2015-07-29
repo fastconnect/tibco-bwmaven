@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -37,6 +38,7 @@ import COM.TIBCO.hawk.console.hawkeye.ConsoleInitializationException;
 import COM.TIBCO.hawk.talon.MicroAgentData;
 import COM.TIBCO.hawk.talon.MicroAgentException;
 import COM.TIBCO.hawk.talon.Subscription;
+import fr.fastconnect.factory.tibco.bw.maven.InitializeMojo;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.DefaultSubscriptionHandler;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.MethodSubscriber;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.MicroAgent;
@@ -333,6 +335,10 @@ public class StartEARMojo extends AbstractBWDeployMojo {
 		} catch (MicroAgentException e) {
 			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
 		} catch (JAXBException e) {
+			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
+		} catch (SecurityException e) {
+			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
+		} catch (IllegalArgumentException e) {
 			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
 		}
 	}

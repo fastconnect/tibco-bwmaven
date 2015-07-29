@@ -14,21 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.fastconnect.tibco.businessworks.fcunit.processes;
+package fr.fastconnect.factory.tibco.bw.maven.bwengine;
 
-import java.io.Serializable;
-import java.util.HashSet;
+public interface BWService {
 
-public class UniqueTestProcessFactory implements AbstractProcessFactory, Serializable {
-
-	private static final long serialVersionUID = 1095172024707692832L;
-
-	public AbstractProcess createProcess(String path) {
-		return new UniqueTestProcess(path);
-	}
-
-	public AbstractProcess[] createProcessArray(int length,	HashSet<String> paths) {
-		return new UniqueTestProcess[length-1];
-	}
+	public abstract void isStarted();
+	public abstract void stopEngine();
 
 }
