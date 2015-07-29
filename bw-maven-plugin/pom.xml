@@ -441,7 +441,7 @@
 			</activation>
 			<properties>
 				<repositorySiteURL>git@github.com/fastconnect/tibco-factory.git</repositorySiteURL>
-				<github.site.suffix>${project.artifactId}</github.site.suffix>
+				<github.site.suffix>/${project.artifactId}</github.site.suffix>
 			</properties>
 			<build>
 				<plugins>
@@ -452,24 +452,13 @@
 							<skipDeploy>false</skipDeploy>
 						</configuration>
 					</plugin>
-
-			<!-- 
-					<plugin>
-						<groupId>com.github.github</groupId>
-						<artifactId>site-maven-plugin</artifactId>
-						<inherited>false</inherited>
-						<configuration>
-							<skip>false</skip>
-						</configuration>
-					</plugin>
-			-->
 				</plugins>
 			</build>
 			<distributionManagement>
 				<site>
 					<id>fc.github</id>
 					<!-- <url>${repositorySiteProtocol}:${repositorySiteURL}/${project.artifactId}</url> -->
-					<url>gitsite:${repositorySiteURL}/${project.artifactId}</url>
+					<url>gitsite:${repositorySiteURL}/${github.site.path}</url>
 				</site>
 			</distributionManagement>
 		</profile>
