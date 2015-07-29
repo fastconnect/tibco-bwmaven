@@ -57,7 +57,7 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	 * A Service Agent is a Web Service representation in TIBCO BusinessWorks.
 	 * This Service Agent will be started when the BusinessWorks engine starts.
 	 */
-	protected ServiceAgentInEngine<?, ?> serviceAgent;
+	protected ServiceAgentInEngine<?> serviceAgent;
 
 	private void bwEngineNotFound() throws MojoExecutionException {
 		throw new BinaryMissingException(BWENGINE_MISSING);

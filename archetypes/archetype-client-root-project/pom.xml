@@ -3,16 +3,16 @@
 	<parent>
 		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
 		<artifactId>bw-maven-parent</artifactId>
-		<version>2.3.1-SNAPSHOT</version>
+		<version>2.3.2</version>
 		<relativePath>../..</relativePath>
 	</parent>
 	
 	<artifactId>archetype-client-root-project</artifactId>
 	<packaging>maven-archetype</packaging>
 	
-	<name>Archetype - Root POM</name>
+	<name>BWMaven root POM archetype</name>
 	<description>
-		This archetype will create a POM that inherits from ${factoryName}
+		This archetype will create a POM that inherits from FC TIBCO Factory
 		parent POM.
 	   
 		This POM will be the central configuration for all the TIBCO
