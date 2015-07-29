@@ -45,13 +45,13 @@
 		<reflowSkin>
 			<localResources>true</localResources>
 
-			<absoluteResourceURL>${repositorySiteURL}/</absoluteResourceURL>
+			<absoluteResourceURL>${repositorySiteDisplayURL}/</absoluteResourceURL>
 			<protocolRelativeURLs>true</protocolRelativeURLs>
 
 			<brand>
 				<name>
 		          <![CDATA[
-		          <style>.navbar .brand { padding: 5px 20px;}</style><a class="brand" href="${repositorySiteURL}/index.html"><span class="color-highlight">FC</span> TIBCO Factory</a><span class="brand" style="padding: 5px 5px;">/</span><a class="brand" href="${repositorySiteURL}/bw-maven-plugin/index.html"><span class="color-highlight">BWMaven</span> plugin</a>
+		          <style>.navbar .brand { padding: 5px 20px;}</style><a class="brand" href="${repositorySiteDisplayURL}/index.html"><span class="color-highlight">FC</span> TIBCO Factory</a><span class="brand" style="padding: 5px 5px;">/</span><a class="brand" href="${repositorySiteDisplayURL}/bw-maven-plugin/index.html"><span class="color-highlight">BWMaven</span> plugin</a>
 		          ]]>
 				</name>
 			</brand>
