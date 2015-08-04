@@ -116,13 +116,14 @@ There is a Maven archetype provided called <tt>archetype-client-root-project</tt
                         -DartifactId=project-root \
                         -Dversion=1.0.0 \
                         -DclientProjectName=ABC \
-                        -DfcFactoryParentVersion=1.0.0 \
+                        -DfcFactoryParentVersion=${factoryVersion} \
                        [-DinteractiveMode=false]
 ```
 
 Before using this archetype you might want to read the discussion about the use
-of [FC TIBCO Factory root parent POM](../configuration/root-parent.html) in	a
-client root POM.
+of
+[FC TIBCO Factory root parent POM](../configuration.html#Project-dependent_settings_root_POM)
+in a client root POM.
 	
 ---
 
@@ -154,9 +155,9 @@ define advanced properties and patterns.
 
 $h3 Listing all the projects to mavenize
 
-The goal to use is [list-bw-projects](../list-bw-projects-mojo.html).
+The goal to use is [list-bw-projects](./list-bw-projects-mojo.html).
 
 $h3 Creating POM for the projects in a list (basic mavenization)
 
-The goal to use is [mavenize-bw-projects](../mavenize-bw-projects-mojo.html)
+The goal to use is [mavenize-bw-projects](./mavenize-bw-projects-mojo.html)
  
