@@ -437,7 +437,7 @@
 		<profile>
 			<id>site</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
 				<repositorySiteURL>git@github.com/fastconnect/tibco-factory.git</repositorySiteURL>
@@ -459,7 +459,6 @@
 			<distributionManagement>
 				<site>
 					<id>fc.github</id>
-					<!-- <url>gitsite:${repositorySiteURL}/${github.site.path}</url> -->
 					<url>gitsite:${repositorySiteURL}/${github.site.path}</url>
 				</site>
 			</distributionManagement>
