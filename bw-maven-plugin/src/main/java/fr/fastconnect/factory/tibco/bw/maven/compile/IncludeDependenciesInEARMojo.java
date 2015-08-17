@@ -19,6 +19,7 @@ package fr.fastconnect.factory.tibco.bw.maven.compile;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.mojo.truezip.Fileset;
+import org.codehaus.mojo.truezip.TrueZipFileSet;
 import org.codehaus.mojo.truezip.internal.DefaultTrueZip;
 import org.jaxen.JaxenException;
 import org.jdom.Document;
@@ -38,7 +40,15 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 
+import de.schlichtherle.truezip.file.TArchiveDetector;
+import de.schlichtherle.truezip.file.TConfig;
 import de.schlichtherle.truezip.file.TFile;
+import de.schlichtherle.truezip.fs.archive.tar.TarBZip2Driver;
+import de.schlichtherle.truezip.fs.archive.tar.TarDriver;
+import de.schlichtherle.truezip.fs.archive.tar.TarGZipDriver;
+import de.schlichtherle.truezip.fs.archive.zip.JarDriver;
+import de.schlichtherle.truezip.fs.archive.zip.ZipDriver;
+import de.schlichtherle.truezip.socket.sl.IOPoolLocator;
 import fr.fastconnect.factory.tibco.bw.maven.AbstractBWArtifactMojo;
 
 /**
@@ -162,6 +172,42 @@ public class IncludeDependenciesInEARMojo extends AbstractBWArtifactMojo {
 
 			truezip.copyFile(xmlTIBCOTemp, xmlTIBCO);
 		}
+
+		updateAliasInPARs(includeOrigin, includeDestination, ear);
+	}
+
+	private void updateAliasInPARs(String includeOrigin, String includeDestination, File ear) throws IOException, JDOMException {
+		TrueZipFileSet pars = new TrueZipFileSet();
+		pars.setDirectory(ear.getAbsolutePath());
+		pars.addInclude("*.par");
+		List<TFile> parsXML = truezip.list(pars);
+		for (TFile parXML : parsXML) {
+			TFile xmlTIBCO = new TFile(parXML, "TIBCO.xml");
+
+			String tempPath = ear.getParentFile().getAbsolutePath() + File.separator + "TIBCO.xml";
+			TFile xmlTIBCOTemp = new TFile(tempPath);
+
+			truezip.copyFile(xmlTIBCO, xmlTIBCOTemp);
+
+			File xmlTIBCOFile = new File(tempPath);
+
+			SAXBuilder sxb = new SAXBuilder();
+			Document document = sxb.build(xmlTIBCOFile);
+
+			XPath xpa = XPath.newInstance("//dd:NameValuePairs/dd:NameValuePair[dd:name='EXTERNAL_JAR_DEPENDENCY']/dd:value");
+			xpa.addNamespace("dd", "http://www.tibco.com/xmlns/dd");
+
+			Element singleNode = (Element) xpa.selectSingleNode(document);
+			if (singleNode != null) {
+				String value = singleNode.getText().replace(includeOrigin, includeDestination);
+				singleNode.setText(value);
+				XMLOutputter xmlOutput = new XMLOutputter();
+				xmlOutput.setFormat(Format.getPrettyFormat().setIndent("    "));
+				xmlOutput.output(document, new FileWriter(xmlTIBCOFile));
+
+				truezip.copyFile(xmlTIBCOTemp, xmlTIBCO);
+			}
+		}
 	}
 
 	public void execute() throws MojoExecutionException {
@@ -182,7 +228,11 @@ public class IncludeDependenciesInEARMojo extends AbstractBWArtifactMojo {
 		}
 		getLog().debug("Using EAR : " + ear.getAbsolutePath());
 
-        truezip = new DefaultTrueZip();
+		TConfig.get().setArchiveDetector( new TArchiveDetector( TArchiveDetector.NULL, new Object[][] {
+				{ "zip|kar|par|ear", new ZipDriver( IOPoolLocator.SINGLETON ) },
+		} ) );
+
+		truezip = new DefaultTrueZip();
 
 		try {
 			this.copyRuntimeJARsInEAR(ear);
