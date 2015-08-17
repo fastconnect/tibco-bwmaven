@@ -114,7 +114,6 @@
 				<module>archetypes/archetype-bw-default-project</module>
 				<module>archetypes/archetype-bw-default-projlib</module>
 				<module>archetypes/archetype-bw-mavenizer</module>
-				<module>archetypes/archetype-client-root-project</module>
 			</modules>
 		</profile>
 	</profiles>
