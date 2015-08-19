@@ -119,6 +119,7 @@ public class InitializeMojo extends AbstractBWMojo {
 	private void setParentPath() throws IOException, XmlPullParserException {
 		File parentPath = getParent(getProject(), getLog());
 		if (parentPath != null) {
+			getLog().debug(parentBasedirProperty + ": " + parentPath.getAbsolutePath());
 			getProject().getProperties().setProperty(parentBasedirProperty, parentPath.getAbsolutePath());
 		}
 	}
