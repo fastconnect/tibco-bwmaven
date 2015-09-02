@@ -435,7 +435,22 @@
 
 	<profiles>
 		<profile>
-			<id>site</id>
+			<id>site-local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<local.site.suffix>${project.artifactId}</local.site.suffix>
+			</properties>
+			<distributionManagement>
+				<site>
+					<id>fc.local</id>
+					<url>dav:${repositorySiteURL}</url>
+				</site>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>site-github</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -445,17 +460,6 @@
 				<rootSiteDisplayURL>http://fastconnect.github.io/tibco-factory/${github.site.prefix}</rootSiteDisplayURL>
 				<github.site.suffix>/${project.artifactId}</github.site.suffix>
 			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-site-plugin</artifactId>
-						<configuration>
-							<skipDeploy>false</skipDeploy>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
 			<distributionManagement>
 				<site>
 					<id>fc.github</id>
@@ -464,6 +468,13 @@
 			</distributionManagement>
 		</profile>
 	</profiles>
+
+	<scm>
+		<url>https://github.com/fastconnect/tibco-bwmaven</url>
+		<connection>scm:git:git://github.com/fastconnect/tibco-bwmaven.git</connection>
+		<developerConnection>scm:git:git@github.com:fastconnect/tibco-bwmaven.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<url>${repositorySiteDisplayURL}</url>
 
