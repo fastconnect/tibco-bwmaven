@@ -79,8 +79,8 @@ mvn bw:launch-designer
 
 The project can be edited as any other TIBCO BusinessWorks project.
 
-${notaBene} before going on with the <i>package</i> phase, it is mandatory to exit
-the TIBCO Designer.
+${notaBene} before going on with the <i>package</i> phase, it is mandatory to
+exit the TIBCO Designer.
 
 $h3 Package 
 
