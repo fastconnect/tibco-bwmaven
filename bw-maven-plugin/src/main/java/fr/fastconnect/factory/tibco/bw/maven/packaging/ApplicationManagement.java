@@ -1104,9 +1104,9 @@ public class ApplicationManagement {
 						return service;
 					} else if (elementName.equals("binding")) {
 						Binding binding = null;
-						if ("bw".equals(((ServiceType) parent).getName())) {
+						if (parent.getClass().equals(Bw.class)) {
 							binding = this.getBinding(nameAttribute, (Bw) parent);
-						} else if ("adapter".equals(((ServiceType) parent).getName())) {
+						} else if (parent.getClass().equals(Adapter.class)) {
 							binding = this.getBinding(nameAttribute, (Adapter) parent);
 						} else {
 							// throw ?
