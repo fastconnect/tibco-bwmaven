@@ -40,6 +40,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.tibco.xmlns.applicationmanagement.ActionType;
 import com.tibco.xmlns.applicationmanagement.Actions;
+import com.tibco.xmlns.applicationmanagement.Adapter;
 import com.tibco.xmlns.applicationmanagement.AlertAction;
 import com.tibco.xmlns.applicationmanagement.ApplicationType;
 import com.tibco.xmlns.applicationmanagement.Binding;
@@ -209,6 +210,18 @@ public class ApplicationManagement {
 		return result;
 	}
 
+	private List<Adapter> getAdapterServices() {
+		List<Adapter> result = new ArrayList<Adapter>();
+
+		for (JAXBElement<? extends ServiceType> jaxbElement : application.getServices().getBaseService()) {
+			if (jaxbElement.getName().getLocalPart().equals("adapter")) {
+				result.add((Adapter) jaxbElement.getValue());
+			}
+		}
+
+		return result;
+	}
+
 	public List<String> getInstancesNames(boolean onlyEnabledServices) {
 		List<String> result = new ArrayList<String>();
 		
@@ -353,6 +366,7 @@ public class ApplicationManagement {
 		SortedProperties result = new SortedProperties();
 		
 		result.putAll(getProcessArchives());
+		result.putAll(getAdapterArchives());
 		
 		return result;
 	}
@@ -417,16 +431,71 @@ public class ApplicationManagement {
 
 	/**
 	 * <p>
-	 * This method focuses on bindings found in this path :
-	 * "/application/services/bw/bindings/binding"
+	 * This method focuses on all child elements of <adapter name="aar">. These
+	 * elements are defined in the "ServiceType" complexType of the XSD schema.
 	 * </p>
 	 */
-	protected Properties getBindings(Bw bwService) {
+	protected Properties getAdapterArchives() {
 		SortedProperties result = new SortedProperties();
 
-		String serviceKey = "bw[" + bwService.getName() + "]";
+		List<Adapter> adapters = getAdapterServices();
+
+		String key;
+
+		for (Adapter adapter : adapters) {
+			String serviceKey = "adapter[" + adapter.getName() + "]";
+
+			/// "ServiceType" complexType
+			// enabled
+			key = serviceKey + "/enabled";
+			result.setProperty(key, adapter.isEnabled());
+
+			// bindings
+			result.putAll(getBindings(adapter));
+			// NVPairs
+			result.putAll(getNVPairs(adapter));
+
+			// failureCount
+			key = serviceKey + "/failureCount";
+			result.setProperty(key, adapter.getFailureCount());
+
+			// failureInterval
+			key = serviceKey + "/failureInterval";
+			result.setProperty(key, adapter.getFailureInterval());
+
+			// monitor
+
+			// plugins
+			// not supported (too complex)
+		}
 		
-		Bindings bindings = bwService.getBindings();
+		return result;
+	}
+
+	private <T extends ServiceType> String getElementKey(T service) {
+		String elementKey;
+		if (service.getClass().getCanonicalName().contains("Adapter")) {
+			elementKey = "adapter";
+		} else { // WARN: could be another value but only support for "bw" and "adapter"
+			elementKey = "bw";
+		}
+
+		return elementKey;
+	}
+
+	/**
+	 * <p>
+	 * This method focuses on bindings found in these paths :
+	 * "/application/services/bw/bindings/binding"
+	 * "/application/services/adapter/bindings/binding"
+	 * </p>
+	 */
+	protected <T extends ServiceType> Properties getBindings(T service) {
+		SortedProperties result = new SortedProperties();
+
+		String serviceKey = getElementKey(service) + "[" + service.getName() + "]";
+
+		Bindings bindings = service.getBindings();
 		if (bindings != null) {			
 			for (Binding binding : bindings.getBinding()) {
 				String processKey = serviceKey + "/bindings/binding[" + binding.getName() + "]";
@@ -530,15 +599,16 @@ public class ApplicationManagement {
 	 * <p>
 	 * This method focuses on Global Variables found in this path :
 	 * "/application/services/bw/NVPairs"
+	 * "/application/services/adapter/NVPairs"
 	 * </p>
 	 */
-	private Properties getNVPairs(Bw bwService) {
+	private <T extends ServiceType> Properties getNVPairs(T service) {
 		SortedProperties result = new SortedProperties();
 
-		String serviceKey = "bw[" + bwService.getName() + "]";
+		String serviceKey = getElementKey(service) + "[" + service.getName() + "]";
 		
 		List<NVPairs> nvPairsList = new ArrayList<NVPairs>();
-		nvPairsList = bwService.getNVPairs();
+		nvPairsList = service.getNVPairs();
 		
 		String variablesKey;
 
@@ -685,9 +755,35 @@ public class ApplicationManagement {
 	}
 
 	/**
-	 * /application/services/bw/bindings/binding
+	 * /application/services/adapter
 	 */
-	private Binding getBinding(String nameAttribute, Bw parent) {
+	private Adapter getAdapter(String name) {
+		List<Adapter> services = getAdapterServices();
+
+		if (services != null) {
+			for (Adapter service : services) {
+				if (service.getName().equals(name)) {
+					return service;
+				}
+			}
+		}
+
+		Adapter result = new Adapter();
+		result.setName(name);
+		services.add(result);
+
+		QName qName = new QName(APPLICATION_MANAGEMENT_NAMESPACE, "adapter");
+		JAXBElement<Adapter> j = new JAXBElement<Adapter>(qName, Adapter.class, result);
+		application.getServices().getBaseService().add(j);
+
+		return result;
+	}
+
+	/**
+	 * /application/services/bw/bindings/binding
+	 * /application/services/adapter/bindings/binding
+	 */
+	private <T extends ServiceType> Binding getBinding(String nameAttribute, T parent) {
 		Bindings bindings = parent.getBindings();
 		
 		if (bindings != null) {
@@ -926,6 +1022,20 @@ public class ApplicationManagement {
 	}
 
 	/**
+	 * /application/services/adapter/*
+	 */
+	private Object addAdapterParameter(Adapter adapter, String key, String value) {
+		if ("enabled".equals(key)) {
+			adapter.setEnabled(Boolean.parseBoolean(value));
+		} else if ("failureCount".equals(key)) {
+			adapter.setFailureCount(BigInteger.valueOf(Long.parseLong(value)));
+		} else if ("failureInterval".equals(key)) {
+			adapter.setFailureInterval(BigInteger.valueOf(Long.parseLong(value)));
+		}
+		return adapter;
+	}
+
+	/**
 	 * <p>
 	 * This method will create JAXB objects from Properties through recursive
 	 * calls.
@@ -946,9 +1056,9 @@ public class ApplicationManagement {
 
 					if (elementName.equals("variables")) {
 						NVPairs gvs = null;
-						if (parent.getClass().equals(Bw.class)) {
-							Bw bw = (Bw) parent;
-							for (NVPairs nvPairs : bw.getNVPairs()) {
+						if (parent.getClass().equals(Bw.class) || parent.getClass().equals(Adapter.class)) {
+							ServiceType service = (ServiceType) parent;
+							for (NVPairs nvPairs : service.getNVPairs()) {
 								if (nvPairs.getName().equals(nameAttribute)) {
 									gvs = nvPairs;
 									break;
@@ -956,7 +1066,7 @@ public class ApplicationManagement {
 							}
 							if (gvs == null) {
 								gvs = new NVPairs();
-								bw.getNVPairs().add(gvs);
+								service.getNVPairs().add(gvs);
 							}
 						} else if (parent.getClass().equals(Binding.class)) {
 							gvs = new NVPairs();
@@ -965,7 +1075,6 @@ public class ApplicationManagement {
 						}
 						map.put(path, gvs);
 						return gvs;
-
 					} else if (elementName.equals("variable")) {
 						NameValuePair simpleGV = new NameValuePair();
 						simpleGV.setName(nameAttribute);
@@ -989,8 +1098,19 @@ public class ApplicationManagement {
 						Bw service = this.getBw(nameAttribute);
 						map.put(path, service);
 						return service;
+					} else if (elementName.equals("adapter")) {
+						Adapter service = this.getAdapter(nameAttribute);
+						map.put(path, service);
+						return service;
 					} else if (elementName.equals("binding")) {
-						Binding binding = this.getBinding(nameAttribute, (Bw) parent);
+						Binding binding = null;
+						if (parent.getClass().equals(Bw.class)) {
+							binding = this.getBinding(nameAttribute, (Bw) parent);
+						} else if (parent.getClass().equals(Adapter.class)) {
+							binding = this.getBinding(nameAttribute, (Adapter) parent);
+						} else {
+							// throw ?
+						}
 						map.put(path, binding);
 						return binding;
 					} else if (elementName.equals("bwprocess")) {
@@ -1009,9 +1129,9 @@ public class ApplicationManagement {
 				} else {
 					if (elementName.equals("variables")) {
 						NVPairs gvs = null;
-						if (parent.getClass().equals(Bw.class)) {
-							Bw bw = (Bw) parent;
-							for (NVPairs nvPairs : bw.getNVPairs()) {
+						if (parent.getClass().equals(Bw.class) || parent.getClass().equals(Adapter.class)) {
+							ServiceType service = (ServiceType) parent;
+							for (NVPairs nvPairs : service.getNVPairs()) {
 								if (nvPairs.getName().equals("Runtime Variables")) {
 									gvs = nvPairs;
 									break;
@@ -1019,7 +1139,7 @@ public class ApplicationManagement {
 							}
 							if (gvs == null) {
 								gvs = new NVPairs();
-								bw.getNVPairs().add(gvs);
+								service.getNVPairs().add(gvs);
 							}
 						} else if (parent.getClass().equals(Binding.class)) {
 							gvs = new NVPairs();
@@ -1059,6 +1179,8 @@ public class ApplicationManagement {
 					// Bw chidren (direct children)
 					} else if (parent.getClass().equals(Bw.class)) {
 						return addBwParameter((Bw) parent, elementName, value);
+					} else if (parent.getClass().equals(Adapter.class)) {
+						return addAdapterParameter((Adapter) parent, elementName, value);
 					}
 				}
 
@@ -1077,11 +1199,27 @@ public class ApplicationManagement {
 	 */
 	public void removeDuplicateBinding() {
 		List<Bw> bwServices = this.getBWServices();
-		
+
 		for (Bw bw : bwServices) {
 			boolean first = true;
 			
 			List<Binding> bindings = bw.getBindings().getBinding();
+			for (Iterator<Binding> iterator = bindings.iterator(); iterator.hasNext();) {
+				Binding binding = (Binding) iterator.next();
+
+				if (!first && binding.getName().equals("")) {
+					iterator.remove();
+				}
+				first = false;
+			}
+		}
+
+		List<Adapter> adapterServices = this.getAdapterServices();
+
+		for (Adapter adapter : adapterServices) {
+			boolean first = true;
+
+			List<Binding> bindings = adapter.getBindings().getBinding();
 			for (Iterator<Binding> iterator = bindings.iterator(); iterator.hasNext();) {
 				Binding binding = (Binding) iterator.next();
 
@@ -1106,6 +1244,21 @@ public class ApplicationManagement {
 			String path = "bw[" + bw.getName() + "]/bindings/binding[]/machine";
 			
 			List<Binding> bindings = bw.getBindings().getBinding();
+			for (Iterator<Binding> iterator = bindings.iterator(); iterator.hasNext();) {
+				Binding binding = (Binding) iterator.next();
+//				if (binding.getName().equals("") && properties.getString(path) == null) {
+				if (binding.getName().equals("") && !properties.containsKey(path)) {
+					iterator.remove();
+				}
+			}
+		}
+
+		List<Adapter> adapterServices = this.getAdapterServices();
+
+		for (Adapter adapter : adapterServices) {
+			String path = "adapter[" + adapter.getName() + "]/bindings/binding[]/machine";
+
+			List<Binding> bindings = adapter.getBindings().getBinding();
 			for (Iterator<Binding> iterator = bindings.iterator(); iterator.hasNext();) {
 				Binding binding = (Binding) iterator.next();
 //				if (binding.getName().equals("") && properties.getString(path) == null) {
