@@ -70,10 +70,11 @@ public class InitializeMojo extends AbstractBWMojo {
 	private static boolean findParentPath(File path, Log logger) throws IOException, XmlPullParserException {
 		File pomPath = new File(path + File.separator + "pom.xml");
 		if (pomPath != null && pomPath.exists()) {
-			logger.debug(pomPath.getAbsolutePath());
+			logger.debug("pomPath: " + pomPath.getAbsolutePath());
 			Model m = POMManager.getModelFromPOM(pomPath, logger);
 			return propertyExistsInModel(m, parentBasedirProperty);
 		}
+		logger.debug("find false");
 		return false;
 	}
 
@@ -94,16 +95,25 @@ public class InitializeMojo extends AbstractBWMojo {
 			) {
 			parentBasedir = parentPOM.getParentFile();
 		}
-		
+
+		logger.debug("parentPOM: " + parentPOM.getAbsolutePath());
+
 		while (parentBasedir != null && parentBasedir.exists()) {
+			logger.debug("parentBasedir: " + parentBasedir.getAbsolutePath());
 			if (findParentPath(parentBasedir, logger)) {
+				logger.debug("parentFound");
 				result = parentBasedir;
 				
 				break;
 			}
-
+			logger.debug("parentNotFound");
 			if (parent != null) {
+				logger.debug(parent.getArtifactId());
 				parentBasedir = parent.getParentFile(); // use <relativePath> to retrieve real parent file
+				if (parentBasedir == null && parent.getParent() != null) {
+					parentBasedir = parent.getParent().getFile();
+				}
+				logger.debug(parentBasedir.getAbsolutePath());
 				if (parentBasedir != null &&
 					parentBasedir.exists() &&
 					parentBasedir.isFile()) {
