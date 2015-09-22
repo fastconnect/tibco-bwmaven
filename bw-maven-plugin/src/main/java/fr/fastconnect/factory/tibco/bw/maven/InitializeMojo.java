@@ -113,7 +113,9 @@ public class InitializeMojo extends AbstractBWMojo {
 				if (parentBasedir == null && parent.getParent() != null) {
 					parentBasedir = parent.getParent().getFile();
 				}
-				logger.debug(parentBasedir.getAbsolutePath());
+				if (parentBasedir != null) {
+					logger.debug(parentBasedir.getAbsolutePath());
+				}
 				if (parentBasedir != null &&
 					parentBasedir.exists() &&
 					parentBasedir.isFile()) {
