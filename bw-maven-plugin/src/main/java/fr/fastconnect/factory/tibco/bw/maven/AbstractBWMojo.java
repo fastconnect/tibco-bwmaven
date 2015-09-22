@@ -145,8 +145,7 @@ public class AbstractBWMojo extends AbstractMojo {
 	/**
 	 * Path to the BusinessWorks Engine TRA configuration file.
 	 */
-	@Parameter (property = "bwengine.tra.path", 
-		    	required = true)
+	@Parameter (property = "bwengine.tra.path", required = true)
 	protected File tibcoBWEngineTRAPath;
 
 	/**
