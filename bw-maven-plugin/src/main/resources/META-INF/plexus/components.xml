@@ -134,9 +134,6 @@
   							<process-test-resources>
    								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-test-dependencies
   							</process-test-resources>
-							<test>
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:bw-test
-							</test>
 							<prepare-package>
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:extract-xml-from-ear,
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-properties-from-xml,
@@ -208,9 +205,6 @@
   							<process-test-resources>
    								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:resolve-bw-test-dependencies
   							</process-test-resources>
-							<test>
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:bw-test
-							</test>
 							<install>
 								org.apache.maven.plugins:maven-install-plugin:install
 							</install>
