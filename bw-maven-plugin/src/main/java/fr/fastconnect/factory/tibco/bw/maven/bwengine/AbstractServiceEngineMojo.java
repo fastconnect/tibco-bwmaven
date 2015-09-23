@@ -19,8 +19,11 @@ package fr.fastconnect.factory.tibco.bw.maven.bwengine;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -49,9 +52,24 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	/**
 	 * Path to the BusinessWorks Engine binary.
 	 */
-	@Parameter (property = "bwengine.path", 
-	    		required = true)
+	@Parameter (property = "bwengine.path", required = true)
 	protected File tibcoBWEnginePath;
+
+	/**
+	 * <p>
+	 * The minimum value for the randomly chosen port.
+	 * </p>
+	 */
+	@Parameter (property = "bw.service.minPort", defaultValue="49152")
+	protected int minPort;
+
+	/**
+	 * <p>
+	 * The minimum value for the randomly chosen port.
+	 * </p>
+	 */
+	@Parameter (property = "bw.service.maxPort", defaultValue="65535")
+	protected int maxPort;
 
 	/**
 	 * A Service Agent is a Web Service representation in TIBCO BusinessWorks.
@@ -108,7 +126,52 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	private int getMaxRetry() {
 		return getTimeOut() / getRetryInterval();
 	}
-	
+
+	public static boolean available(int port, int minPort, int maxPort) {
+	    if (port < minPort || port > maxPort) {
+	        throw new IllegalArgumentException("Invalid start port: " + port);
+	    }
+
+	    ServerSocket ss = null;
+	    DatagramSocket ds = null;
+	    try {
+	        ss = new ServerSocket(port);
+	        ss.setReuseAddress(true);
+	        ds = new DatagramSocket(port);
+	        ds.setReuseAddress(true);
+	        return true;
+	    } catch (IOException e) {
+	    } finally {
+	        if (ds != null) {
+	            ds.close();
+	        }
+
+	        if (ss != null) {
+	            try {
+	                ss.close();
+	            } catch (IOException e) {
+	                /* should not be thrown */
+	            }
+	        }
+	    }
+
+	    return false;
+	}
+
+	public Integer getFreePort(int minPort, int maxPort) {
+		Random rand = new Random();
+		int port = -1;
+		do {
+			port = rand.nextInt((maxPort - minPort) + 1) + minPort;
+		} while (!available(port, minPort, maxPort));
+
+	    return port;
+	}
+
+	public Integer getFreePort() {
+		return getFreePort(minPort, maxPort);
+	}
+
 	public void execute() throws MojoExecutionException {		
 		super.execute();
 
