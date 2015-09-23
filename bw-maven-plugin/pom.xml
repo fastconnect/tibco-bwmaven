@@ -311,63 +311,6 @@
 				</executions>
 			</plugin>
 
-			<!-- FCUnit WSDL import -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-wsdl</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/src/main/resources/wsdl</directory>
-									<includes>
-										<include>FCUnit-concrete.wsdl</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jvnet.jax-ws-commons</groupId>
-				<artifactId>jaxws-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>com.sun.xml.ws</groupId>
-						<artifactId>jaxws-tools</artifactId>
-						<version>2.2.10</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<id>wsdl-to-java</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wsimport</goal>
-						</goals>
-						<configuration>
-							<extension>true</extension>
-							<packageName>fr.fastconnect.factory.tibco.bw.maven.jaxws</packageName>
-							<quiet>true</quiet>
-
-							<wsdlDirectory>${project.build.outputDirectory}</wsdlDirectory>
-							<wsdlFiles>
-								<wsdlFile>FCUnit-concrete.wsdl</wsdlFile>
-							</wsdlFiles>
-							<wsdlLocation>/FCUnit-concrete.wsdl</wsdlLocation>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
