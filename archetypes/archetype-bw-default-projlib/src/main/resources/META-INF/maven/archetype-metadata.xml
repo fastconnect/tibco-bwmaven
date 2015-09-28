@@ -25,23 +25,14 @@
 
 	<requiredProperties>
 		<requiredProperty key="bwProjectName"/>
-		<requiredProperty key="fcFactoryGroupId">
-			<defaultValue>fr.fastconnect.factory.tibco</defaultValue>
-		</requiredProperty>
-		<requiredProperty key="fcFactoryArtifactId">
-			<defaultValue>fc-tibco-factory</defaultValue>
-		</requiredProperty>
-		<requiredProperty key="fcFactoryVersion">
-			<defaultValue>2.0.0</defaultValue>
-		</requiredProperty>
 		<requiredProperty key="rootProjectGroupId">
-			<defaultValue>${fcFactoryGroupId}</defaultValue>
+			<defaultValue>${factoryGroupId}</defaultValue>
 		</requiredProperty>
 		<requiredProperty key="rootProjectArtifactId">
-			<defaultValue>${fcFactoryArtifactId}</defaultValue>
+			<defaultValue>${factoryArtifactId}</defaultValue>
 		</requiredProperty>
 		<requiredProperty key="rootProjectVersion">
-			<defaultValue>${fcFactoryVersion}</defaultValue>
+			<defaultValue>${factoryVersion}</defaultValue>
 		</requiredProperty>
 	</requiredProperties>
 	<fileSets>

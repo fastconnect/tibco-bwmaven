@@ -28,23 +28,14 @@
 		<requiredProperty key="projectPackaging">
 			<defaultValue>bw-ear</defaultValue>
 		</requiredProperty>
-		<requiredProperty key="fcFactoryGroupId">
+		<requiredProperty key="rootProjectGroupId">
 			<defaultValue>${factoryGroupId}</defaultValue>
 		</requiredProperty>
-		<requiredProperty key="fcFactoryArtifactId">
+		<requiredProperty key="rootProjectArtifactId">
 			<defaultValue>${factoryArtifactId}</defaultValue>
 		</requiredProperty>
-		<requiredProperty key="fcFactoryVersion">
-			<defaultValue>${factoryVersion}</defaultValue>
-		</requiredProperty>
-		<requiredProperty key="rootProjectGroupId">
-			<defaultValue>${fcFactoryGroupId}</defaultValue>
-		</requiredProperty>
-		<requiredProperty key="rootProjectArtifactId">
-			<defaultValue>${fcFactoryArtifactId}</defaultValue>
-		</requiredProperty>
 		<requiredProperty key="rootProjectVersion">
-			<defaultValue>${fcFactoryVersion}</defaultValue>
+			<defaultValue>${factoryVersion}</defaultValue>
 		</requiredProperty>
 		<requiredProperty key="rootRelativePath">
 			<defaultValue>..</defaultValue>

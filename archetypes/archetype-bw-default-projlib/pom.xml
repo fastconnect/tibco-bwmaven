@@ -2,9 +2,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
-		<artifactId>bw-maven-parent</artifactId>
+		<artifactId>archetypes</artifactId>
 		<version>2.3.4-SNAPSHOT</version>
-		<relativePath>../..</relativePath>
 	</parent>
 	
 	<artifactId>archetype-bw-default-projlib</artifactId>
@@ -15,23 +14,9 @@
 		This archetype creates an empty TIBCO BusinessWorks Projlib project.
 	</description>
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.archetype</groupId>
-				<artifactId>archetype-packaging</artifactId>
-				<version>2.2</version>
-			</extension>
-		</extensions>
+	<properties>
+		<maven.site.skip>true</maven.site.skip>
+		<maven.site.deploy.skip>true</maven.site.deploy.skip>
+	</properties>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.archetype</groupId>
-					<artifactId>maven-archetype-plugin</artifactId>
-					<version>2.2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 </project>
