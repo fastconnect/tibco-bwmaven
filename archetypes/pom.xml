@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+		<artifactId>bw-maven-parent</artifactId>
+		<version>2.3.4-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>archetypes</artifactId>
+	<packaging>pom</packaging>
+
+	<name>BWMaven Archetypes</name>
+
+	<modules>
+		<module>archetype-bw-default-project</module>
+		<module>archetype-bw-default-projlib</module>
+		<module>archetype-bw-mavenizer</module>	
+	</modules>
+
+	<properties>
+		<maven.site.skip>true</maven.site.skip>
+		<maven.site.deploy.skip>true</maven.site.deploy.skip>
+	</properties>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.archetype</groupId>
+				<artifactId>archetype-packaging</artifactId>
+				<version>2.2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>force-headers</id>
+						<inherited>false</inherited>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/archetype-metadata.xml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/archetype-metadata.xml</include>
+				</includes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/archetype.properties</exclude>
+					<exclude>**/goal.txt</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/archetype.properties</include>
+					<include>**/goal.txt</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+</project>

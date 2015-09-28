@@ -65,7 +65,7 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 
 	/**
 	 * <p>
-	 * The minimum value for the randomly chosen port.
+	 * The maximum value for the randomly chosen port.
 	 * </p>
 	 */
 	@Parameter (property = "bw.service.maxPort", defaultValue="65535")
@@ -128,7 +128,7 @@ public abstract class AbstractServiceEngineMojo extends AbstractBWMojo {
 	}
 
 	public static boolean available(int port, int minPort, int maxPort) {
-	    if (port < minPort || port > maxPort) {
+	    if (port < minPort || port > maxPort || port > 65535) {
 	        throw new IllegalArgumentException("Invalid start port: " + port);
 	    }
 

@@ -1,1 +1,1 @@
-antrun:run
+-Dbw.maven.plugin.version=${bw.maven.plugin.version} antrun:run
