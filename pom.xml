@@ -157,6 +157,6 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<url>https://fastconnect.github.io/tibco-factory/bw-maven-plugin</url>
+	<url>${repositorySiteDisplayURL}</url>
 
 </project>
