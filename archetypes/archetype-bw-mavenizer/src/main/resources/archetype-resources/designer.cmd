@@ -1,0 +1,1 @@
+call mvn bw:launch-designer
