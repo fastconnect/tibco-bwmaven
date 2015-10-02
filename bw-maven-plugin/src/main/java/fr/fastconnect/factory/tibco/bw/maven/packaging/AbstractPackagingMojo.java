@@ -94,7 +94,7 @@ public abstract class AbstractPackagingMojo extends AbstractBWArtifactMojo {
 	@Parameter ( property="ignoreCommonFiles", defaultValue = "false" )
 	protected boolean ignoreCommonFiles;
 
-	@Parameter ( property="filterProperties", defaultValue = "false" )
+	@Parameter ( property="deploy.properties.filterProperties", defaultValue = "false" , alias="filterProperties" )
 	protected boolean filterProperties; 
 
 	// repoInstance
