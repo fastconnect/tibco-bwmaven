@@ -46,16 +46,8 @@ public class ExtractXMLFromDomainMojo extends AbstractBWDeployMojo {
 
 		String xmlOutputFile = deploymentDescriptor.getPath(); 
 		
-		ArrayList<String> arguments = new ArrayList<String>();		
+		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-export");
-		arguments.add("-app");
-		arguments.add(deployedProjectName);
-		arguments.add("-domain");
-		arguments.add(domainName);
-		arguments.add("-user");
-		arguments.add(domainUsername);
-		arguments.add("-pw");
-		arguments.add(domainPassword);
 		arguments.add("-out");
 		arguments.add(xmlOutputFile); 
 

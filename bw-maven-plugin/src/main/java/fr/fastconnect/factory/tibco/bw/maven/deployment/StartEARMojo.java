@@ -27,7 +27,6 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -38,7 +37,6 @@ import COM.TIBCO.hawk.console.hawkeye.ConsoleInitializationException;
 import COM.TIBCO.hawk.talon.MicroAgentData;
 import COM.TIBCO.hawk.talon.MicroAgentException;
 import COM.TIBCO.hawk.talon.Subscription;
-import fr.fastconnect.factory.tibco.bw.maven.InitializeMojo;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.DefaultSubscriptionHandler;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.MethodSubscriber;
 import fr.fastconnect.factory.tibco.bw.maven.hawk.MicroAgent;
@@ -89,16 +87,8 @@ public class StartEARMojo extends AbstractBWDeployMojo {
 
 		getLog().info(STARTING_INSTANCES);
 
-		ArrayList<String> arguments = new ArrayList<String>();		
+		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-start");
-		arguments.add("-app");
-		arguments.add(deployedProjectName);
-		arguments.add("-domain");
-		arguments.add(domainName);
-		arguments.add("-user");
-		arguments.add(domainUsername);
-		arguments.add("-pw");
-		arguments.add(domainPassword);
 
 		ArrayList<File> tras = new ArrayList<File>();
 		tras.add(tibcoAppManageTRAPath);
