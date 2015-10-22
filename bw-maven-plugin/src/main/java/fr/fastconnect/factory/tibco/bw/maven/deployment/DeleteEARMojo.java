@@ -47,16 +47,8 @@ public class DeleteEARMojo extends AbstractBWDeployMojo {
 
 		getLog().info(DELETING_EAR);
 
-		ArrayList<String> arguments = new ArrayList<String>();
+		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-delete");
-		arguments.add("-app");
-		arguments.add(deployedProjectName);
-		arguments.add("-domain");
-		arguments.add(domainName);
-		arguments.add("-user");
-		arguments.add(domainUsername);
-		arguments.add("-pw");
-		arguments.add(domainPassword);
 		arguments.add("-force"); // first undeploy
 
 		ArrayList<File> tras = new ArrayList<File>();
