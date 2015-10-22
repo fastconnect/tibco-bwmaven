@@ -45,16 +45,8 @@ public class UndeployEARMojo extends AbstractBWDeployMojo {
 
 		getLog().info(UNDEPLOYING_EAR);
 
-		ArrayList<String> arguments = new ArrayList<String>();
+		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-undeploy");
-		arguments.add("-app");
-		arguments.add(deployedProjectName);
-		arguments.add("-domain");
-		arguments.add(domainName);
-		arguments.add("-user");
-		arguments.add(domainUsername);
-		arguments.add("-pw");
-		arguments.add(domainPassword);
 
 		ArrayList<File> tras = new ArrayList<File>();
 		tras.add(tibcoAppManageTRAPath);
