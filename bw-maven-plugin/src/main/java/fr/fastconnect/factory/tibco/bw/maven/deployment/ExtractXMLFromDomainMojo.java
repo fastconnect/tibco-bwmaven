@@ -16,8 +16,6 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -41,30 +39,32 @@ public class ExtractXMLFromDomainMojo extends AbstractBWDeployMojo {
 	protected final static String CREATE_XML_FROM_DOMAIN_SUCCESS = "Successfully extracted the XML Deployment Descriptor to ";
 	protected final static String CREATE_XML_FROM_DOMAIN_FAILED = "The extraction of the XML Deployment Descriptor file from the deployed application file has failed.";
 
-	private void createXML() throws MojoExecutionException, IOException {
-		checkAppManage();
-
-		String xmlOutputFile = deploymentDescriptor.getPath(); 
-		
-		ArrayList<String> arguments = super.commonArguments();
-		arguments.add("-export");
-		arguments.add("-out");
-		arguments.add(xmlOutputFile); 
-
-		ArrayList<File> tras = new ArrayList<File>();
-		tras.add(tibcoAppManageTRAPath);
-
-		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, CREATE_XML_FROM_DOMAIN_FAILED);
+	@Override
+	public String getInitMessage() {
+		return CREATING_XML_FROM_DOMAIN + "'" + domainName + "'";
 	}
 
-	public void execute() throws MojoExecutionException {
-		try {
-			getLog().info(CREATING_XML_FROM_DOMAIN + "'" + domainName + "'");
-			createXML();
-			getLog().info(CREATE_XML_FROM_DOMAIN_SUCCESS + " '" + deploymentDescriptor + "'");
-		} catch (IOException e) {
-			throw new MojoExecutionException(CREATE_XML_FROM_DOMAIN_FAILED, e);
-		}
+	@Override
+	public String getFailureMessage() {
+		return CREATE_XML_FROM_DOMAIN_FAILED;
+	}
+
+	@Override
+	public ArrayList<String> arguments() {
+		ArrayList<String> arguments = super.commonArguments();
+
+		String xmlOutputFile = deploymentDescriptor.getPath();
+
+		arguments.add("-export");
+		arguments.add("-out");
+		arguments.add(xmlOutputFile);
+
+		return arguments;
+	}
+
+	@Override
+	public void postAction() throws MojoExecutionException {
+		getLog().info(CREATE_XML_FROM_DOMAIN_SUCCESS + " '" + deploymentDescriptor + "'");
 	}
 
 }
