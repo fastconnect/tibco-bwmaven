@@ -33,7 +33,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Mathieu Debove
  *
  */
-@Mojo( name="extract-xml-from-domain",
+@Mojo( name="extract-xml-bw",
 defaultPhase=LifecyclePhase.PREPARE_PACKAGE )
 public class ExtractXMLFromDomainMojo extends AbstractBWDeployMojo {
 
