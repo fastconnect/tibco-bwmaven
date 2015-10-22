@@ -16,6 +16,8 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
+import java.util.ArrayList;
+
 import org.apache.maven.plugins.annotations.Parameter;
 
 import fr.fastconnect.factory.tibco.bw.maven.compile.CompileEARMojo;
@@ -65,4 +67,26 @@ public class AbstractBWDeployMojo extends AbstractPackagingMojo {
 		return !getProject().getPackaging().startsWith(BWEAR_TYPE); // startsWith to include bw-ear-deploy
 	}
 
+	/**
+	 * <p>
+	 * For each AppManage command a common set of arguments is required (domain,
+	 * project name, ...)
+	 * </p>
+	 *
+	 * @return a list with common arguments for AppManage.
+	 */
+	public ArrayList<String> commonArguments() {
+		ArrayList<String> arguments = new ArrayList<String>();
+
+		arguments.add("-app");
+		arguments.add(deployedProjectName);
+		arguments.add("-domain");
+		arguments.add(domainName);
+		arguments.add("-user");
+		arguments.add(domainUsername);
+		arguments.add("-pw");
+		arguments.add(domainPassword);
+
+		return arguments;
+	}
 }
