@@ -16,8 +16,6 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -81,48 +79,6 @@ public class StartEARMojo extends AbstractBWDeployMojo {
 	@Parameter (property="bw.start.running.statuses.number", defaultValue = "3")
 	private int numberOfRunningStatuses;
 	private MicroAgent microAgent;
-
-	private void startEAR() throws MojoExecutionException, IOException, ConsoleInitializationException, MicroAgentException, JAXBException {
-		checkAppManage();
-
-		getLog().info(STARTING_INSTANCES);
-
-		ArrayList<String> arguments = super.commonArguments();
-		arguments.add("-start");
-
-		ArrayList<File> tras = new ArrayList<File>();
-		tras.add(tibcoAppManageTRAPath);
-
-		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, STARTING_INSTANCES_FAILED);
-
-		if (waitForRunningInstances) {
-			if (!initHawk(false)) {
-				return;
-			}
-
-			List<ImmutablePair<String, String>> instances = new ArrayList<ImmutablePair<String,String>>();
-
-			ApplicationManagement application = new ApplicationManagement(deploymentDescriptorFinal);
-			String applicationName = application.getName();
-			List<String> servicesNames = application.getInstancesNames(true);
-
-			for (String serviceName : servicesNames) {
-				instances.add(new ImmutablePair<String, String>(applicationName, serviceName));
-			}
-
-			if (doWaitForRunningInstances(instances)) {
-				getLog().info("");
-				getLog().info(ALL_INSTANCES_STARTED);
-			} else {
-				getLog().info("");
-				if (failWhenTimeoutReached) {
-					throw new MojoExecutionException(SOME_INSTANCES_NOT_STARTED);
-				} else {
-					getLog().info(SOME_INSTANCES_NOT_STARTED);
-				}
-			}
-		}
-	}
 
 	private static class RunningInstanceSubscriptionHandler extends DefaultSubscriptionHandler {
 		private Log logger;
@@ -312,25 +268,62 @@ public class StartEARMojo extends AbstractBWDeployMojo {
 		return true;
 	}
 
-	public void execute() throws MojoExecutionException {
-		if (super.skip()) {
-			return;
-		}
+	@Override
+	public String getInitMessage() {
+		return STARTING_INSTANCES;
+	}
+
+	@Override
+	public String getFailureMessage() {
+		return STARTING_INSTANCES_FAILED;
+	}
+
+	@Override
+	public ArrayList<String> arguments() {
+		ArrayList<String> arguments = super.commonArguments();
+		arguments.add("-start");
+
+		return arguments;
+	}
+
+	@Override
+	public void postAction() throws MojoExecutionException {
 		try {
-			startEAR();
-		} catch (IOException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
-		} catch (ConsoleInitializationException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
-		} catch (MicroAgentException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
+			if (waitForRunningInstances) {
+				if (!initHawk(false)) {
+					return;
+				}
+
+				List<ImmutablePair<String, String>> instances = new ArrayList<ImmutablePair<String,String>>();
+
+				ApplicationManagement application = new ApplicationManagement(deploymentDescriptorFinal);
+				String applicationName = application.getName();
+				List<String> servicesNames = application.getInstancesNames(true);
+
+				for (String serviceName : servicesNames) {
+					instances.add(new ImmutablePair<String, String>(applicationName, serviceName));
+				}
+
+				if (doWaitForRunningInstances(instances)) {
+					getLog().info("");
+					getLog().info(ALL_INSTANCES_STARTED);
+				} else {
+					getLog().info("");
+					if (failWhenTimeoutReached) {
+						throw new MojoExecutionException(SOME_INSTANCES_NOT_STARTED);
+					} else {
+						getLog().info(SOME_INSTANCES_NOT_STARTED);
+					}
+				}
+			}
 		} catch (JAXBException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
-		} catch (SecurityException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
-		} catch (IllegalArgumentException e) {
-			throw new MojoExecutionException(STARTING_INSTANCES_FAILED, e);
+			throw new MojoExecutionException(SOME_INSTANCES_NOT_STARTED);
+		} catch (ConsoleInitializationException e) {
+			throw new MojoExecutionException(SOME_INSTANCES_NOT_STARTED);
+		} catch (MicroAgentException e) {
+			throw new MojoExecutionException(SOME_INSTANCES_NOT_STARTED);
 		}
+
 	}
 
 }

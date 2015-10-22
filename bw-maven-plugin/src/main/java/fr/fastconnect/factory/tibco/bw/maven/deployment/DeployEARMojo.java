@@ -17,7 +17,6 @@
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -74,6 +73,7 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 	@Parameter
 	private File deployConfigXML;
 
+<<<<<<< HEAD
 	private void deployEAR() throws MojoExecutionException, IOException {
 		checkAppManage();
 		
@@ -86,9 +86,23 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 		}
 
 		getLog().info(DEPLOYING_APPLICATION + "'" + deployedProjectName + "'" +  DEPLOYING_ON_DOMAIN + "'" +  domainName+ "'");
+=======
+	@Override
+	public String getInitMessage() {
+		return DEPLOYING_APPLICATION + "'" + deployedProjectName + "'" +  DEPLOYING_ON_DOMAIN + "'" +  domainName+ "'";
+	}
+
+	@Override
+	public String getFailureMessage() {
+		return DEPLOY_EAR_FAILED;
+	}
+
+	@Override
+	public ArrayList<String> arguments() {
+		File ear = getOutputFile();
+>>>>>>> Refactoring: all AppManage goals now share the same workflow
 		getLog().info(USING_EAR + ear.getAbsolutePath());
 		getLog().info(USING_XML + deploymentDescriptorFinal.getAbsolutePath());
-		
 
 		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-deploy");
@@ -107,21 +121,12 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 		}
 		arguments.add("-force");
 
-		ArrayList<File> tras = new ArrayList<File>();
-		tras.add(tibcoAppManageTRAPath);
-
-		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, DEPLOY_EAR_FAILED);
+		return arguments;
 	}
-	
-	public void execute() throws MojoExecutionException {
-		if (super.skip()) {
-			return;
-		}
-		try {
-			deployEAR();
-		} catch (IOException e) {
-			throw new MojoExecutionException(DEPLOY_EAR_FAILED, e);
-		}
+
+	@Override
+	public void postAction() throws MojoExecutionException {
+		// nothing to do
 	}
 
 }

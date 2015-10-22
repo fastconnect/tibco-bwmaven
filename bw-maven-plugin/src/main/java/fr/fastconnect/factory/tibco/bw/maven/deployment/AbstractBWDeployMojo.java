@@ -16,8 +16,11 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import fr.fastconnect.factory.tibco.bw.maven.compile.CompileEARMojo;
@@ -32,7 +35,7 @@ import fr.fastconnect.factory.tibco.bw.maven.packaging.AbstractPackagingMojo;
  * @author Mathieu Debove
  *
  */
-public class AbstractBWDeployMojo extends AbstractPackagingMojo {
+public abstract class AbstractBWDeployMojo extends AbstractPackagingMojo {
 	
 	/**
 	 * Name of the project once deployed in TIBCO domain
@@ -89,4 +92,34 @@ public class AbstractBWDeployMojo extends AbstractPackagingMojo {
 
 		return arguments;
 	}
+
+	public abstract String getInitMessage();
+	public abstract String getFailureMessage();
+	public abstract void postAction() throws MojoExecutionException;
+
+	public abstract ArrayList<String> arguments();
+
+	public void execute() throws MojoExecutionException {
+		if (super.skip()) {
+			return;
+		}
+
+		checkAppManage();
+
+		try {
+			getLog().info(getInitMessage());
+
+			ArrayList<String> arguments = arguments();
+
+			ArrayList<File> tras = new ArrayList<File>();
+			tras.add(tibcoAppManageTRAPath);
+
+			launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, getFailureMessage());
+
+			postAction();
+		} catch (IOException e) {
+			throw new MojoExecutionException(getFailureMessage(), e);
+		}
+	}
+
 }

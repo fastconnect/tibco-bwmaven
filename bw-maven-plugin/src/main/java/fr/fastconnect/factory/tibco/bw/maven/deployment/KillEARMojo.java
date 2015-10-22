@@ -16,8 +16,6 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -36,33 +34,31 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo( name="kill-bw",
 defaultPhase=LifecyclePhase.DEPLOY ) // FIXME: should be deployEAR
 public class KillEARMojo extends AbstractBWDeployMojo {
-	
+
 	protected final static String KILL_EAR_FAILED = "Some instances failed to be killed.";
 	protected final static String KILLING_EAR = "Killing instances of the application...";
 
-	private void killEAR() throws MojoExecutionException, IOException {
-		checkAppManage();
+	@Override
+	public String getInitMessage() {
+		return KILLING_EAR;
+	}
 
-		getLog().info(KILLING_EAR);
+	@Override
+	public String getFailureMessage() {
+		return KILL_EAR_FAILED;
+	}
 
+	@Override
+	public ArrayList<String> arguments() {
 		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-kill");
 
-		ArrayList<File> tras = new ArrayList<File>();
-		tras.add(tibcoAppManageTRAPath);
-
-		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, KILL_EAR_FAILED);
+		return arguments;
 	}
 
-	public void execute() throws MojoExecutionException {
-		if (super.skip()) {
-			return;
-		}
-		try {
-			killEAR();
-		} catch (IOException e) {
-			throw new MojoExecutionException(KILL_EAR_FAILED, e);
-		}
+	@Override
+	public void postAction() throws MojoExecutionException {
+		// nothing to do
 	}
 
 }

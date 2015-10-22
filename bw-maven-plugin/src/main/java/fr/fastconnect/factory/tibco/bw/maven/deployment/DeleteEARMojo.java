@@ -16,8 +16,6 @@
  */
 package fr.fastconnect.factory.tibco.bw.maven.deployment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -42,30 +40,29 @@ public class DeleteEARMojo extends AbstractBWDeployMojo {
 	protected final static String DELETE_EAR_FAILED = "The deletion of the application failed.";
 	protected final static String DELETING_EAR = "Deleting the application...";
 
-	private void deleteEAR() throws MojoExecutionException, IOException {
-		checkAppManage();
+	@Override
+	public String getInitMessage() {
+		return DELETING_EAR;
+	}
 
-		getLog().info(DELETING_EAR);
+	@Override
+	public String getFailureMessage() {
+		return DELETE_EAR_FAILED;
+	}
 
+	@Override
+	public ArrayList<String> arguments() {
 		ArrayList<String> arguments = super.commonArguments();
 		arguments.add("-delete");
 		arguments.add("-force"); // first undeploy
 
-		ArrayList<File> tras = new ArrayList<File>();
-		tras.add(tibcoAppManageTRAPath);
+		return arguments;
 
-		launchTIBCOBinary(tibcoAppManagePath, tras, arguments, directory, DELETE_EAR_FAILED);
 	}
 
-	public void execute() throws MojoExecutionException {
-		if (super.skip()) {
-			return;
-		}
-		try {
-			deleteEAR();
-		} catch (IOException e) {
-			throw new MojoExecutionException(DELETE_EAR_FAILED, e);
-		}
+	@Override
+	public void postAction() throws MojoExecutionException {
+		// nothing to do
 	}
 
 }
