@@ -83,6 +83,13 @@ public class GeneratePOM extends AbstractPackagingMojo {
 	protected List<String> includedModules;
 
 	/**
+	 * To define a &lt;deployBuild> section in the plugin's configuration which
+	 * will be merged in deploy POM &lt;build> section.
+	 */
+	@Parameter
+	protected Build deployBuild;
+
+	/**
 	 * The deployProperties will be "forwarded" from main POM to deploy POM.
 	 */
 	@Parameter
@@ -500,36 +507,43 @@ public class GeneratePOM extends AbstractPackagingMojo {
 		return result;
 	}
 
-	private void updateBuildForPOM(Model model) {
-		if (true) {
-			// Maven enforcer plugin
-			Plugin propertiesPlugin = new Plugin();
-			propertiesPlugin.setGroupId("org.kuali.maven.plugins");
-			propertiesPlugin.setArtifactId("properties-maven-plugin");
-			propertiesPlugin.setVersion("2.0.1");
-			
-			Xpp3Dom config = MojoExecutor.configuration(
-								MojoExecutor.element("locations", MojoExecutor.element("location", "${externalPropertiesFile}")),
-								MojoExecutor.element("quiet", "true")
-							 );
-	
-			propertiesPlugin.setConfiguration(config);
-			
-			List<PluginExecution> executions = new ArrayList<PluginExecution>();
-			PluginExecution execution = new PluginExecution();
-			execution.setId("inject-external-properties-file");
-			execution.addGoal("read-project-properties");
-			execution.setPhase("validate");
-			executions.add(execution);
-			propertiesPlugin.setExecutions(executions);
+	private void addPropertiesLoader(Model model) {
+		// Properties loader plugin
+		Plugin propertiesPlugin = new Plugin();
+		propertiesPlugin.setGroupId("org.kuali.maven.plugins");
+		propertiesPlugin.setArtifactId("properties-maven-plugin");
+		propertiesPlugin.setVersion("2.0.1");
 		
-			Build build = model.getBuild();
-			if (build == null) {
-				build = new Build();
-				model.setBuild(build);
-			}
-			model.getBuild().addPlugin(propertiesPlugin);
+		Xpp3Dom config = MojoExecutor.configuration(
+							MojoExecutor.element("locations", MojoExecutor.element("location", "${externalPropertiesFile}")),
+							MojoExecutor.element("quiet", "true")
+						 );
+
+		propertiesPlugin.setConfiguration(config);
+
+		List<PluginExecution> executions = new ArrayList<PluginExecution>();
+		PluginExecution execution = new PluginExecution();
+		execution.setId("inject-external-properties-file");
+		execution.addGoal("read-project-properties");
+		execution.setPhase("validate");
+		executions.add(execution);
+		propertiesPlugin.setExecutions(executions);
+
+		Build build = model.getBuild();
+		if (build == null) {
+			build = new Build();
+			model.setBuild(build);
 		}
+		model.getBuild().addPlugin(propertiesPlugin);
+	}
+
+	private void updateBuildForPOM(Model model, Build configBuild) {
+		if (configBuild != null) {
+			model.setBuild(configBuild);
+		}
+
+		addPropertiesLoader(model);
+
 		if (rules != null) {
 			// Maven enforcer plugin
 			Plugin enforcerPlugin = new Plugin();
@@ -617,7 +631,7 @@ public class GeneratePOM extends AbstractPackagingMojo {
 				
 				model = addDefaultProperties(model, project);
 				
-				updateBuildForPOM(model);
+				updateBuildForPOM(model, deployBuild);
 
 				model = addModules(model, project);
 			} else if (project.getPackaging().equals(BWEAR_TYPE)) {
@@ -711,6 +725,7 @@ public class GeneratePOM extends AbstractPackagingMojo {
 
 	public void execute() throws MojoExecutionException {
 		Boolean skipParent = super.skip();
+
 		if (skipParent || skipGeneratePom) {
 			if (!skipParent) {
 				getLog().info(SKIPPING);
