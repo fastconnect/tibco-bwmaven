@@ -77,6 +77,15 @@ public class CompileEARMojo extends AbstractBWArtifactMojo {
     protected File tibcoBuildEARPath;
 
     /**
+     * <p>
+     * Whether to validate or not the EAR before building
+     * (-v switch of <i>buildear</i>).
+     * </p>
+     */
+    @Parameter(property = "buildear.validate", defaultValue = "true")
+    protected Boolean tibcoBuildEARValidation;
+
+    /**
      * Allow to delete override variables from projlib
      */
     @Parameter(property = "bw.clean.projlib.defaultVars")
@@ -122,7 +131,9 @@ public class CompileEARMojo extends AbstractBWArtifactMojo {
         arguments.add("-o"); // output file
         arguments.add(outputFile.getAbsolutePath());
         arguments.add("-x"); // overwrite the output
-        arguments.add("-v"); // validate the project
+        if (tibcoBuildEARValidation) {
+            arguments.add("-v"); // validate the project
+        }
         File aliasesFile = new File(directory, ALIASES_FILE);
         if (aliasesFile.exists()) {
             arguments.add("-a");

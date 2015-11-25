@@ -5,20 +5,20 @@
             <resourceType>shared.archive.resource</resourceType>
             <authorProperty>author</authorProperty>
         </sharedArchive>
-        <processArchive name="project-archive">
+        <processArchive name="${bwProjectName}">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty/>
-            <processProperty/>
+            <processProperty>/${bwProjectName}/SimpleLoggerOnStartup.process</processProperty>
         </processArchive>
         <versionProperty>1</versionProperty>
         <authorProperty/>
         <addServiceSettableGvars>true</addServiceSettableGvars>
-        <name>__bwProjectName__</name>
+        <name>${bwProjectName}</name>
         <designer>
             <lockedProperties/>
             <fixedChildren/>
             <resourceDescriptions/>
         </designer>
-        <fileLocationProperty>C:\tibco\workspace\src.ear</fileLocationProperty>
+        <fileLocationProperty>C:\temp\${bwProjectName}.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>
