@@ -37,6 +37,12 @@
 	</requiredProperties>
 	<fileSets>
 		<fileSet encoding="UTF-8" filtered="true" packaged="false">
+			<directory></directory>
+			<includes>
+				<include>designer*</include>
+			</includes>
+		</fileSet>
+		<fileSet encoding="UTF-8" filtered="true" packaged="false">
 			<directory>src</directory>
 		</fileSet>
 	</fileSets>

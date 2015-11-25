@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
-    <name name="__bwProjectName__">
+    <name name="${bwProjectName}">
         <version>1</version>
         <author/>
         <fileLocation>C:\temp\ProjectLibrary.projlib</fileLocation>
