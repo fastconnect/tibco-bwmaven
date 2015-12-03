@@ -23,8 +23,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo( name="batch-extract-xml-bw",
-defaultPhase=LifecyclePhase.PREPARE_PACKAGE )
+@Mojo(name="batch-extract-xml-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
 public class ExtractXMLBatchMojo extends AbstractBWBatchDeployMojo {
 
 	protected final static String EXTRACTING_CONFIG_BATCH = "Extracting configuration from domain (batch)...";
