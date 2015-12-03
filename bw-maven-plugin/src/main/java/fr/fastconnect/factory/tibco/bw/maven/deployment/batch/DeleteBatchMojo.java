@@ -23,33 +23,15 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-@Mojo(name="batch-deploy-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
-public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
+@Mojo(name="batch-delete-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
+public class DeleteBatchMojo extends AbstractBWBatchDeployMojo {
 
-	protected final static String DEPLOYING_BATCH = "Extracting configuration from domain (batch)...";
-	protected final static String DEPLOYING_FAILED = "The batch deployment failed.";
-
-	/**
-	 * <p>
-	 * Whether to extract in template format or not
-	 * (<i>-template</i> switch from AppManage).
-	 * </p>
-	 */
-	@Parameter ( property = deployBatchNoStart, required = true , defaultValue = "false" )
-	protected boolean batchNoStart;
+	protected final static String DELETE_BATCH = "Deleting applications from domain (batch)...";
+	protected final static String DELETE_FAILED = "The batch delete failed.";
 
 	/**
 	 * <p>
-	 * Whether to perform a minimal export or not
-	 * (<i>-min</i> switch from AppManage).
-	 * </p>
-	 */
-	@Parameter ( property = deployBatchNoStop, required = true , defaultValue = "false" )
-	protected boolean batchNoStop;
-
-	/**
-	 * <p>
-	 * Whether to force deployment or not
+	 * Whether to force delete or not
 	 * (<i>-force</i> switch from AppManage).
 	 * </p>
 	 */
@@ -58,12 +40,12 @@ public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
-		return DEPLOYING_BATCH;
+		return DELETE_BATCH;
 	}
 
 	@Override
 	public String getFailureMessage() {
-		return DEPLOYING_FAILED;
+		return DELETE_FAILED;
 	}
 
 	@Override
@@ -75,13 +57,7 @@ public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 	public ArrayList<String> arguments() {
 		ArrayList<String> arguments = super.commonArguments();
 
-		arguments.add("-batchDeploy");
-		if (batchNoStart) {
-			arguments.add("-nostart");
-		}
-		if (batchNoStop) {
-			arguments.add("-nostop");
-		}
+		arguments.add("-batchDelete");
 		if (batchForce) {
 			arguments.add("-force");
 		}

@@ -202,8 +202,11 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 					logger.debug(talon.getAbsolutePath());
 					logger.debug(util.getAbsolutePath());
 
+					logger.debug("looking for plugins");
 					for (Plugin plugin : mavenProject.getModel().getBuild().getPlugins()) {
+						logger.debug(plugin.getArtifactId());
 						if ("bw-maven-plugin".equals(plugin.getArtifactId())) {
+							logger.debug("found ! " + plugin.getArtifactId());
 							Dependency dependency = new Dependency();
 							dependency.setGroupId("com.tibco.hawk");
 							dependency.setVersion(hawkVersion);
@@ -227,10 +230,13 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 							dependency.setArtifactId("util");
 							dependency.setSystemPath(util.getAbsolutePath());
 							plugin.addDependency(dependency);
+							logger.debug(plugin.getDependencies().toString());
+
 						}
 					}
 				}
 
+				logger.debug(mavenProject.getModel().getBuild().getPlugins().toString());
 				if (rvLib != null && rvLib.exists() && rvLib.isDirectory()) {
 					File tibrv = new File(rvLib, "tibrvj.jar");
 
