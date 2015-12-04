@@ -36,7 +36,6 @@ import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.Plugin;
-import org.apache.maven.model.PluginExecution;
 import org.apache.maven.model.Profile;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
@@ -49,7 +48,6 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
-import org.twdata.maven.mojoexecutor.MojoExecutor.Element;
 
 import fr.fastconnect.factory.tibco.bw.maven.source.POMManager;
 
@@ -75,6 +73,16 @@ public class GeneratePOM extends AbstractPackagingMojo {
 
 	@Parameter (property="deploy.pom", required=true, defaultValue="pom.xml")
 	protected String pomDeployFilename;
+
+	@Parameter (property="deploy.pom.template", required=false, defaultValue="${project.basedir}/src/main/maven/deployment-pom.xml")
+	protected File pomDeployTemplate;
+
+	/**
+	 * Whether to merge the deployment POM template with the built-in
+	 * deployment POM.
+	 */
+	@Parameter (property="deploy.pom.template.merge", required=false, defaultValue="true")
+	protected Boolean pomDeployTemplateMerge;
 
 	@Parameter
 	protected List<String> excludedModules;
@@ -479,87 +487,6 @@ public class GeneratePOM extends AbstractPackagingMojo {
 		return new File(packageDirectory + File.separator + pomDeployFilename);
 	}
 
-	private List<Element> getConfiguration(List<RequireProperty> rules) {
-		List<Element> result = new ArrayList<Element>();
-
-		if (rules != null) {
-			getLog().debug(rules.toString());
-
-			for (RequireProperty rule : rules) {
-				List<Element> children = new ArrayList<Element>();
-
-				children.add(element("message", rule.getMessage()));
-				children.add(element("property", rule.getPropertyName()));
-				children.add(element("regex", rule.getRegex()));
-				children.add(element("regexMessage", rule.getRegexMessage()));
-
-				result.add(element("requireProperty", children.toArray(new Element[0])));
-			}			
-		}
-
-		return result;
-	}
-
-	private void updateBuildForPOM(Model model) {
-		if (true) {
-			// Maven enforcer plugin
-			Plugin propertiesPlugin = new Plugin();
-			propertiesPlugin.setGroupId("org.kuali.maven.plugins");
-			propertiesPlugin.setArtifactId("properties-maven-plugin");
-			propertiesPlugin.setVersion("2.0.1");
-			
-			Xpp3Dom config = MojoExecutor.configuration(
-								MojoExecutor.element("locations", MojoExecutor.element("location", "${externalPropertiesFile}")),
-								MojoExecutor.element("quiet", "true")
-							 );
-	
-			propertiesPlugin.setConfiguration(config);
-			
-			List<PluginExecution> executions = new ArrayList<PluginExecution>();
-			PluginExecution execution = new PluginExecution();
-			execution.setId("inject-external-properties-file");
-			execution.addGoal("read-project-properties");
-			execution.setPhase("validate");
-			executions.add(execution);
-			propertiesPlugin.setExecutions(executions);
-		
-			Build build = model.getBuild();
-			if (build == null) {
-				build = new Build();
-				model.setBuild(build);
-			}
-			model.getBuild().addPlugin(propertiesPlugin);
-		}
-		if (rules != null) {
-			// Maven enforcer plugin
-			Plugin enforcerPlugin = new Plugin();
-			enforcerPlugin.setArtifactId("maven-enforcer-plugin");
-			enforcerPlugin.setVersion("1.3.1");
-			
-			Xpp3Dom config = MojoExecutor.configuration(
-								MojoExecutor.element("rules", getConfiguration(rules).toArray(new Element[0])),
-								MojoExecutor.element("fail", "true")
-							 );
-	
-			enforcerPlugin.setConfiguration(config);
-			
-			List<PluginExecution> executions = new ArrayList<PluginExecution>();
-			PluginExecution execution = new PluginExecution();
-			execution.setId("enforce");
-			execution.addGoal("enforce");
-			execution.setPhase("validate");
-			executions.add(execution);
-			enforcerPlugin.setExecutions(executions);
-		
-			Build build = model.getBuild();
-			if (build == null) {
-				build = new Build();
-				model.setBuild(build);
-			}
-			model.getBuild().addPlugin(enforcerPlugin);
-		}
-	}
-
 	private void updateBuild(Model model) {
 		// BWMaven plugin
 		Plugin bwMavenPlugin = new Plugin();
@@ -590,19 +517,31 @@ public class GeneratePOM extends AbstractPackagingMojo {
 		
 		getLog().info(GENERATING_POM_DEPLOY + "'" + outputFile.getAbsolutePath() + "'");
 		
-		InputStream in = this.getClass().getClassLoader().getResourceAsStream("deploy/ear/pom.xml");
-		
 		try {
 			outputFile.createNewFile();
-			FileOutputStream fos = new FileOutputStream(outputFile);
-			IOUtils.copy(in, fos);
+			if (pomDeployTemplate != null && pomDeployTemplate.exists() && !pomDeployTemplateMerge) {
+				FileUtils.copyFile(pomDeployTemplate, outputFile); // if a template deploy POM exists and we don't want to merge with built-in one: use it
+			} else {
+				// otherwise : use the one included in the plugin
+				InputStream in;
+				if (project.getPackaging().equals(POM_TYPE)) {
+					in = this.getClass().getClassLoader().getResourceAsStream("deploy/pom/pom.xml");
+				} else {
+					in = this.getClass().getClassLoader().getResourceAsStream("deploy/ear/pom.xml");					
+				}
+				FileOutputStream fos = new FileOutputStream(outputFile);
+				IOUtils.copy(in, fos);
+			}
 		} catch (IOException e) {
 			throw new MojoExecutionException(FAILURE_POM_DEPLOY);
 		}
-		
+
 		try {
 			Model model = POMManager.getModelFromPOM(outputFile, this.getLog());
-			
+			if (pomDeployTemplate != null && pomDeployTemplate.exists() && pomDeployTemplateMerge) {
+				model = POMManager.mergeModelFromPOM(pomDeployTemplate, model, this.getLog()); // if a template deploy POM exists and we want to merge with built-in one: merge it
+			}
+
 			model.setGroupId(project.getGroupId());
 			model.setArtifactId(project.getArtifactId());
 			model.setVersion(project.getVersion());
@@ -610,21 +549,21 @@ public class GeneratePOM extends AbstractPackagingMojo {
 			if (project.getPackaging().equals(POM_TYPE)) {
 				model.setArtifactId(project.getArtifactId() + getArtifactSuffix());
 
-				model.setPackaging(POM_TYPE);
-				model.getProperties().setProperty("generate.pom.skip", "true");
-				model.getProperties().setProperty("maven.deploy.skip", "true");
-				model.getProperties().setProperty("maven.install.skip", "true");
-				
-				model = addDefaultProperties(model, project);
-				
-				updateBuildForPOM(model);
+//				model.setPackaging(POM_TYPE);
+//				model.getProperties().setProperty("generate.pom.skip", "true");
+//				model.getProperties().setProperty("maven.deploy.skip", "true");
+//				model.getProperties().setProperty("maven.install.skip", "true");
+
+//				model = addDefaultProperties(model, project);
+
+//				updateBuildForPOM(model);
 
 				model = addModules(model, project);
 			} else if (project.getPackaging().equals(BWEAR_TYPE)) {
-				model.setPackaging("bw-ear-deploy");
+//				model.setPackaging("bw-ear-deploy");
 
 				File rootDeployPOM = updateProperties(model, project);
-				
+
 				if (rootDeployPOM != null) {
 					File destinationFile = new File(project.getBuild().getDirectory() + File.separator + pomDeployFilename);
 					FileUtils.copyFile(rootDeployPOM, destinationFile);
@@ -637,7 +576,7 @@ public class GeneratePOM extends AbstractPackagingMojo {
 			}
 
 			POMManager.writeModelToPOM(model, outputFile, getLog());
-			
+
 			if (project.getPackaging().equals(POM_TYPE)) {
 				if (model.getGroupId().equals(parentGroupId) &&
 					model.getArtifactId().equals(parentArtifactId + getArtifactSuffix())) {
@@ -663,50 +602,6 @@ public class GeneratePOM extends AbstractPackagingMojo {
 		} else {
 			return "";
 		}
-	}
-
-	private void addDefaultProperty(Model model, Properties properties, String propertyName) {
-		String propertyValue = (String) properties.get(propertyName);
-		if (propertyValue != null) {
-			model.getProperties().setProperty(propertyName, propertyValue);
-		}
-	}
-
-	private Properties getOriginalProperties(MavenProject project) {
-		if (project == null) {
-			return new Properties();
-		}
-
-		Properties result = getOriginalProperties(project.getParent());
-		
-		result.putAll(project.getOriginalModel().getProperties());
-		return result;
-	}
-
-	private Model addDefaultProperties(Model model, MavenProject project) {
-		Properties properties = getOriginalProperties(project);
-
-		deployProperties.add("appmanage.path");
-		deployProperties.add("appmanage.tra.path");
-		deployProperties.add("bwengine.path");
-		deployProperties.add("bwengine.tra.path");
-		deployProperties.add("deploy.contact");
-		deployProperties.add("deploy.description");
-		deployProperties.add("deploy.maxDeploymentRevision");
-		deployProperties.add("deploy.project.name");
-		deployProperties.add("project.build.sourceEncoding");
-		deployProperties.add("project.package.directory");
-		deployProperties.add("tibrv.home.path");
-
-//		if (includeExternalPropertiesFile) {
-			model.getProperties().setProperty("externalPropertiesFile", "OverrideThis");
-//		} Override
-
-		for (String deployProperty : deployProperties) {
-			addDefaultProperty(model, properties, deployProperty);
-		}
-
-		return model;
 	}
 
 	public void execute() throws MojoExecutionException {

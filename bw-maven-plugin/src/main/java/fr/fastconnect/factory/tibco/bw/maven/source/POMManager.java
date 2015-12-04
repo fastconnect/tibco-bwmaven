@@ -28,6 +28,7 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
+import org.apache.maven.model.inheritance.DefaultInheritanceAssembler;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
 import org.apache.maven.plugin.logging.Log;
@@ -68,6 +69,42 @@ public class POMManager {
 			}
 		}
 		
+		return model;
+	}
+
+	/**
+	 * Merge a Maven {@link Model} object from a POM file to an existing Maven
+	 * {@link Model} object.
+	 *
+	 * @param pom
+	 * @param existingModel
+	 * @param logger
+	 * @return the existing model merged with the parsed model from the POM file
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	public static Model mergeModelFromPOM(File pom, Model existingModel, Log logger) throws IOException, XmlPullParserException {
+		if (pom == null || !pom.exists() || existingModel == null || logger == null) return null;
+
+		Model model = null;
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
+		try {
+			fis = new FileInputStream(pom);
+			isr = new InputStreamReader(fis, "utf-8"); // FIXME
+			MavenXpp3Reader reader = new MavenXpp3Reader();
+			model = reader.read(isr);
+			DefaultInheritanceAssembler assembler = new DefaultInheritanceAssembler();
+			assembler.assembleModelInheritance(model, existingModel, null, null);
+		} finally {
+			try {
+				isr.close();
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return model;
 	}
 
