@@ -29,17 +29,28 @@
 		<appmanage.tra.path>${tibco.home}/tra/${tibco.tra.version}/bin/AppManage.tra</appmanage.tra.path>
 		<bwengine.path>${tibco.home}/bw/${tibco.bw.version}/bin/bwengine${executables.extension}</bwengine.path>
 		<bwengine.tra.path>${tibco.home}/bw/${tibco.bw.version}/bin/bwengine.tra</bwengine.tra.path>
-		<externalPropertiesFile>OverrideThis</externalPropertiesFile>
+	    <deploy.descriptor>${project.artifactId}-${project.version}-final.xml</deploy.descriptor>
+	    <deploy.descriptor.final>${project.artifactId}-${project.version}-deploy.xml</deploy.descriptor.final>
 		<deploy.project.name>${project.artifactId}</deploy.project.name>
 		<generate.pom.skip>true</generate.pom.skip>
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<maven.install.skip>true</maven.install.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.outputDirectory>${project.basedir}</project.build.outputDirectory>
 		<project.package.directory>${project.build.directory}/package</project.package.directory>
 		<tibrv.home.path>${tibco.home}/tibrv/${tibco.rv.version}</tibrv.home.path>
 	</properties>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+					<artifactId>bw-maven-plugin</artifactId>
+					<extensions>true</extensions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -90,6 +101,24 @@
 							<property>tibco.rv.version</property>
 							<regex>.*</regex>
 							<regexMessage>tibco.rv.version may not be undefined nor empty.</regexMessage>
+						</requireProperty>
+						<requireProperty>
+							<message>tibco.domain.name is required</message>
+							<property>tibco.domain.name</property>
+							<regex>.*</regex>
+							<regexMessage>tibco.domain.name may not be undefined nor empty.</regexMessage>
+						</requireProperty>
+						<requireProperty>
+							<message>tibco.domain.username is required</message>
+							<property>tibco.domain.username</property>
+							<regex>.*</regex>
+							<regexMessage>tibco.domain.username may not be undefined nor empty.</regexMessage>
+						</requireProperty>
+						<requireProperty>
+							<message>tibco.domain.password is required</message>
+							<property>tibco.domain.password</property>
+							<regex>.*</regex>
+							<regexMessage>tibco.domain.password may not be undefined nor empty.</regexMessage>
 						</requireProperty>
 					</rules>
 					<fail>true</fail>

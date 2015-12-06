@@ -584,7 +584,7 @@ public class AbstractBWMojo extends AbstractMojo {
 			     readonly=true)
 	private MavenProject project;
 
-	protected final MavenProject getProject() {
+	protected MavenProject getProject() {
 		return project;
 	}
 
