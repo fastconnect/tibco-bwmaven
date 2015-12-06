@@ -21,10 +21,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 /**
  * 
@@ -37,7 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 @Mojo( name="deploy-bw",
 defaultPhase=LifecyclePhase.DEPLOY ) // FIXME: should be deployEAR
-@Execute ( goal="deploy-bw", lifecycle="deploy")
+//@Execute ( goal="deploy-bw", lifecycle="deploy")
 public class DeployEARMojo extends AbstractBWDeployMojo {
 
 	protected final static String DEPLOY_EAR_FAILED = "The deployment of the application failed.";
@@ -73,11 +73,18 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 	
 	@Parameter
 	private File deployConfigXML;
-	
+
 	private void deployEAR() throws MojoExecutionException, IOException {
 		checkAppManage();
 		
 		File ear = getOutputFile();
+		if (ear == null || !ear.exists()) {
+			MavenProject project = getProject();
+			if (project != null && project.getBasedir() != null && project.getBasedir().exists()) {
+				ear = getArtifactFile(getProject().getBasedir(), finalName, classifier);
+			}
+		}
+
 		getLog().info(DEPLOYING_APPLICATION + "'" + deployedProjectName + "'" +  DEPLOYING_ON_DOMAIN + "'" +  domainName+ "'");
 		getLog().info(USING_EAR + ear.getAbsolutePath());
 		getLog().info(USING_XML + deploymentDescriptorFinal.getAbsolutePath());

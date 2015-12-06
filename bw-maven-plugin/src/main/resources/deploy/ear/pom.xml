@@ -24,4 +24,13 @@
 
 	<packaging>bw-ear-deploy</packaging>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>fr.fastconnect.factory.tibco.bw.maven</groupId>
+				<artifactId>bw-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -32,7 +32,7 @@
  						<id>default</id>
 						<phases>
 							<prepare-package>
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-pom
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-deployment-root-pom
 							</prepare-package>
 							<install>
 								org.apache.maven.plugins:maven-install-plugin:install
@@ -137,7 +137,8 @@
 							<prepare-package>
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:extract-xml-from-ear,
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-properties-from-xml,
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-pom
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-deployment-pom,
+								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-standalone-deployment-pom
 							</prepare-package>
 							<package>
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:merge-properties,

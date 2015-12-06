@@ -57,7 +57,7 @@
  				<outputDirectory>${package.bw.applications.root}/${module.properties.assembly.relative.path}/${module.artifactId}/</outputDirectory>
  				<outputFileNameMapping>${module.properties.deploy.pom}</outputFileNameMapping>
 				<unpack>false</unpack>
-				<attachmentClassifier>deploy</attachmentClassifier>
+				<attachmentClassifier>deployment</attachmentClassifier>
 				<includeDependencies>false</includeDependencies>
 			</binaries>
 		</moduleSet>
