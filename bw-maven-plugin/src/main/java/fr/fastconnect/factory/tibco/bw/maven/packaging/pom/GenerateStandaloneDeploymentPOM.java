@@ -42,22 +42,26 @@ import org.apache.maven.project.MavenProject;
 defaultPhase=LifecyclePhase.PREPARE_PACKAGE )
 public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
 
-	@Parameter (property="deploy.pom.standalone", required=true, defaultValue="standalone/pom.xml")
-	protected String pomStandaloneDeployFilename;
+	protected final static String DEPLOYMENT_POM_CLASSIFIER = "standalone-deployment";
+	protected final static String DEPLOYMENT_POM_GENERATION = "Generating standalone deployment POM in ";
+	protected final static String DEPLOYMENT_POM_FAILURE = "Unable to create standalone deployment POM";
+
+	@Parameter (property="deploy.pom.standalone", required=true, defaultValue="pom.standalone.xml")
+	protected String pomStandaloneDeploymentFilename;
 
 	/**
 	 * The deployment POM template is a partial Maven POM which will be used to
 	 * generate the deployment POM.
 	 */
 	@Parameter (property="deploy.pom.standalone.template", required=false, defaultValue="${project.basedir}/src/main/maven/standalone-deployment-pom.xml")
-	protected File pomStandaloneDeployTemplate;
+	protected File pomStandaloneDeploymentTemplate;
 
 	/**
 	 * Whether to merge the deployment POM template with the built-in
 	 * deployment POM.
 	 */
 	@Parameter (property="deploy.pom.standalone.template.merge", required=false, defaultValue="true")
-	protected Boolean pomStandaloneDeployTemplateMerge;
+	protected Boolean pomStandaloneDeploymentTemplateMerge;
 
 	/**
 	 * To skip the generation of the POM.
@@ -65,26 +69,46 @@ public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
 	 * POMs and the real top level parent POM.
 	 */
 	@Parameter ( property = "generate.pom.standalone.skip", required = false, defaultValue = "false")
-	protected boolean skipGenerateStandalonePom;
+	protected boolean skipStandaloneDeploymentPOM;
+
+    /**
+     * Whether to "touch" the deployment POM file when deployment POM generation
+     * is skipped.<br /><br />
+     *
+     * NB: must be used with 'bw.package.skip' or 'generate.pom.standalone.skip'
+     * set to true.
+     */
+    @Parameter(property = "generate.pom.standalone.skip.touch", required=false, defaultValue="false")
+    protected Boolean skipStandaloneDeploymentPOMTouch;
 
 	@Override
 	protected File getOutputFile() {
-		return new File(packageDirectory + File.separator + pomStandaloneDeployFilename);
+		return new File(packageDirectory + File.separator + pomStandaloneDeploymentFilename);
 	}
 
 	@Override
 	protected File getTemplateFile() {
-		return pomStandaloneDeployTemplate;
+		return pomStandaloneDeploymentTemplate;
 	}
 
 	@Override
 	protected Boolean getTemplateMerge()  {
-		return pomStandaloneDeployTemplateMerge;
+		return pomStandaloneDeploymentTemplateMerge;
+	}
+
+	@Override
+	protected String getClassifier() {
+		return DEPLOYMENT_POM_CLASSIFIER;
 	}
 
 	@Override
 	protected Boolean getSkipGeneratePOM() {
-		return skipGenerateStandalonePom;
+		return skipStandaloneDeploymentPOM;
+	}
+
+	@Override
+	protected Boolean getTouchWhenSkipped() {
+		return skipStandaloneDeploymentPOMTouch;
 	}
 
 	@Override
@@ -95,20 +119,22 @@ public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
 	@Override
 	protected Model updateModel(Model model, MavenProject project) throws MojoExecutionException {
 		model.setPackaging("bw-ear-deploy");
+		model.getModules().clear();
 
 		updatePluginVersion(model);
+		addPlugin(model, true);
 
 		return model;
 	}
 
 	@Override
-	protected void attachFile(File pom) {
-		attachFile(pom, POM_TYPE, "standalone-deployment");
+	protected String getGenerationMessage() {
+		return DEPLOYMENT_POM_GENERATION;
 	}
 
 	@Override
-	protected void postGeneration(File outputFile, Model model,	MavenProject project) throws MojoExecutionException {
-		// nothing to do
+	protected String getFailureMessage() {
+		return DEPLOYMENT_POM_FAILURE;
 	}
 
 }

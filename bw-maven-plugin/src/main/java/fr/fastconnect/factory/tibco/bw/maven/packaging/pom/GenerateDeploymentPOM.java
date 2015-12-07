@@ -43,22 +43,26 @@ import org.apache.maven.project.MavenProject;
 defaultPhase=LifecyclePhase.PREPARE_PACKAGE )
 public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 
+	protected final static String DEPLOYMENT_POM_CLASSIFIER = "deployment";
+	protected final static String DEPLOYMENT_POM_GENERATION = "Generating deployment POM in ";
+	protected final static String DEPLOYMENT_POM_FAILURE = "Unable to create deployment POM";
+
 	@Parameter (property="deploy.pom.deployment", required=true, defaultValue="pom.xml")
-	protected String pomDeployFilename;
+	protected String pomDeploymentFilename;
 
 	/**
 	 * The deployment POM template is a partial Maven POM which will be used to
 	 * generate the deployment POM.
 	 */
 	@Parameter (property="deploy.pom.deployment.template", required=false, defaultValue="${project.basedir}/src/main/maven/deployment-pom.xml")
-	protected File pomDeployTemplate;
+	protected File pomDeploymentTemplate;
 
 	/**
 	 * Whether to merge the deployment POM template with the built-in
 	 * deployment POM.
 	 */
 	@Parameter (property="deploy.pom.deployment.template.merge", required=false, defaultValue="true")
-	protected Boolean pomDeployTemplateMerge;
+	protected Boolean pomDeploymentTemplateMerge;
 
 	/**
 	 * To skip the generation of the POM.
@@ -66,7 +70,17 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 	 * POMs and the real top level parent POM.
 	 */
 	@Parameter ( property = "generate.pom.deployment.skip", required = false, defaultValue = "false")
-	protected boolean skipGeneratePom;
+	protected boolean skipDeploymentPOM;
+
+    /**
+     * Whether to "touch" the deployment POM file when deployment POM generation
+     * is skipped.<br /><br />
+     *
+     * NB: must be used with 'bw.package.skip' or 'generate.pom.deployment.skip'
+     * set to true.
+     */
+    @Parameter(property = "generate.pom.deployment.skip.touch", required=false, defaultValue="false")
+    protected Boolean skipDeploymentPOMTouch;
 
 	/* parent definition */
 	/**
@@ -96,22 +110,32 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 
 	@Override
 	protected File getOutputFile() {
-		return new File(packageDirectory + File.separator + pomDeployFilename);
+		return new File(packageDirectory + File.separator + pomDeploymentFilename);
 	}
 
 	@Override
 	protected File getTemplateFile() {
-		return pomDeployTemplate;
+		return pomDeploymentTemplate;
 	}
 
 	@Override
 	protected Boolean getTemplateMerge()  {
-		return pomDeployTemplateMerge;
+		return pomDeploymentTemplateMerge;
+	}
+
+	@Override
+	protected String getClassifier() {
+		return DEPLOYMENT_POM_CLASSIFIER;
 	}
 
 	@Override
 	protected Boolean getSkipGeneratePOM() {
-		return skipGeneratePom;
+		return skipDeploymentPOM;
+	}
+
+	@Override
+	protected Boolean getTouchWhenSkipped() {
+		return skipDeploymentPOMTouch;
 	}
 
 	@Override
@@ -127,13 +151,13 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 	}
 
 	@Override
-	protected void attachFile(File pom) {
-		attachFile(pom, POM_TYPE, "deployment");
+	protected String getGenerationMessage() {
+		return DEPLOYMENT_POM_GENERATION;
 	}
 
 	@Override
-	protected void postGeneration(File outputFile, Model model,	MavenProject project) throws MojoExecutionException {
-		// nothing to do
+	protected String getFailureMessage() {
+		return DEPLOYMENT_POM_FAILURE;
 	}
 
 	private Model addParent(Model model, String parentGroupId, String parentArtifactId, String parentVersion) {
@@ -162,4 +186,5 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 			return "";
 		}
 	}
+
 }

@@ -46,12 +46,12 @@ import fr.fastconnect.factory.tibco.bw.maven.source.POMManager;
  */
 @Mojo( name="generate-deployment-root-pom",
 defaultPhase=LifecyclePhase.PREPARE_PACKAGE )
-public class GeneratePOM extends AbstractPOMGenerator {
+public class GenerateRootDeploymentPOM extends AbstractPOMGenerator {
 
-	protected final static String MODULE_SEPARATOR = "/";
+	protected final static String DEPLOYMENT_POM_CLASSIFIER = "root-deployment";
+	protected final static String DEPLOYMENT_POM_GENERATION = "Generating root deployment POM in ";
+	protected final static String DEPLOYMENT_POM_FAILURE = "Unable to create root deployment POM";
 
-	protected final static String GENERATING_POM_DEPLOY = "Generating deployment POM in ";
-	protected final static String FAILURE_POM_DEPLOY = "Unable to create deployment POM";
 	protected final static String WARN_NO_PARENT = "The property 'useParent' is set but no parent was found";
 
 	@Parameter (property="deploy.pom", required=true, defaultValue="pom.xml")
@@ -83,40 +83,24 @@ public class GeneratePOM extends AbstractPOMGenerator {
 	 * This might be useful to ignore intermediate parent POM between "bw-ear"
 	 * POMs and the real top level parent POM.
 	 */
-	@Parameter ( property = "generate.pom.skip", required = false, defaultValue = "true")
-	protected boolean skipGeneratePom;
+	@Parameter ( property = "generate.pom.root.skip", required = false, defaultValue = "true")
+	protected boolean skipRootPOM;
+
+    /**
+     * Whether to "touch" the deployment POM file when deployment POM generation
+     * is skipped.<br /><br />
+     *
+     * NB: must be used with 'bw.package.skip' or 'generate.pom.standalone.skip'
+     * set to true.
+     */
+    @Parameter(property = "generate.pom.root.skip.touch", required=false, defaultValue="false")
+    protected Boolean skipRootPOMTouch;
 
 	@Parameter
 	protected List<String> excludedModules;
 
 	@Parameter
 	protected List<String> includedModules;
-
-// override Parameters from AbstractBWDeployMojo with "required = false"
-//	/**
-//	 * Name of the project once deployed in TIBCO domain
-//	 */
-//	@Parameter ( property = deployedProjectNameProperty, required = false)
-//	protected String deployedProjectName;
-//
-//	/**
-//	 * TIBCO domain name
-//	 */
-//	@Parameter ( property = domainNameProperty, required = false)
-//	protected String domainName;
-//
-//	/**
-//	 * TIBCO domain username
-//	 */
-//	@Parameter ( property = domainUsernameProperty, required = false)
-//	protected String domainUsername;
-//
-//	/**
-//	 * TIBCO domain password
-//	 */
-//	@Parameter ( property = domainPasswordProperty, required = false)
-//	protected String domainPassword;
-//
 
 	/* parent definition */
 	/**
@@ -170,6 +154,16 @@ public class GeneratePOM extends AbstractPOMGenerator {
 		return modules;
 	}
 
+	@SuppressWarnings("unchecked")
+	private List<Profile> getActiveProfiles(List<MavenProject> projects) {
+		List<Profile> result = new ArrayList<Profile>();
+		for (MavenProject project : projects) {
+			result.addAll(project.getActiveProfiles());
+		}
+
+		return result;
+	}
+
 	private Model addModules(Model model, MavenProject project) throws IOException, XmlPullParserException {
 		if (model == null || project == null) return null;
 
@@ -202,64 +196,6 @@ public class GeneratePOM extends AbstractPOMGenerator {
 		}
 
 		return model;
-	}
-
-	/**
-	 * This copies the root deployment POM to the "target/" directory of Maven
-	 * modules.
-	 *
-	 * @param outputFile
-	 * @param model
-	 * @param project
-	 * @throws XmlPullParserException
-	 * @throws IOException
-	 */
-	private void copyToModules(File outputFile, Model model, MavenProject project) throws IOException, XmlPullParserException {
-		if (outputFile == null || model == null || project == null) return;
-
-		// we need to include only the active projects (see the -am command line switch for detail)
-		List<MavenProject> activeProjects = getSession().getProjects();
-
-		copyToModules(outputFile, project, activeProjects);
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<Profile> getActiveProfiles(List<MavenProject> projects) {
-		List<Profile> result = new ArrayList<Profile>();
-		for (MavenProject project : projects) {
-			result.addAll(project.getActiveProfiles());
-		}
-
-		return result;
-	}
-
-	private void copyToModules(File outputFile, MavenProject project, List<MavenProject> activeProjects) throws IOException, XmlPullParserException {
-		copyToModules(outputFile, project.getBasedir() + File.separator, project.getModel(), getActiveProfiles(activeProjects), activeProjects);
-	}
-
-	private void copyToModules(File outputFile, String basedir, Model model, List<Profile> activeProfiles, List<MavenProject> activeProjects) throws IOException, XmlPullParserException {
-		/*
-		List<String> modules = getActiveModules(activeProfiles, model);
-
-		for (String module : modules) {
-			String childFileName = basedir + module + File.separator + "pom.xml";
-			if (!new File(childFileName).exists()) continue;
-
-			// load the model of the module
-			Model child = POMManager.getModelFromPOM(new File(childFileName), getLog());
-			MavenProject mavenProject = null;
-			if (child.getPackaging().equals(BWEAR_TYPE) && // add POMs with "bw-ear" packaging
-				(mavenProject  = isProjectActive(child, activeProjects)) != null) { // exclude inactive projects (if -am command line switch is used)
-
-				File destinationFile = new File(mavenProject.getBuild().getDirectory() + File.separator + deployedProjectName);
-				FileUtils.copyFile(outputFile, destinationFile);
-				getLog().debug("Copying deployment POM '" + outputFile.getAbsolutePath() + "' to: " + destinationFile.getAbsolutePath());
-			} else if (child.getPackaging().equals(POM_TYPE)) {
-				// recursively add children found in POMs with "pom" packaging
-				copyToModules(outputFile, basedir + module + File.separator, child, activeProfiles, activeProjects);
-			}
-		}
-		*/
 	}
 
 	private List<String> addModules(MavenProject project, List<MavenProject> activeProjects) throws IOException, XmlPullParserException {
@@ -300,7 +236,6 @@ public class GeneratePOM extends AbstractPOMGenerator {
 		result += MODULE_SEPARATOR + child.getArtifactId() + MODULE_SEPARATOR + pomDeployFilename;
 		return result;
 	}
-	//
 
 	private MavenProject isProjectActive(Model model, List<MavenProject> activeProjects) {
 		for (MavenProject mavenProject : activeProjects) {
@@ -315,21 +250,7 @@ public class GeneratePOM extends AbstractPOMGenerator {
 		}
 		return null;
 	}
-
-	@Override
-	protected File getOutputFile() {
-		return new File(packageDirectory + File.separator + pomDeployFilename);
-	}
-
-	@Override
-	protected File getTemplateFile() {
-		return pomDeployTemplate;
-	}
-
-	@Override
-	protected Boolean getTemplateMerge()  {
-		return pomDeployTemplateMerge;
-	}
+	/* /modules */
 
 	private String getArtifactSuffix() {
 		if (parentArtifactSuffix != null && !parentArtifactSuffix.isEmpty()) {
@@ -355,25 +276,33 @@ public class GeneratePOM extends AbstractPOMGenerator {
 	}
 
 	@Override
-	protected MavenProject getProject() {
-		MavenProject project = super.getProject();
+	protected File getOutputFile() {
+		return new File(packageDirectory + File.separator + pomDeployFilename);
+	}
 
-		if (useParent) {
-			MavenProject parent = project.getParent();
+	@Override
+	protected File getTemplateFile() {
+		return pomDeployTemplate;
+	}
 
-			if (parent != null) {
-				project = parent;
-			} else {
-				getLog().warn(WARN_NO_PARENT);
-			}
-		}
+	@Override
+	protected Boolean getTemplateMerge()  {
+		return pomDeployTemplateMerge;
+	}
 
-		return project;
+	@Override
+	protected String getClassifier() {
+		return DEPLOYMENT_POM_CLASSIFIER;
 	}
 
 	@Override
 	protected Boolean getSkipGeneratePOM() {
-		return skipGeneratePom;
+		return skipRootPOM;
+	}
+
+	@Override
+	protected Boolean getTouchWhenSkipped() {
+		return skipRootPOMTouch;
 	}
 
 	@Override
@@ -400,21 +329,30 @@ public class GeneratePOM extends AbstractPOMGenerator {
 	}
 
 	@Override
-	protected void attachFile(File pom) {
-		attachFile(pom, POM_TYPE, "deploy");
+	protected String getGenerationMessage() {
+		return DEPLOYMENT_POM_GENERATION;
 	}
 
 	@Override
-	protected void postGeneration(File outputFile, Model model,	MavenProject project) throws MojoExecutionException {
-		if (model.getGroupId().equals(parentGroupId) &&	model.getArtifactId().equals(parentArtifactId + getArtifactSuffix())) {
-			try {
-				copyToModules(outputFile, model, project);
-			} catch (IOException e) {
-				throw new MojoExecutionException(e.getLocalizedMessage(), e);
-			} catch (XmlPullParserException e) {
-				throw new MojoExecutionException(e.getLocalizedMessage(), e);
+	protected String getFailureMessage() {
+		return DEPLOYMENT_POM_FAILURE;
+	}
+
+	@Override
+	protected MavenProject getProject() {
+		MavenProject project = super.getProject();
+
+		if (useParent) {
+			MavenProject parent = project.getParent();
+
+			if (parent != null) {
+				project = parent;
+			} else {
+				getLog().warn(WARN_NO_PARENT);
 			}
 		}
+
+		return project;
 	}
 
 }

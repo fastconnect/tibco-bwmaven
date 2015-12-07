@@ -32,7 +32,7 @@
 	    <deploy.descriptor>${project.artifactId}-${project.version}-final.xml</deploy.descriptor>
 	    <deploy.descriptor.final>${project.artifactId}-${project.version}-deploy.xml</deploy.descriptor.final>
 		<deploy.project.name>${project.artifactId}</deploy.project.name>
-		<generate.pom.skip>true</generate.pom.skip>
+		<generate.pom.root.skip>true</generate.pom.root.skip>
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<maven.install.skip>true</maven.install.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
