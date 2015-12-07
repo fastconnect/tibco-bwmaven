@@ -98,15 +98,6 @@ public abstract class AbstractBWArtifactMojo extends AbstractBWMojo {
     protected Boolean skipPackage;
 
     /**
-     * Whether to "touch" the deployment POM file when deployment POM generation
-     * is skipped.<br /><br />
-     * 
-     * NB: must be used with 'bw.package.skip'  set to true.
-     */
-    @Parameter(property = "bw.package.skip.deploy.pom.touch", required=false, defaultValue="false")
-    protected Boolean touchPOMDeployIfSkipped;
-
-    /**
      * Whether to "touch" the final deployment descriptor file when final
      * deployment descriptor generation is skipped.<br /><br />
      * 

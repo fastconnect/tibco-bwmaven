@@ -51,9 +51,6 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 
 	protected final static String MODULE_SEPARATOR = "/";
 
-	protected final static String GENERATING_POM_DEPLOY = "Generating deployment POM in ";
-	protected final static String FAILURE_POM_DEPLOY = "Unable to create deployment POM";
-
 	@Override
 	protected String getArtifactFileExtension() {
 		return POM_EXTENSION;
@@ -65,26 +62,49 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 	protected abstract File getOutputFile();
 	protected abstract File getTemplateFile();
 	protected abstract Boolean getTemplateMerge();
+	protected abstract String getClassifier();
 	protected abstract Boolean getSkipGeneratePOM();
+	protected abstract Boolean getTouchWhenSkipped();
 	protected abstract InputStream getBuiltinTemplateFile();
 	protected abstract Model updateModel(Model model, MavenProject project) throws MojoExecutionException;
-	protected abstract void attachFile(File pom);
-	protected abstract void postGeneration(File outputFile, Model model, MavenProject project) throws MojoExecutionException;
+	protected abstract String getGenerationMessage();
+	protected abstract String getFailureMessage();
 
 	protected void updatePluginVersion(Model model) {
 		for (Plugin plugin : model.getBuild().getPluginManagement().getPlugins()) {
 			if (plugin.getKey().equals(pluginDescriptor.getPluginLookupKey())) {
 				plugin.setVersion(pluginDescriptor.getVersion());
 			}
-		}		
+		}
+	}
+
+	protected void addPlugin(Model model, boolean setVersion) {
+		for (Plugin plugin : model.getBuild().getPlugins()) {
+			if (plugin.getKey().equals(pluginDescriptor.getPluginLookupKey())) {
+				return; // already exists
+			}
+		}
+
+		Plugin plugin = new Plugin();
+		plugin.setGroupId(pluginDescriptor.getGroupId());
+		plugin.setArtifactId(pluginDescriptor.getArtifactId());
+		if (setVersion) {
+			plugin.setVersion(pluginDescriptor.getVersion());
+		}
+		model.getBuild().getPlugins().add(plugin);
+	}
+
+	protected void attachFile(File pom) {
+		attachFile(pom, POM_TYPE, getClassifier());
 	}
 
 	protected void generateDeployPOM(MavenProject project) throws MojoExecutionException {
 		File outputFile = getOutputFile();
 		File templateFile = getTemplateFile();
+		getLog().info(templateFile.getAbsolutePath());
 		InputStream builtinTemplateFile = getBuiltinTemplateFile();
 
-		getLog().info(GENERATING_POM_DEPLOY + "'" + outputFile.getAbsolutePath() + "'");
+		getLog().info(getGenerationMessage() + "'" + outputFile.getAbsolutePath() + "'");
 		
 		try {
    			outputFile.getParentFile().mkdirs();
@@ -97,7 +117,7 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 				IOUtils.copy(builtinTemplateFile, fos);
 			}
 		} catch (IOException e) {
-			throw new MojoExecutionException(FAILURE_POM_DEPLOY);
+			throw new MojoExecutionException(getFailureMessage());
 		}
 
 		try {
@@ -113,8 +133,6 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 			model = updateModel(model, project); 
 
 			POMManager.writeModelToPOM(model, outputFile, getLog());
-
-			postGeneration(outputFile, model, project);
 
 			attachFile(outputFile); 
 		} catch (IOException e) {
@@ -136,9 +154,8 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 				getLog().info(SKIPPING);
 			}
 
-			// TODO : rendre générique
 			File outputFile = getOutputFile();
-           	if (outputFile != null && !outputFile.exists() && touchPOMDeployIfSkipped) {
+			if (outputFile != null && !outputFile.exists() && getTouchWhenSkipped()) {
            		// deployment POM was not created because packaging is skipped
            		// however we "touch" the deployment POM file so there is an empty deployment POM file created
            		try {
@@ -149,8 +166,8 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 				}
            	}
 			if (outputFile != null && outputFile.exists()) {
-				attachFile(outputFile, POM_TYPE, "deploy");
-			} else {
+				attachFile(outputFile, POM_TYPE, getClassifier());
+			} else if (getTouchWhenSkipped()) {
             	getLog().warn(WARN_NO_ARTIFACT_ATTACHED);
 			}
 			return;
