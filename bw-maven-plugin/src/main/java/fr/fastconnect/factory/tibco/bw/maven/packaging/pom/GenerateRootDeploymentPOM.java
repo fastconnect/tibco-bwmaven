@@ -84,7 +84,7 @@ public class GenerateRootDeploymentPOM extends AbstractPOMGenerator {
 	 * POMs and the real top level parent POM.
 	 */
 	@Parameter ( property = "generate.pom.root.skip", required = false, defaultValue = "true")
-	protected boolean skipRootPOM;
+	protected boolean skipRootDeploymentPOM;
 
     /**
      * Whether to "touch" the deployment POM file when deployment POM generation
@@ -94,7 +94,7 @@ public class GenerateRootDeploymentPOM extends AbstractPOMGenerator {
      * set to true.
      */
     @Parameter(property = "generate.pom.root.skip.touch", required=false, defaultValue="false")
-    protected Boolean skipRootPOMTouch;
+    protected Boolean touchRootDeploymentPOMIfSkipped;
 
 	@Parameter
 	protected List<String> excludedModules;
@@ -297,12 +297,12 @@ public class GenerateRootDeploymentPOM extends AbstractPOMGenerator {
 
 	@Override
 	protected Boolean getSkipGeneratePOM() {
-		return skipRootPOM;
+		return skipRootDeploymentPOM;
 	}
 
 	@Override
 	protected Boolean getTouchWhenSkipped() {
-		return skipRootPOMTouch;
+		return touchRootDeploymentPOMIfSkipped;
 	}
 
 	@Override

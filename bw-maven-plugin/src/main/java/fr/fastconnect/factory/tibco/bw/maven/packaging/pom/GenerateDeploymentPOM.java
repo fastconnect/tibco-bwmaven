@@ -80,7 +80,7 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
      * set to true.
      */
     @Parameter(property = "generate.pom.deployment.skip.touch", required=false, defaultValue="false")
-    protected Boolean skipDeploymentPOMTouch;
+    protected Boolean touchDeploymentPOMIfSkipped;
 
 	/* parent definition */
 	/**
@@ -135,7 +135,7 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 
 	@Override
 	protected Boolean getTouchWhenSkipped() {
-		return skipDeploymentPOMTouch;
+		return touchDeploymentPOMIfSkipped;
 	}
 
 	@Override
