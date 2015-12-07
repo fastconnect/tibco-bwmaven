@@ -46,7 +46,7 @@ public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
 	protected final static String DEPLOYMENT_POM_GENERATION = "Generating standalone deployment POM in ";
 	protected final static String DEPLOYMENT_POM_FAILURE = "Unable to create standalone deployment POM";
 
-	@Parameter (property="deploy.pom.standalone", required=true, defaultValue="pom.standalone.xml")
+	@Parameter (property="deploy.pom.standalone", required=true, defaultValue="pom.xml")
 	protected String pomStandaloneDeploymentFilename;
 
 	/**
