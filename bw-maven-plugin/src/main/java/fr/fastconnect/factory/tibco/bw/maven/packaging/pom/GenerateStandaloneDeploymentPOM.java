@@ -79,7 +79,7 @@ public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
      * set to true.
      */
     @Parameter(property = "generate.pom.standalone.skip.touch", required=false, defaultValue="false")
-    protected Boolean skipStandaloneDeploymentPOMTouch;
+    protected Boolean touchStandaloneDeploymentPOMIfSkipped;
 
 	@Override
 	protected File getOutputFile() {
@@ -108,7 +108,7 @@ public class GenerateStandaloneDeploymentPOM extends AbstractPOMGenerator {
 
 	@Override
 	protected Boolean getTouchWhenSkipped() {
-		return skipStandaloneDeploymentPOMTouch;
+		return touchStandaloneDeploymentPOMIfSkipped;
 	}
 
 	@Override
