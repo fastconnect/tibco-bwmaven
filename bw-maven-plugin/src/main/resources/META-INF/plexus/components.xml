@@ -145,8 +145,6 @@
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:generate-xml-from-properties
 							</package>
 							<pre-integration-test>
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-install-dependencies,
-								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-setup-root-deploy-pom,
 								fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-deploy-bw
 							</pre-integration-test>
 							<install>
@@ -474,110 +472,6 @@
         	  		<field-name>pluginManager</field-name>
         		</requirement>
         	</requirements>
-		</component>
-
-		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-install-dependencies
-
-		   This <execution> "default-it-install-dependencies" will install the
-		  required artifacts for the run of Integration Tests.
-		-->
-		<component>
-			<role>org.apache.maven.plugin.Mojo</role>
-			<role-hint>default-it-install-dependencies</role-hint>
-			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ITInstallTestsMojo
-			</implementation>
-			<isolated-realm>false</isolated-realm>
-			<configuration>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-invoker-plugin</artifactId>
-				<version>1.9</version>
-				<goal>install</goal>
-				<configuration>
-					<property>
-						<name>localRepositoryPath</name>
-						<value>${bw.it.local.repository.path}</value>
-					</property>
-					<property>
-						<name>skipInstallation</name>
-						<value>${bw.it.skip}</value>
-					</property>
-				</configuration>
-			</configuration>
-			<requirements>
-				<requirement>
-					<role>org.apache.maven.plugin.BuildPluginManager</role>
-					<role-hint />
-					<field-name>pluginManager</field-name>
-				</requirement>
-			</requirements>
-		</component>
-
-		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-setup-root-deploy-pom
-
-		   This <execution> "default-it-setup-root-deploy-pom" will install the
-		  root deployment POM to the temporary repository.
-		-->
-		<component>
-			<role>org.apache.maven.plugin.Mojo</role>
-			<role-hint>default-it-setup-root-deploy-pom</role-hint>
-			<implementation>fr.fastconnect.factory.tibco.bw.maven.builtin.ITSetupTestsMojo
-			</implementation>
-			<isolated-realm>false</isolated-realm>
-			<configuration>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-invoker-plugin</artifactId>
-				<version>1.9</version>
-				<goal>run</goal>
-				<configuration>
-					<property>
-						<name>cloneProjectsTo</name>
-						<value>${bw.it.projects.setup.clone}</value>
-					</property>
-					<property>
-						<name>goals</name>
-						<value>${bw.it.projects.setup.goals}</value>
-					</property>
-					<property>
-						<name>localRepositoryPath</name>
-						<value>${bw.it.local.repository.path}</value>
-					</property>
-					<property>
-						<name>pomIncludes</name>
-						<value>${bw.it.projects.setup.pomIncludes}</value>
-					</property>
-					<property>
-						<name>profiles</name>
-						<value>${bw.it.projects.setup.profile}</value>
-					</property>
-					<property>
-						<name>projectsDirectory</name>
-						<value>${bw.it.projects.setup.directory}</value>
-					</property>
-					<property>
-						<name>properties</name>
-						<value>${bw.it.projects.setup.properties}</value>
-					</property>
-					<property>
-						<name>setupIncludes</name>
-						<value>${bw.it.projects.setup.setupIncludes}</value>
-					</property>
-					<property>
-						<name>streamLogs</name>
-						<value>true</value>
-					</property>
-					<property>
-						<name>skipInvocation</name>
-						<value>${bw.it.skip}</value>
-					</property>
-				</configuration>
-			</configuration>
-			<requirements>
-				<requirement>
-					<role>org.apache.maven.plugin.BuildPluginManager</role>
-					<role-hint />
-					<field-name>pluginManager</field-name>
-				</requirement>
-			</requirements>
 		</component>
 
 		<!-- Configuration for 'fr.fastconnect.factory.tibco.bw.maven:bw-maven-plugin:it-deploy-bw

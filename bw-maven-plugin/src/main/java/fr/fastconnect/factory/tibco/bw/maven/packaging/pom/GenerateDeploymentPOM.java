@@ -47,7 +47,7 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 	protected final static String DEPLOYMENT_POM_GENERATION = "Generating deployment POM in ";
 	protected final static String DEPLOYMENT_POM_FAILURE = "Unable to create deployment POM";
 
-	@Parameter (property="deploy.pom.deployment", required=true, defaultValue="pom.xml")
+	@Parameter (property="deploy.pom.deployment", required=true, defaultValue="pom.delivery.xml")
 	protected String pomDeploymentFilename;
 
 	/**
