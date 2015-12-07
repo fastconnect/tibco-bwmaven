@@ -90,6 +90,7 @@ public class AbstractBWMojo extends AbstractMojo {
 
 	public final static String BWEAR_EXTENSION = ".ear";
 	public final static String BWEAR_TYPE = "bw-ear";
+	public final static String BWEAR_DEPLOY_TYPE = "bw-ear-deploy";
 	protected final static String PROJLIB_EXTENSION = ".projlib";
 	public final static String PROJLIB_TYPE = "projlib";
 	protected final static String JAR_EXTENSION = ".jar";
@@ -583,7 +584,7 @@ public class AbstractBWMojo extends AbstractMojo {
 			     readonly=true)
 	private MavenProject project;
 
-	protected final MavenProject getProject() {
+	protected MavenProject getProject() {
 		return project;
 	}
 
