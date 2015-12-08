@@ -23,6 +23,21 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+/**
+ * <p>
+ * This goal performs an export of a TIBCO domain to a directory.
+ * </p>
+ * <p>
+ * The result can be used by batch goals such as
+ * <a href="./batch-delete-bw-mojo.html">bw:batch-delete-bw</a>,
+ * <a href="./batch-deploy-bw-mojo.html">bw:batch-deploy-bw</a>,
+ * <a href="./batch-start-bw-mojo.html">bw:batch-start-bw</a>,
+ * <a href="./batch-stop-bw-mojo.html">bw:batch-stop-bw</a> or
+ * <a href="./batch-undeploy-bw-mojo.html">bw:batch-undeploy-bw</a>.
+ * </p>
+ * @author Mathieu Debove
+ *
+ */
 @Mojo(name="batch-extract-xml-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
 public class ExtractXMLBatchMojo extends AbstractBWBatchDeployMojo {
 

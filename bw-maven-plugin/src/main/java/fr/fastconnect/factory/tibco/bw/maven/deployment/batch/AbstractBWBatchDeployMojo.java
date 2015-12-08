@@ -23,6 +23,15 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import fr.fastconnect.factory.tibco.bw.maven.deployment.AbstractBWDeployMojo;
 
+/**
+ * <p>
+ * This class inherits from {@link AbstractBWDeployMojo} and specializes its
+ * behaviour for batch goals.
+ * </p>
+ *
+ * @author Mathieu Debove
+ *
+ */
 public abstract class AbstractBWBatchDeployMojo extends AbstractBWDeployMojo {
 
 	protected final static String deployBatchDir = "deploy.batch.dir";

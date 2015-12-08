@@ -23,6 +23,18 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+/**
+ * <p>
+ * This goal deploys multiple BusinessWorks applications from a domain in batch
+ * mode.
+ * </p>
+ * <p>
+ * It is based on an export performed by the
+ * <a href="./batch-extract-xml-bw-mojo.html">bw:batch-extract-xml-bw</a> goal.
+ * </p>
+ * @author Mathieu Debove
+ *
+ */
 @Mojo(name="batch-deploy-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
 public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
