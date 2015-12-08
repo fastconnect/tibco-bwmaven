@@ -27,7 +27,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class ExtractXMLBatchMojo extends AbstractBWBatchDeployMojo {
 
 	protected final static String EXTRACTING_CONFIG_BATCH = "Extracting configuration from domain (batch)...";
-	protected final static String EXTRACTING_CONFIG_SUCCESS = "Successfully extracted configuration from domain (batch).";
+	protected final static String EXTRACTING_CONFIG_SUCCESS = "Successfully extracted configuration from domain (batch) to ";
 	protected final static String EXTRACTING_CONFIG_FAILED = "The extraction (batch) of the XML Deployment Descriptor files from the deployed application file has failed.";
 
 	/**
@@ -77,6 +77,7 @@ public class ExtractXMLBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
+		super.getInitMessage();
 		return EXTRACTING_CONFIG_BATCH;
 	}
 
@@ -87,7 +88,7 @@ public class ExtractXMLBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public void postAction() throws MojoExecutionException {
-		getLog().info(EXTRACTING_CONFIG_SUCCESS);
+		getLog().info(EXTRACTING_CONFIG_SUCCESS + "'" + dir.getAbsolutePath() + "'.");
 	}
 
 	@Override

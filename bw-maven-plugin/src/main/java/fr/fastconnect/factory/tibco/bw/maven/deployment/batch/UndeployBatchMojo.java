@@ -30,6 +30,7 @@ public class UndeployBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
+		super.getInitMessage();
 		return UNDEPLOY_BATCH;
 	}
 

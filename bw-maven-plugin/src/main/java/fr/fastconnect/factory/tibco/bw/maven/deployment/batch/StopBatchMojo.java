@@ -30,6 +30,7 @@ public class StopBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
+		super.getInitMessage();
 		return STOP_BATCH;
 	}
 
