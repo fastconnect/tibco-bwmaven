@@ -22,6 +22,18 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
+/**
+ * <p>
+ * This goal undeploys multiple BusinessWorks applications from a domain in batch
+ * mode.
+ * </p>
+ * <p>
+ * It is based on an export performed by the
+ * <a href="./batch-extract-xml-bw-mojo.html">bw:batch-extract-xml-bw</a> goal.
+ * </p>
+ * @author Mathieu Debove
+ *
+ */
 @Mojo(name="batch-undeploy-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
 public class UndeployBatchMojo extends AbstractBWBatchDeployMojo {
 
