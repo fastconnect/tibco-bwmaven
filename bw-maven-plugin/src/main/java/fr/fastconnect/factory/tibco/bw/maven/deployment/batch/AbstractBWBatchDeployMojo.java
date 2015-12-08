@@ -39,15 +39,19 @@ public abstract class AbstractBWBatchDeployMojo extends AbstractBWDeployMojo {
 	 * <p>
 	 * Directory to use for batch commands (<i>-dir</i> switch from AppManage).
 	 * </p>
+	 * <p>
+	 * This directory is where the exported archives and deployment
+	 * configuration files are stored or used.
+	 * </p>
 	 */
 	@Parameter ( property = deployBatchDir, required = true )
 	protected File dir;
 
 	@Override
 	public String getInitMessage() {
-		getLog().info("path");
 		if (dir != null) {
 			getLog().info("Batch directory is: '" + dir.getAbsolutePath() + "'.");
+			getLog().info("");
 		}
 		return ""; 
 	}
