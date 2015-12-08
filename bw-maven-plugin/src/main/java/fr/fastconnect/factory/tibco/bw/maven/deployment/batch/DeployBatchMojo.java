@@ -26,13 +26,13 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Mojo(name="batch-deploy-bw", defaultPhase=LifecyclePhase.PREPARE_PACKAGE, requiresProject = false)
 public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
-	protected final static String DEPLOYING_BATCH = "Extracting configuration from domain (batch)...";
+	protected final static String DEPLOYING_BATCH = "Deploying applications to domain (batch)...";
 	protected final static String DEPLOYING_FAILED = "The batch deployment failed.";
 
 	/**
 	 * <p>
-	 * Whether to extract in template format or not
-	 * (<i>-template</i> switch from AppManage).
+	 * Whether to start the successfully deployed service instances or not
+	 * (<i>-nostart</i> switch from AppManage).
 	 * </p>
 	 */
 	@Parameter ( property = deployBatchNoStart, required = true , defaultValue = "false" )
@@ -40,8 +40,8 @@ public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
 	/**
 	 * <p>
-	 * Whether to perform a minimal export or not
-	 * (<i>-min</i> switch from AppManage).
+	 * Whether to stop running instances when an application is redeployed or
+	 * not (<i>-nostop</i> switch from AppManage).
 	 * </p>
 	 */
 	@Parameter ( property = deployBatchNoStop, required = true , defaultValue = "false" )
@@ -49,7 +49,7 @@ public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
 	/**
 	 * <p>
-	 * Whether to force deployment or not
+	 * Whether to redeploy even when application is in synchronized state or not
 	 * (<i>-force</i> switch from AppManage).
 	 * </p>
 	 */

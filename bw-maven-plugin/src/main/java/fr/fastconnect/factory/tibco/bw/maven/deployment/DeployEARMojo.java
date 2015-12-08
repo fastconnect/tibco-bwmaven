@@ -86,6 +86,13 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 	@Override
 	public ArrayList<String> arguments() {
 		File ear = getOutputFile();
+		if (ear == null || !ear.exists()) {
+			MavenProject project = getProject();
+			if (project != null && project.getBasedir() != null && project.getBasedir().exists()) {
+				ear = getArtifactFile(getProject().getBasedir(), finalName, classifier);
+			}
+		}
+
 		getLog().info(USING_EAR + ear.getAbsolutePath());
 		getLog().info(USING_XML + deploymentDescriptorFinal.getAbsolutePath());
 
