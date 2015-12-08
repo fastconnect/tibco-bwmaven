@@ -44,6 +44,15 @@ public abstract class AbstractBWBatchDeployMojo extends AbstractBWDeployMojo {
 	protected File dir;
 
 	@Override
+	public String getInitMessage() {
+		getLog().info("path");
+		if (dir != null) {
+			getLog().info("Batch directory is: '" + dir.getAbsolutePath() + "'.");
+		}
+		return ""; 
+	}
+
+	@Override
 	public ArrayList<String> commonArguments() {
 		ArrayList<String> commonArguments = super.commonArguments();
 		commonArguments.add("-dir");
