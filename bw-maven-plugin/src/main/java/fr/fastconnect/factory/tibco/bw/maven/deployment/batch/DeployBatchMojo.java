@@ -58,6 +58,7 @@ public class DeployBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
+		super.getInitMessage();
 		return DEPLOYING_BATCH;
 	}
 

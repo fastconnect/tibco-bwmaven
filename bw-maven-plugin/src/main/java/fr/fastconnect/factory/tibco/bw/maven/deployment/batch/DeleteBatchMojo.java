@@ -40,6 +40,7 @@ public class DeleteBatchMojo extends AbstractBWBatchDeployMojo {
 
 	@Override
 	public String getInitMessage() {
+		super.getInitMessage();
 		return DELETE_BATCH;
 	}
 
