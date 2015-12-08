@@ -73,20 +73,6 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 	@Parameter
 	private File deployConfigXML;
 
-<<<<<<< HEAD
-	private void deployEAR() throws MojoExecutionException, IOException {
-		checkAppManage();
-		
-		File ear = getOutputFile();
-		if (ear == null || !ear.exists()) {
-			MavenProject project = getProject();
-			if (project != null && project.getBasedir() != null && project.getBasedir().exists()) {
-				ear = getArtifactFile(getProject().getBasedir(), finalName, classifier);
-			}
-		}
-
-		getLog().info(DEPLOYING_APPLICATION + "'" + deployedProjectName + "'" +  DEPLOYING_ON_DOMAIN + "'" +  domainName+ "'");
-=======
 	@Override
 	public String getInitMessage() {
 		return DEPLOYING_APPLICATION + "'" + deployedProjectName + "'" +  DEPLOYING_ON_DOMAIN + "'" +  domainName+ "'";
@@ -100,7 +86,6 @@ public class DeployEARMojo extends AbstractBWDeployMojo {
 	@Override
 	public ArrayList<String> arguments() {
 		File ear = getOutputFile();
->>>>>>> Refactoring: all AppManage goals now share the same workflow
 		getLog().info(USING_EAR + ear.getAbsolutePath());
 		getLog().info(USING_XML + deploymentDescriptorFinal.getAbsolutePath());
 
