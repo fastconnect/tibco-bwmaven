@@ -147,6 +147,8 @@ public class GenerateDeploymentPOM extends AbstractPOMGenerator {
 	protected Model updateModel(Model model, MavenProject project) throws MojoExecutionException {
 		model = addParent(model, parentGroupId, parentArtifactId + getArtifactSuffix(), parentVersion);
 
+		model.setPackaging("bw-ear-deploy");
+
 		return model;
 	}
 
