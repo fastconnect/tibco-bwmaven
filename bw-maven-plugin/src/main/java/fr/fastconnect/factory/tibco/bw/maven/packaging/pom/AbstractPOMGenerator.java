@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -28,6 +29,7 @@ import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
@@ -58,6 +60,13 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 
 	@Component
 	protected PluginDescriptor pluginDescriptor;
+
+	/**
+	 * All properties in original model with this prefix will be
+	 * copied to the deployment POM.
+	 */
+	@Parameter (property="deploy.pom.deployment", defaultValue="deploymentProperty")
+	protected String deploymentPropertyPrefix;
 
 	protected abstract File getOutputFile();
 	protected abstract File getTemplateFile();
@@ -129,6 +138,13 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 			model.setGroupId(project.getGroupId());
 			model.setArtifactId(project.getArtifactId());
 			model.setVersion(project.getVersion());
+
+			Properties originalProperties = getProject().getProperties();
+			for (String property : originalProperties.stringPropertyNames()) {
+				if (property != null && property.startsWith(deploymentPropertyPrefix)) {
+					model.getProperties().put(property, originalProperties.getProperty(property));
+				}
+			}
 
 			model = updateModel(model, project); 
 
