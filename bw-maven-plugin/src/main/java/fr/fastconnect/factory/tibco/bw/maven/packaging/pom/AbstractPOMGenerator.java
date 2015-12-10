@@ -65,7 +65,7 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 	 * All properties in original model with this prefix will be
 	 * copied to the deployment POM.
 	 */
-	@Parameter (property="deploy.pom.forwardPropertyPrefix", defaultValue="deploymentProperty")
+	@Parameter (property="deploy.pom.forwardPropertyPrefix", defaultValue="deploymentProperty_")
 	protected String deploymentPropertyPrefix;
 
 	protected abstract File getOutputFile();
@@ -142,7 +142,7 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 			Properties originalProperties = getProject().getProperties();
 			for (String property : originalProperties.stringPropertyNames()) {
 				if (property != null && property.startsWith(deploymentPropertyPrefix)) {
-					model.getProperties().put(property, originalProperties.getProperty(property));
+					model.getProperties().put(property.substring(deploymentPropertyPrefix.length()), originalProperties.getProperty(property));
 				}
 			}
 
