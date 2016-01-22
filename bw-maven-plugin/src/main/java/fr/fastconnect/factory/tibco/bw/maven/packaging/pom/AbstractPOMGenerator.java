@@ -20,6 +20,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -28,6 +31,7 @@ import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
@@ -58,6 +62,29 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 
 	@Component
 	protected PluginDescriptor pluginDescriptor;
+
+	/**
+	 * <p>
+	 * All properties in original model with this prefix will be
+	 * copied to the deployment POM.
+	 * </p>
+	 */
+	@Parameter (property="deploy.pom.forwardPropertyPrefix", defaultValue="deploymentProperty_")
+	protected String deploymentPropertyPrefix;
+
+	/**
+	 * <p>
+	 * All properties listed in the plugin configuration will be copied to
+	 * the deployment POM.
+	 * </p>
+	 * <p>For instance:<br /><pre>
+	 *   &lt;deploymentProperties>
+	 *     &lt;deploymentProperty>someProperty&lt;/deploymentProperty>
+	 *   &lt;/deploymentProperties></pre>
+	 * </p>
+	 */
+	@Parameter
+	protected List<String> deploymentProperties; 
 
 	protected abstract File getOutputFile();
 	protected abstract File getTemplateFile();
@@ -130,6 +157,16 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 			model.setArtifactId(project.getArtifactId());
 			model.setVersion(project.getVersion());
 
+			Properties originalProperties = getProject().getProperties();
+			for (String property : originalProperties.stringPropertyNames()) {
+				if (property != null && property.startsWith(deploymentPropertyPrefix)) {
+					model.getProperties().put(property.substring(deploymentPropertyPrefix.length()), originalProperties.getProperty(property));
+				}
+				if (property != null && deploymentProperties.contains(property)) {
+					model.getProperties().put(property, originalProperties.getProperty(property));
+				}
+			}
+
 			model = updateModel(model, project); 
 
 			POMManager.writeModelToPOM(model, outputFile, getLog());
@@ -148,6 +185,10 @@ public abstract class AbstractPOMGenerator extends AbstractPackagingMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
+		if (deploymentProperties == null) {
+			deploymentProperties = new ArrayList<String>();
+		}
+
 		Boolean skipParent = super.skip();
 		if (skipParent || getSkipGeneratePOM()) {
 			if (!skipParent) {
