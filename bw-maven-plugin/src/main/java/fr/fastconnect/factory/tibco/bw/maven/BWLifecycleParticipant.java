@@ -55,6 +55,8 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 
 	@Override
 	public void afterProjectsRead(MavenSession session)	throws MavenExecutionException {
+		logger.debug("BW lifecycle participant");
+
 		propertiesManager = AbstractBWMojo.propertiesManager(session, session.getCurrentProject());
 
 		List<MavenProject> projects = prepareProjects(session.getProjects(), session);
@@ -94,7 +96,7 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 		return result;
 	}
 
-	private File getHawkLibDirectory(MavenProject mavenProject) {
+	private static File getHawkLibDirectory(MavenProject mavenProject, Logger logger) {
 		File result = null;
 		if (mavenProject == null) {
 			return result;
@@ -125,7 +127,7 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 		return null;
 	}
 
-	private File getRvLibDirectory(MavenProject mavenProject) {
+	private static File getRvLibDirectory(MavenProject mavenProject, Logger logger) {
 		File result = null;
 		if (mavenProject == null) {
 			return result;
@@ -162,6 +164,8 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 		ProjectBuildingRequest projectBuildingRequest = session.getProjectBuildingRequest();
 
 		for (MavenProject mavenProject : projects) {
+			logger.debug("project: " + mavenProject.getGroupId()+":"+mavenProject.getArtifactId());
+
 			List<String> oldActiveProfileIds = projectBuildingRequest.getActiveProfileIds();
 			try {
 				List<String> activeProfileIds = activateProfilesWithProperties(mavenProject, oldActiveProfileIds);
@@ -185,75 +189,8 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 				projectBuildingRequest.setActiveProfileIds(oldActiveProfileIds);
 			}
 
-			if (mavenProject.getPackaging().startsWith(AbstractBWMojo.BWEAR_TYPE)) {
-				File hawkLib = getHawkLibDirectory(mavenProject);
-				File rvLib = getRvLibDirectory(mavenProject);
-				String hawkVersion = mavenProject.getModel().getProperties().getProperty("tibco.hawk.version");
-				String rvVersion = mavenProject.getModel().getProperties().getProperty("tibco.rv.version");
-				logger.debug("hawkVersion : " + hawkVersion);
-				logger.debug("rvVersion : " + rvVersion);
-
-				if (hawkLib != null && hawkLib.exists() && hawkLib.isDirectory()) {
-					File console = new File(hawkLib, "console.jar");
-					File talon = new File(hawkLib, "talon.jar");
-					File util = new File(hawkLib, "util.jar");
-
-					logger.debug(console.getAbsolutePath());
-					logger.debug(talon.getAbsolutePath());
-					logger.debug(util.getAbsolutePath());
-
-					logger.debug("looking for plugins");
-					for (Plugin plugin : mavenProject.getModel().getBuild().getPlugins()) {
-						logger.debug(plugin.getArtifactId());
-						if ("bw-maven-plugin".equals(plugin.getArtifactId())) {
-							logger.debug("found ! " + plugin.getArtifactId());
-							Dependency dependency = new Dependency();
-							dependency.setGroupId("com.tibco.hawk");
-							dependency.setVersion(hawkVersion);
-							dependency.setScope("system");
-							dependency.setArtifactId("console");
-							dependency.setSystemPath(console.getAbsolutePath());
-							plugin.addDependency(dependency);
-
-							dependency = new Dependency();
-							dependency.setGroupId("com.tibco.hawk");
-							dependency.setVersion(hawkVersion);
-							dependency.setScope("system");
-							dependency.setArtifactId("talon");
-							dependency.setSystemPath(talon.getAbsolutePath());
-							plugin.addDependency(dependency);
-
-							dependency = new Dependency();
-							dependency.setGroupId("com.tibco.hawk");
-							dependency.setVersion(hawkVersion);
-							dependency.setScope("system");
-							dependency.setArtifactId("util");
-							dependency.setSystemPath(util.getAbsolutePath());
-							plugin.addDependency(dependency);
-							logger.debug(plugin.getDependencies().toString());
-
-						}
-					}
-				}
-
-				logger.debug(mavenProject.getModel().getBuild().getPlugins().toString());
-				if (rvLib != null && rvLib.exists() && rvLib.isDirectory()) {
-					File tibrv = new File(rvLib, "tibrvj.jar");
-
-					logger.debug(tibrv.getAbsolutePath());
-
-					for (Plugin plugin : mavenProject.getModel().getBuild().getPlugins()) {
-						if ("bw-maven-plugin".equals(plugin.getArtifactId())) {
-							Dependency dependency = new Dependency();
-							dependency.setGroupId("com.tibco.rv");
-							dependency.setVersion(rvVersion);
-							dependency.setScope("system");
-							dependency.setArtifactId("tibrvj");
-							dependency.setSystemPath(tibrv.getAbsolutePath());
-							plugin.addDependency(dependency);
-						}
-					}
-				}
+			if (mavenProject.getPackaging().startsWith(AbstractBWMojo.BWEAR_TYPE) || "true".equals(propertiesManager.getPropertyValue("enableBWLifecycle"))) {
+				addTIBCODependenciesToPlugin(mavenProject, logger);
 			}
 			result.add(mavenProject);
 		}
@@ -261,4 +198,74 @@ public class BWLifecycleParticipant extends AbstractMavenLifecycleParticipant {
 		return result;
 	}
 
+	public static void addTIBCODependenciesToPlugin(MavenProject mavenProject, Logger logger) {
+		File hawkLib = getHawkLibDirectory(mavenProject, logger);
+		File rvLib = getRvLibDirectory(mavenProject, logger);
+		String hawkVersion = mavenProject.getModel().getProperties().getProperty("tibco.hawk.version");
+		String rvVersion = mavenProject.getModel().getProperties().getProperty("tibco.rv.version");
+		logger.debug("hawkVersion : " + hawkVersion);
+		logger.debug("rvVersion : " + rvVersion);
+
+		if (hawkLib != null && hawkLib.exists() && hawkLib.isDirectory()) {
+			File console = new File(hawkLib, "console.jar");
+			File talon = new File(hawkLib, "talon.jar");
+			File util = new File(hawkLib, "util.jar");
+
+			logger.debug(console.getAbsolutePath());
+			logger.debug(talon.getAbsolutePath());
+			logger.debug(util.getAbsolutePath());
+
+			logger.debug("looking for plugins");
+			for (Plugin plugin : mavenProject.getModel().getBuild().getPlugins()) {
+				logger.debug(plugin.getArtifactId());
+				if ("bw-maven-plugin".equals(plugin.getArtifactId())) {
+					logger.debug("found ! " + plugin.getArtifactId());
+					Dependency dependency = new Dependency();
+					dependency.setGroupId("com.tibco.hawk");
+					dependency.setVersion(hawkVersion);
+					dependency.setScope("system");
+					dependency.setArtifactId("console");
+					dependency.setSystemPath(console.getAbsolutePath());
+					plugin.addDependency(dependency);
+
+					dependency = new Dependency();
+					dependency.setGroupId("com.tibco.hawk");
+					dependency.setVersion(hawkVersion);
+					dependency.setScope("system");
+					dependency.setArtifactId("talon");
+					dependency.setSystemPath(talon.getAbsolutePath());
+					plugin.addDependency(dependency);
+
+					dependency = new Dependency();
+					dependency.setGroupId("com.tibco.hawk");
+					dependency.setVersion(hawkVersion);
+					dependency.setScope("system");
+					dependency.setArtifactId("util");
+					dependency.setSystemPath(util.getAbsolutePath());
+					plugin.addDependency(dependency);
+					logger.debug(plugin.getDependencies().toString());
+
+				}
+			}
+		}
+
+		logger.debug(mavenProject.getModel().getBuild().getPlugins().toString());
+		if (rvLib != null && rvLib.exists() && rvLib.isDirectory()) {
+			File tibrv = new File(rvLib, "tibrvj.jar");
+
+			logger.debug(tibrv.getAbsolutePath());
+
+			for (Plugin plugin : mavenProject.getModel().getBuild().getPlugins()) {
+				if ("bw-maven-plugin".equals(plugin.getArtifactId())) {
+					Dependency dependency = new Dependency();
+					dependency.setGroupId("com.tibco.rv");
+					dependency.setVersion(rvVersion);
+					dependency.setScope("system");
+					dependency.setArtifactId("tibrvj");
+					dependency.setSystemPath(tibrv.getAbsolutePath());
+					plugin.addDependency(dependency);
+				}
+			}
+		}
+	}
 }
