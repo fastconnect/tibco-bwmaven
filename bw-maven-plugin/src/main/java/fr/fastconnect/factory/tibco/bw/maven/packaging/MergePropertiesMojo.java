@@ -220,7 +220,7 @@ public class MergePropertiesMojo extends AbstractPackagingMojo {
 	}
 
     protected boolean isAWildCard(String key) {
-		String regexVariable = "bw\\[.*\\]/variables\\[.*\\]/variable\\[.*\\]"; // ignore variable because they can have '*' in their name
+		String regexVariable = "bw\\[[^\\**]*\\]/variables\\[.*\\]/variable\\[.*\\]"; // is a wildcard only if it has a '*' in bw[] for variables (because a variable can have '*' in their name)
 
 		return key.contains("*") && !Pattern.matches(regexVariable, key);
     }
@@ -273,9 +273,20 @@ public class MergePropertiesMojo extends AbstractPackagingMojo {
    		while (w.hasMoreElements()) {
     		String keyWithWildCards = (String) w.nextElement();
     		String regex = wildcardToRegex(keyWithWildCards);
-    		
+
+			String ignoreWildcardInVariablesPattern = "(.*)variables\\\\\\[(.*)\\\\\\]\\/variable\\\\\\[(.*)\\\\\\](.*)";
+			Pattern p = Pattern.compile(ignoreWildcardInVariablesPattern);
+			Matcher m = p.matcher(regex);
+			if (m.matches()) {
+				String variables = m.group(2);
+				String variable = m.group(3);
+				variables = variables.replace(".*", "\\*");
+				variable = variable.replace(".*", "\\*");
+				regex = m.group(1) + "variables\\[" + variables + "\\]/variable\\[" + variable + "\\]" + m.group(4);
+			}
+
     		Boolean found = false;
-    		
+
     		e = properties.keys();
     	   	while (e.hasMoreElements()) {
     			key = (String) e.nextElement();
