@@ -945,8 +945,13 @@ public class AbstractBWMojo extends AbstractMojo {
 		File designer5Prefs = getDesigner5Prefs();
 
 		// copy system 'Designer5.prefs' to this ".TIBCO" directory
-		getLog().debug(DESIGNER5_PREFS + " : " + System.getProperty("user.home") + "/" + TIBCO_HOME_DIR + "/" + DESIGNER5_PREFS);
-		copyFile(new File(System.getProperty("user.home") + "/" + TIBCO_HOME_DIR + "/" + DESIGNER5_PREFS), designer5Prefs);
+		File systemDesigner5Prefs = new File(System.getProperty("user.home") + "/" + TIBCO_HOME_DIR + "/" + DESIGNER5_PREFS);
+		getLog().debug(DESIGNER5_PREFS + " : " + systemDesigner5Prefs.getAbsolutePath());
+		if (systemDesigner5Prefs.exists()) {
+			copyFile(systemDesigner5Prefs, designer5Prefs);
+		} else {
+			designer5Prefs.createNewFile();
+		}
 
 		// remove file aliases
 		ReplaceRegExp replaceRegExp = new ReplaceRegExp();
