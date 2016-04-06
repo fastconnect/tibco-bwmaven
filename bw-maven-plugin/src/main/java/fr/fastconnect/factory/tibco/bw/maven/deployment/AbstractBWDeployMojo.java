@@ -61,13 +61,16 @@ public abstract class AbstractBWDeployMojo extends AbstractPackagingMojo {
 	@Parameter ( property = domainPasswordProperty, required = true)
 	protected String domainPassword;
 
+	@Parameter ( property = "forceAppManageGoals", defaultValue = "false" )
+	protected Boolean forceAppManageGoals;
+
 	@Override
 	protected String getArtifactFileExtension() {
 		return BWEAR_EXTENSION;
 	}
 
 	public boolean skip() {
-		return !getProject().getPackaging().startsWith(BWEAR_TYPE); // startsWith to include bw-ear-deploy
+		return (super.skip() || !getProject().getPackaging().startsWith(BWEAR_TYPE)) && !forceAppManageGoals; // startsWith to include bw-ear-deploy
 	}
 
 	/**
@@ -100,7 +103,8 @@ public abstract class AbstractBWDeployMojo extends AbstractPackagingMojo {
 	public abstract ArrayList<String> arguments();
 
 	public void execute() throws MojoExecutionException {
-		if (super.skip()) {
+		if (skip()) {
+			getLog().info(SKIPPING);
 			return;
 		}
 
